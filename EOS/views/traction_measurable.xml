@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="traction_measurable_view_form" model="ir.ui.view">
+        <field name="name">measurable.view.form</field>
+        <field name="model">traction.measurable</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                     <div class="oe_title">
+                        <label for="name" placeholder="Name"/>
+                        <h1>
+                            <field name="name" placeholder="Name"/>
+                        </h1>
+                    </div>
+
+
+                    <group>
+                        <header>
+                        </header>
+                        <group>
+                            <field name="name" />
+                            <!--                            <field name="alarm_type"/>-->
+                        </group>
+                        <group>
+
+                        </group>
+
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
