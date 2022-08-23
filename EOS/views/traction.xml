@@ -6,25 +6,68 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <div class="col-8 text-center">
+                    <div class="row">
+
+
+                    <div class="col-6 text-center">
                         <h1>1 year Plan</h1>
+                    </div>
+                    <div class="col-6 text-center">
+                        <h1>ROCKS</h1>
+                    </div>
                     </div>
 
 
                     <group>
 
                         <group>
-                        <field name='one_yr_planning_date'/>
+                            <field name='one_yr_planning_date'/>
 
-                        <field name="one_yr_revenue"/>
-                        <field name="one_yr_profit"/>
-                        <field name="measurable" widget="many2many_tags"/>
+                            <field name="one_yr_revenue"/>
+                            <field name="one_yr_profit"/>
+                            <field name="measurable" widget="many2many_tags"/>
+                            <field name="goal_ids" string="Goal For The Year">
+                                <tree editable="bottom">
+                                    <field name="goal"/>
+                                </tree>
+                            </field>
                         </group>
                         <group>
+                            <field name='two_yr_planning_date'/>
+
+                            <field name="two_yr_revenue"/>
+                            <field name="two_yr_profit"/>
+                            <field name="measurable" widget="many2many_tags"/>
+                            <field name="rocks_ids" string="Rocks for the Quarter">
+                                <tree editable="bottom" >
+                                    <field name="rocks"/>
+                                    <field name="rocks_user"/>
+                                </tree>
+                            </field>
+
+
 
                         </group>
+                    </group>
+                    <!--                        <group>-->
+                            <div class="col-6 text-center">
+
+                                <h1>ISSUE LIST</h1>
+                            </div>
+
+                        <group>
+                            <group>
+                                <field name='issue_list_ids' string="Issue List">
+                                        <tree editable="bottom">
+                                            <field name="issue_list"/>
+                                        </tree>
+                                </field>
+
+
+                            </group>
 
                     </group>
+
 
                 </sheet>
             </form>
@@ -48,15 +91,5 @@
               parent="traction_organizer"
               action="traction_vision_organizer_actions"
               sequence="2"/>
-    <!--    <menuitem id="traction_organizer"-->
-    <!--              name="V/TO"-->
-    <!--              parent="traction_organizer_root"-->
-
-    <!--              sequence="2"/>-->
-    <!--    <menuitem id="Vision_organizer"-->
-    <!--              name="Vision"-->
-    <!--              parent="traction_organizer"-->
-    <!--              action="traction_organizer_actions"-->
-    <!--              sequence="2"/>-->
 
 </odoo>

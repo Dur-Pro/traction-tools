@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!--    <record id="traction_organizer_tree" model="ir.ui.view">-->
-    <!--        <field name="name">traction.organizer.tree</field>-->
-    <!--        <field name="model">traction.organizer</field>-->
-    <!--        <field name="arch" type="xml">-->
-    <!--            <tree default_order=''>-->
-    <!--              -->
-    <!--            </tree>-->
-
-    <!--        </field>-->
-    <!--    </record>-->
     <record id="traction_organizer_form" model="ir.ui.view">
         <field name="name">traction.organizer.form</field>
         <field name="model">traction.organizer</field>
@@ -26,8 +16,9 @@
                     <div class="col-16 text-center">
                         <h1>VISION</h1>
                     </div>
+                    <br></br>
 
-                    <group>
+                    <group >
                         <group>
 
                             <field name="core_values_ids">
@@ -143,6 +134,8 @@
 
 
                     </notebook>
+                                                        <br></br><br></br>
+
                     <div class="col-16 text-center">
                         <h1>3 YEAR PICTURE</h1>
                     </div>
