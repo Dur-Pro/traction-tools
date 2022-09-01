@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_traction_organizer,access.traction.organizer,model_traction_organizer,base.group_user,1,1,1,1
-access_traction_organizer_line,access.traction.organizer.line,model_traction_organizer_line,base.group_user,1,1,1,1
-access_traction_measurable,access.traction.measurable,model_traction_measurable,base.group_user,1,1,1,1

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="TractionDashboard">
+        <div class="oh_dashboards">
+            <div class="container-fluid">
+                <h1>Hello Benoit</h1>
+            </div>
+        </div>
+    </t>
+    <t t-name="Traction">
+        <div class="row main-section">
+            <div class="col-md-4 col-sm-6 pos_order_today oh-payslip">
+                <div class="oh-card" style="width: 288px;">
+                    <div class="oh-card-body">
+                        <div class="stat-widget-one">
+    <!--                                    <div class="stat-icon" style="background:#5bcbd0"><t t-esc="widget.today_sale"/></div>-->
+
+                            <div class="stat-icon" style="background:#5bcbd0"><i class="fa fa-shopping-bag"/></div>
+                            <div class="stat-content">
+                                <div class="stat-head">Today Orders</div>
+<!--                                <div class="stat_count"><t t-esc="widget.today_sale"/></div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 pos_order oh-payslip">
+                <div class="oh-card" style="width: 288px;">
+                    <div class="oh-card-body">
+                        <div class="stat-widget-one">
+    <!--                                                <div class="stat-icon" style="background:#645bd0"><t t-esc="widget.total_order_count"/></div>-->
+                            <div class="stat-icon" style="background:#645bd0"><i class="fa fa-shopping-bag"/></div>
+                            <div class="stat-content">
+                                <div class="stat-head">Total Orders</div>
+<!--                                <div class="stat_count"><t t-esc="widget.total_order_count"/></div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 pos_total_sales oh-payslip">
+                <div class="oh-card" style="width: 350px;">
+                    <div class="oh-card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon" style="background:#85d05b"><i class="fa fa-shopping-cart"/></div>
+                            <!--                                                <div class="stat-icon" style="width:150px;background:##85d05b"><t t-esc="widget.total_sale"/></div>-->
+                            <div class="stat-content">
+                                <div class="stat-head">Total Sales</div>
+<!--                                <div class="stat_count"><t t-esc="widget.total_sale"/></div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 pos_session oh-payslip">
+                <div class="oh-card" style="width: 288px;">
+                    <div class="oh-card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon" style="background:#d05bb8"><i class="fa fa-signal"/></div>
+                            <div class="stat-content">
+                                <div class="stat-head">Sessions</div>
+<!--                                <div class="stat_count"><t t-esc="widget.total_session"/></div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 pos_refund_orders oh-payslip">
+                <div class="oh-card" style="width: 288px;">
+                    <div class="oh-card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon" style="background:#d0c35b"><i class="fa fa-minus-circle"/></div>
+                            <div class="stat-content">
+                                <div class="stat-head">Total Refund Orders</div>
+<!--                                <div class="stat_count"><t t-esc="widget.total_refund_count"/></div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 pos_refund_today_orders oh-payslip">
+                <div class="oh-card" style="width: 350px;">
+                    <div class="oh-card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon" style="background:#5b8ed0"><i class="fa fa-minus-circle"/></div>
+                            <div class="stat-content">
+                                <div class="stat-head">Today Refund Order</div>
+<!--                                <div class="stat_count"><t t-esc="widget.today_refund_total"/></div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

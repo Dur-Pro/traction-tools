@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<record id="traction_measurable_view_form" model="ir.ui.view">
+    <record id="traction_measurable_view_form" model="ir.ui.view">
         <field name="name">measurable.view.form</field>
         <field name="model">traction.measurable</field>
         <field name="arch" type="xml">

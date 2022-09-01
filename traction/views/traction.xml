@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="traction_vision_form" model="ir.ui.view">
+        <field name="name">traction.vision.form</field>
+        <field name="model">traction.vision</field>
+        <field name="arch" type="xml">
+
+            <form>
+                <div class="oe_title">
+                    <h1>VISION</h1>
+                </div>
+
+                <header>
+                </header>
+                <sheet string="Vision">
+                    <group>
+                        <group>
+                            <field name="value_ids" string="Core values"/>
+                        </group>
+                        <group>
+
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <menuitem id="traction_root"
+              name="Traction EOS"
+              sequence="2"/>
+
+    <menuitem id="traction_vision"
+              name="V/TO"
+              parent="traction_root"
+              sequence="20"/>
+
+
+    <record id="traction_dashboard_action" model="ir.actions.client">
+        <field name="name">Dashboard</field>
+        <field name="tag">traction_dashboard</field>
+    </record>
+
+    <menuitem id="traction_dashboard"
+              name="Dashboard"
+              parent="traction_vision"
+              action="traction_dashboard_action"
+              sequence="10"/>
+
+    <record id="traction_vision_action" model="ir.actions.act_window">
+        <field name="name">traction vision organizer</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">traction.vision</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="traction_vision_form"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="traction_vision_organizer"
+              name="Traction"
+              parent="traction_vision"
+              action="traction_vision_action"
+              sequence="40"/>
+
+</odoo>
