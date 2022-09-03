@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="traction_level10_form" model="ir.ui.view">
+        <field name="name">traction.level10.form</field>
+        <field name="model">traction.level10</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <div class="oe_edit_only">
+                            <label for="name"/>
+                        </div>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <notebook>
+                        <page string="Members" name="member_ids">
+                            <field name="member_ids">
+                                <tree string="Members">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Measurable" name="measurable_ids">
+                            <field name="measurable_ids">
+                                <tree string="Measurable">
+                                    <field name="name"/>
+                                    <field name="goal"/>
+                                    <field name="unit"/>
+                                    <field name="level10_ids"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Issues" name="issue_ids">
+                            <field name="issue_ids" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

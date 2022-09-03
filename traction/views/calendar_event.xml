@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="traction_level10_event_form" model="ir.ui.view">
+        <field name="name">traction.level10.event.form</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+            <field name="categ_ids" position="before">
+                <field name="level10_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="traction_level10_event_tree" model="ir.ui.view">
+        <field name="name">traction.level10.event.tree</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="level10_id"/>
+            </field>
+        </field>
+    </record>
+
+
+</odoo>

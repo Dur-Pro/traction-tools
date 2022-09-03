@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="traction_traction_form" model="ir.ui.view">
+        <field name="name">traction.traction.form</field>
+        <field name="model">traction.traction</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="company_id"  attrs="{'readonly': 1}" />
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="purpose"/>
+                        <field name="niche"/>
+                    </group>
+                    <group>
+                        <field name="value_ids">
+                            <tree string="Core Values">
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                        <field name="strategy_ids">
+                            <tree string="Strategies">
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                        <field name="vision_ids">
+                            <tree string="Vision">
+                                <field name="vision_range"/>
+                                <field name="target_revenue"/>
+                                <field name="target_profit"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

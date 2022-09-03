@@ -12,22 +12,50 @@
                             <field name="name" placeholder="Name"/>
                         </h1>
                     </div>
-
-
                     <group>
-                        <header>
-                        </header>
                         <group>
-                            <field name="name" />
+                            <field name="goal_type"/>
+                            <field name="goal"/>
+                            <field name="unit"/>
+                            <field name="show_average"/>
+                            <field name="show_cumulative"/>
                         </group>
                         <group>
-
+                            <field name="responsible" placeholder="Provided by"/>
+                            <field name="level10_ids" widget="many2many_tags"/>
                         </group>
-
                     </group>
-
+                    <notebook>
+                        <page string="Values" name="value_ids">
+                            <field name="value_ids">
+                                <tree string="Values" editable="top">
+                                    <field name="date"/>
+                                    <field name="value"/>
+                                    <field name="write_uid"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
     </record>
+
+    <record id="traction_measurable_view_tree" model="ir.ui.view">
+        <field name="name">measurable.view.tree</field>
+        <field name="model">traction.measurable</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="unit"/>
+                <field name="goal_type"/>
+                <field name="goal"/>
+                <field name="show_average"/>
+                <field name="show_cumulative"/>
+                <field name="responsible" placeholder="Provided by"/>
+                <field name="level10_ids"/>
+            </tree>
+        </field>
+    </record>
+
 </odoo>

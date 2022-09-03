@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="traction_measurable_value_view_form" model="ir.ui.view">
+        <field name="name">measurable.value.view.form</field>
+        <field name="model">traction.measurable.value</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="measurable_id"/>
+                        <field name="value"/>
+                        <field name="date"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="traction_measurable_value_view_tree" model="ir.ui.view">
+        <field name="name">measurable.calue..view.tree</field>
+        <field name="model">traction.measurable.value</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="value"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>
