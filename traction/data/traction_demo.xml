@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="base.main_company" model="res.company">
+            <field name="purpose">This is our purpose / our greater goal</field>
+            <field name="niche">This is our niche / our market</field>
+        </record>
+
+        <record id="demo_traction_level10_ti" model="traction.level10">
+            <field name="name">TI</field>
+        </record>
+
+        <record id="demo_traction_level10_direction" model="traction.level10">
+            <field name="name">Direction</field>
+        </record>
+
+        <record id="demo_traction_level10_sales" model="traction.level10">
+            <field name="name">Sales</field>
+        </record>
+
+        <record id="demo_traction_value1" model="traction.value">
+            <field name="name">This is our first value</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="demo_traction_value2" model="traction.value">
+            <field name="name">This is our second value</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="demo_traction_value3" model="traction.value">
+            <field name="name">This is our third value</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="demo_traction_vision3mth" model="traction.vision">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="vision_range">3mth</field>
+            <field name="target_revenue">1000000</field>
+            <field name="target_profit">100000</field>
+            <field name="target_picture">Pictures</field>
+        </record>
+
+        <record id="demo_traction_vision1yr" model="traction.vision">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="vision_range">1yr</field>
+            <field name="target_revenue">10000000</field>
+            <field name="target_profit">1000000</field>
+            <field name="target_picture">Pictures 2</field>
+        </record>
+
+        <record id="demo_traction_vision3yr" model="traction.vision">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="vision_range">3yr</field>
+            <field name="target_revenue">30000000</field>
+            <field name="target_profit">3000000</field>
+            <field name="target_picture">Pictures 3</field>
+        </record>
+
+        <record id="demo_traction_vision10yr" model="traction.vision">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="vision_range">10yr</field>
+            <field name="target_revenue">100000000</field>
+            <field name="target_profit">10000000</field>
+            <field name="target_picture">Pictures 4</field>
+        </record>
+
+        <record id="demo_traction_measurable1" model="traction.measurable">
+            <field name="vision_id" ref="demo_traction_vision3mth"/>
+            <field name="goal_type">lt</field>
+            <field name="goal">4</field>
+            <field name="name">Mean serv time</field>
+            <field name="show_average">True</field>
+            <field name="show_cumulative">False</field>
+            <field name="responsible" ref="base.user_demo"/>
+        </record>
+
+        <record id="demo_traction_measurable2" model="traction.measurable">
+            <field name="vision_id" ref="demo_traction_vision3mth"/>
+            <field name="goal_type">gteq</field>
+            <field name="goal">400000</field>
+            <field name="name">Sale per week</field>
+            <field name="show_average">False</field>
+            <field name="show_cumulative">True</field>
+            <field name="responsible" ref="base.user_demo"/>
+        </record>
+
+    </data>
+</odoo>

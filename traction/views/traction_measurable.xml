@@ -16,7 +16,7 @@
                         <group>
                             <field name="goal_type"/>
                             <field name="goal"/>
-                            <field name="unit"/>
+<!--                            <field name="goal_unit"/>-->
                             <field name="show_average"/>
                             <field name="show_cumulative"/>
                         </group>
@@ -29,8 +29,8 @@
                         <page string="Values" name="value_ids">
                             <field name="value_ids">
                                 <tree string="Values" editable="top">
-                                    <field name="date"/>
                                     <field name="value"/>
+                                    <field name="date"/>
                                     <field name="write_uid"/>
                                 </tree>
                             </field>
@@ -47,7 +47,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
-                <field name="unit"/>
+<!--                <field name="goal_unit"/>-->
                 <field name="goal_type"/>
                 <field name="goal"/>
                 <field name="show_average"/>

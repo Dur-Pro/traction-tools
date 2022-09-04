@@ -27,7 +27,7 @@
                                 <tree string="Measurable">
                                     <field name="name"/>
                                     <field name="goal"/>
-                                    <field name="unit"/>
+<!--                                    <field name="goal_unit"/>-->
                                     <field name="level10_ids"/>
                                 </tree>
                             </field>
