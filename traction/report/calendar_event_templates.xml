@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="meeting_minutes_document">
+        <t t-call="web.external_layout">
+            <t t-set="o" t-value="o.with_context(lang=o.user_id.lang)"/>
+            <div class="page">
+                <div class="oe_structure"/>
+                <h2 class="text-center" style="margin-top:20px;">Meeting Minutes</h2>
+                <h3 class="text-center" t-field="o.name"/>
+                <div t-if="o.description" class="row" style="margin-bottom:40px;">
+                    <div class="col-12">
+                        <p class="h5" t-field="o.description"/>
+                    </div>
+                </div>
+                <table class="table table-bordered">
+                    <tr>
+                        <td>
+                            <strong>Date &amp; Time:</strong>
+                        </td>
+                        <td>
+                            <span t-field="o.start"/>
+                        </td>
+                    </tr>
+                    <tr t-if="o.user_id">
+                        <td>
+                            <strong>Responsible:</strong>
+                        </td>
+                        <td>
+                            <span t-field="o.user_id"/>
+                        </td>
+                    </tr>
+                    <tr t-if="o.note_taker_user_id">
+                        <td>
+                            <strong>Note Taker:</strong>
+                        </td>
+                        <td>
+                            <span t-field="o.note_taker_user_id"/>
+                        </td>
+                    </tr>
+                    <tr t-if="o.location">
+                        <td>
+                            <strong>Location:</strong>
+                        </td>
+                        <td>
+                            <span t-field="o.location"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Attendees:</strong>
+                        </td>
+                        <td>
+                            <span t-field="o.partner_ids"/>
+                        </td>
+                    </tr>
+                    <tr t-if="o.absent_partner_ids">
+                        <td>
+                            <strong>Absent Members:</strong>
+                        </td>
+                        <td>
+                            <span t-field="o.absent_partner_ids"/>
+                        </td>
+                    </tr>
+                </table>
+
+                <h4 class="text-center">Agenda Items</h4>
+                <table class="table table-bordered">
+                    <thead id="agenda_items_head">
+                        <tr>
+                            <th style="width:20px;white-space:nowrap;">#</th>
+                            <th>
+                                Topic
+                            </th>
+                            <th>
+                                Description / Notes
+                            </th>
+                            <th>
+                                Discussed
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="agenda_items_body">
+                        <t t-foreach="o.agenda_items" t-as="agenda_item">
+                            <tr>
+                                <td style="width:20px;white-space:nowrap;">
+                                    <span t-esc="agenda_item_index+1"/>
+                                </td>
+                                <td>
+                                    <strong t-field="agenda_item.name"/>
+                                </td>
+                                <td>
+                                    <span t-field="agenda_item.description"/>
+                                </td>
+                                <td>
+                                    <t t-if="agenda_item.discussed">
+                                        Yes
+                                    </t>
+                                    <t t-else="">
+                                        No
+                                    </t>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+                <h4 class="text-center">Actions / Decisions</h4>
+                <table class="table table-bordered">
+                    <thead id="action_items_head">
+                        <tr>
+                            <th style="width:20px;white-space:nowrap;">#</th>
+                            <th>
+                                Action / Decision
+                            </th>
+                            <th>
+                                Description / Notes
+                            </th>
+                            <th>
+                                Responsible
+                            </th>
+                            <th>
+                                Assigned To
+                            </th>
+                            <th>
+                                Deadline
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="action_items_body">
+                        <t t-foreach="o.action_items" t-as="action_item">
+                            <tr>
+                                <td style="width:20px;white-space:nowrap;">
+                                    <span t-esc="action_item_index+1"/>
+                                </td>
+                                <td>
+                                    <strong t-field="action_item.name"/>
+                                </td>
+                                <td>
+                                    <span t-field="action_item.description"/>
+                                </td>
+                                <td>
+                                    <span t-field="action_item.user_id"/>
+                                </td>
+                                <td>
+                                    <span t-field="action_item.user_ids"/>
+                                </td>
+                                <td>
+                                    <span t-field="action_item.date_deadline"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                <t t-if="o.closing_conclusion_notes">
+                    <h4 class="text-center">Closing / Conclusion Notes</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <span t-field="o.closing_conclusion_notes"/>
+                        </div>
+                    </div>
+                </t>
+
+                <div class="oe_structure"/>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_meeting_minutes">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="xf_meeting_management.meeting_minutes_document" t-lang="o.user_id.lang"/>
+            </t>
+        </t>
+    </template>
+</odoo>

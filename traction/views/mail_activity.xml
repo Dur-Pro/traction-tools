@@ -6,13 +6,9 @@
         <field name="inherit_id" ref="todo_list.action_todo_form" />
         <field name="arch" type="xml">
             <field name="new_date" position="after">
-                <field name="level10_ids" widget="many2many_tags"/>
+<!--                <field name="level10_id" attrs="{'invisible': [('activity_type_id', '!=', '11')]}"/>-->
+                <field name="level10_id" />
             </field>
         </field>
     </record>
-
-
-
-
-
 </odoo>

@@ -22,12 +22,27 @@ class TractionLevel10(models.Model):
 
     name = fields.Char(string='Name')
     member_ids = fields.Many2many(comodel_name='res.users', string='Members')
-    issue_ids = fields.Many2many(comodel_name='mail.activity',
-                                 relation='traction_level_10_activity_rel',
-                                 string='Issues')
+
+    activity_ids = fields.One2many(comodel_name='mail.activity',
+                                   inverse_name='level10_id',
+                                   string='Activity')
+
+    issue_ids = fields.One2many(comodel_name='mail.activity',
+                                inverse_name='level10_id',
+                                string='Issues',
+                                domain=[('activity_type_id', '=', 11)])
+
+    headline_ids = fields.One2many(comodel_name='mail.activity',
+                                   inverse_name='level10_id',
+                                   string='Headline',
+                                   domain=[('activity_type_id', '=', 12)])
+
     measurable_ids = fields.Many2many(comodel_name='traction.measurable', string='Measurable')
 
     meeting_ids = fields.One2many(comodel_name='calendar.event', inverse_name='level10_id', string='Meetings')
+
+
+
 
 
 class TractionMeasurable(models.Model):
@@ -149,21 +164,4 @@ class TractionStrategy(models.Model):
     company_id = fields.Many2one('res.company', string='Company', required=True,
         default=lambda self: self.env.company)
 
-class Traction(models.Model):
-    _inherit = 'res.company'
-
-    purpose = fields.Html(string='Purpose/Cause/Passion')
-    niche = fields.Html(string='Our target customer')
-
-    value_ids = fields.One2many(comodel_name='traction.value',
-                                inverse_name='company_id',
-                                string='Core Values')
-
-    strategy_ids = fields.One2many(comodel_name='traction.strategy',
-                                   inverse_name='company_id',
-                                   string='Strategies')
-
-    vision_ids = fields.One2many(comodel_name='traction.vision',
-                                 inverse_name='company_id',
-                                 string='Visions')
 

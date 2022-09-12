@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="calendar_event_agenda_item_rule" model="ir.rule">
+            <field name="model_id" ref="model_calendar_event_agenda_item"/>
+            <field name="name">Only responsible user or note taker can manage event agenda</field>
+            <field name="domain_force">
+                [
+                '|',
+                ('event_id.user_id', '=', user.id),
+                ('event_id.note_taker_user_id', '=', user.id),
+                ]
+            </field>
+            <field name="groups" eval="[(4,ref('base.group_user'))]"/>
+            <field name="perm_read" eval="0"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+
+        <record id="calendar_event_action_item_rule" model="ir.rule">
+            <field name="model_id" ref="model_calendar_event_action_item"/>
+            <field name="name">Only responsible user or note taker can manage event action</field>
+            <field name="domain_force">
+                [
+                '|',
+                ('event_id.user_id', '=', user.id),
+                ('event_id.note_taker_user_id', '=', user.id),
+                ]
+            </field>
+            <field name="groups" eval="[(4,ref('base.group_user'))]"/>
+            <field name="perm_read" eval="0"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+
+    </data>
+</odoo>

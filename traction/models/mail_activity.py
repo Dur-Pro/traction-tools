@@ -9,7 +9,21 @@ class MailActivityType(models.Model):
 class MailActivity(models.Model):
     _inherit = "mail.activity"
 
-    level10_ids = fields.Many2many(comodel_name='traction.level10',
-                                   relation='traction_level_10_activity_rel',
-                                   string='Level 10',
-                                   copy=False)
+    level10_id = fields.Many2one(
+        comodel_name='traction.level10',
+        string='Level 10',
+        copy=False
+    )
+
+    meet_id = fields.Many2one(
+        comodel_name='calendar.event',
+        string='Meeting',
+        copy=False
+    )
+
+    @api.constrains('activity_type_id')
+    def _check_date_end(self):
+        for record in self:
+            if (record.activity_type_id in [11]) and (record.level10_id == False):
+                raise ValidationError("Issues need to be assign to level 10")
+        # all records passed the test, don't return anything

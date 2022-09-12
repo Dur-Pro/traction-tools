@@ -5,6 +5,13 @@
         <field name="model">traction.level10</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="action_plan_next_level10">Plan next Level 10</button>
+                    <button name="action_start_level10">Start Level 10</button>
+                    <button name="action_end_level10">End Level 10</button>
+                </header>
+
+
                 <sheet>
                     <div class="oe_title">
                         <div class="oe_edit_only">
@@ -32,8 +39,31 @@
                                 </tree>
                             </field>
                         </page>
-                        <page string="Issues" name="issue_ids">
-                            <field name="issue_ids" />
+                        <page string="Issues and Headlines" name="issue_ids">
+                            <label for="headline_ids">Headlines</label>
+                            <field name="headline_ids" string="Headlines">
+                                <tree string="Headlines">
+                                    <field name="summary"/>
+                                    <field name="activity_type_id"/>
+                                    <field name="write_uid"/>
+                                </tree>
+                            </field>
+                            <label for="issue_ids">Issues</label>
+                            <field name="issue_ids" string="Issues">
+                                <tree string="Issues">
+                                    <field name="summary"/>
+                                    <field name="write_uid"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Meeting">
+                            <field name="meeting_ids" string="Meeting">
+                                <tree string="Meeting">
+                                    <field name="name"/>
+                                    <field name="start"/>
+                                    <field name="level10_id"/>
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </sheet>

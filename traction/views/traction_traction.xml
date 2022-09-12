@@ -4,7 +4,7 @@
         <field name="name">traction.traction.form</field>
         <field name="model">res.company</field>
         <field name="arch" type="xml">
-            <form>
+            <form string="Traction">
                 <sheet>
                     <div class="oe_title">
                         <h1>
