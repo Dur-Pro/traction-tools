@@ -163,6 +163,6 @@ class MeetingActionItem(models.Model):
     date_deadline = fields.Date(
         string='Deadline',
     )
-    description = fields.Text(
+    description = fields.Html(
         string='Description / Notes',
     )
