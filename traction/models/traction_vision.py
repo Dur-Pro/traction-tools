@@ -1,6 +1,7 @@
 from odoo import api, models, fields, _
 from datetime import datetime
 
+
 class TractionRock(models.Model):
     _name = 'traction.rock'
     _description = 'Rock'
@@ -28,58 +29,63 @@ class TractionLevel10(models.Model):
                                    string='Activity')
 
     issue_ids = fields.One2many(comodel_name='mail.activity',
-                                inverse_name='level10_id',
-                                string='Issues',
-                                domain=[('activity_type_id', '=', 11)])
+                                compute='_compute_issues_headlines',
+                                inverse='_inverse_issues_headlines', )
 
     headline_ids = fields.One2many(comodel_name='mail.activity',
-                                   inverse_name='level10_id',
-                                   string='Headline',
-                                   domain=[('activity_type_id', '=', 12)])
+                                   compute='_compute_issues_headlines',
+                                   inverse='_inverse_issues_headlines', )
 
     measurable_ids = fields.Many2many(comodel_name='traction.measurable', string='Measurable')
 
     meeting_ids = fields.One2many(comodel_name='calendar.event', inverse_name='level10_id', string='Meetings')
 
+    @api.depends('activity_ids')
+    def _compute_issues_headlines(self):
+        for rec in self:
+            rec.issue_ids = rec.activity_ids.filtered(lambda l: l.activity_type_id == self.env.ref(
+                'traction.mail_activity_data_issue'))
+            rec.headline_ids = rec.activity_ids.filtered(
+                lambda l: l.activity_type_id == self.env.ref('traction.mail_activity_data_headline'))
 
+    def _inverse_issues_headlines(self):
+        pass
 
+    class TractionMeasurable(models.Model):
+        _name = 'traction.measurable'
+        _description = 'Measurable'
+        _inherit = ['mail.thread', 'mail.activity.mixin']
 
+        # goal_unit = fields.Many2one('uom.uom', string='Unit of Measure')
 
-class TractionMeasurable(models.Model):
-    _name = 'traction.measurable'
-    _description = 'Measurable'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+        name = fields.Char(string='Name')
+        vision_id = fields.Many2one(comodel_name='traction.vision',
+                                    string='Vision')
+        responsible = fields.Many2one(comodel_name='res.users',
+                                      string='Responsibility of',
+                                      index=True,
+                                      tracking=2)
+        goal = fields.Float(string='Goal')
+        goal_type = fields.Selection(
+            [
+                ('gt', 'Greater than'),
+                ('gteq', 'Greater or equal'),
+                ('eq', 'Equal to'),
+                ('lteq', 'Less or equal'),
+                ('lt', 'Less than'),
+            ],
+            string='Goal type',
+            default='eq')
 
-    # goal_unit = fields.Many2one('uom.uom', string='Unit of Measure')
-
-    name = fields.Char(string='Name')
-    vision_id = fields.Many2one(comodel_name='traction.vision',
-                                string='Vision')
-    responsible = fields.Many2one(comodel_name='res.users',
-                                  string='Responsibility of',
-                                  index=True,
-                                  tracking=2)
-    goal = fields.Float(string='Goal')
-    goal_type = fields.Selection(
-        [
-            ('gt', 'Greater than'),
-            ('gteq', 'Greater or equal'),
-            ('eq', 'Equal to'),
-            ('lteq', 'Less or equal'),
-            ('lt', 'Less than'),
-        ],
-        string='Goal type',
-        default='eq')
-
-    show_average = fields.Boolean(string='Show average', default=False)
-    show_cumulative = fields.Boolean(string='Show cumulative',
-                                     default=False)
-    level10_ids = fields.Many2many(comodel_name='traction.level10',
-                                   string='Level 10',
-                                   copy=False)
-    value_ids = fields.One2many(comodel_name='traction.measurable.value',
-                                inverse_name='measurable_id',
-                                string='Values')
+        show_average = fields.Boolean(string='Show average', default=False)
+        show_cumulative = fields.Boolean(string='Show cumulative',
+                                         default=False)
+        level10_ids = fields.Many2many(comodel_name='traction.level10',
+                                       string='Level 10',
+                                       copy=False)
+        value_ids = fields.One2many(comodel_name='traction.measurable.value',
+                                    inverse_name='measurable_id',
+                                    string='Values')
 
 
 class TractionMeasurableValue(models.Model):
@@ -105,7 +111,7 @@ class TractionVision(models.Model):
                        default=lambda self: _('New'))
 
     company_id = fields.Many2one('res.company', string='Company', required=True,
-        default=lambda self: self.env.company)
+                                 default=lambda self: self.env.company)
 
     vision_range = fields.Selection([('3mth', 'Three months'),
                                      ('1yr', 'One year'),
@@ -123,10 +129,10 @@ class TractionVision(models.Model):
     rock_ids = fields.One2many(comodel_name='traction.rock',
                                inverse_name='vision_id',
                                string='Rocks')
+
     # issue_ids = fields.One2many(comodel_name='traction.issue',
     #                             inverse_name='traction_id',
     #                             string='Issues')
-
 
     @api.model
     def create(self, vals):
@@ -149,7 +155,8 @@ class TractionValue(models.Model):
 
     name = fields.Char(string='Name')
     company_id = fields.Many2one('res.company', string='Company', required=True,
-        default=lambda self: self.env.company)
+                                 default=lambda self: self.env.company)
+
 
 class TractionStrategy(models.Model):
     _name = 'traction.strategy'
@@ -162,6 +169,4 @@ class TractionStrategy(models.Model):
     guarantee = fields.Html(string='Guarantee')
     uniques = fields.Html(string='Unique')
     company_id = fields.Many2one('res.company', string='Company', required=True,
-        default=lambda self: self.env.company)
-
-
+                                 default=lambda self: self.env.company)
