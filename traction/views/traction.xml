@@ -53,10 +53,10 @@
         </field>
     </record>
 
-    <record id="traction_level10_action" model="ir.actions.act_window">
-        <field name="name">Level 10</field>
+    <record id="traction_team_action" model="ir.actions.act_window">
+        <field name="name">Traction Team</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">traction.level10</field>
+        <field name="res_model">traction.team</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -76,7 +76,7 @@
     </record>
 
     <record id="traction_strategy_action" model="ir.actions.act_window">
-        <field name="name">Level 10</field>
+        <field name="name">Traction Team</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">traction.strategy</field>
         <field name="view_mode">tree,form</field>
@@ -91,7 +91,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">calendar.event</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('level10_id', '!=', False)]</field>
+        <field name="domain">[('team_id', '!=', False)]</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
             </p>
@@ -149,10 +149,10 @@
               action="traction_measurable_action"
               sequence="60"/>
 
-    <menuitem id="traction_level10"
-              name="Level10"
+    <menuitem id="traction_team"
+              name="Team"
               parent="traction_company"
-              action="traction_level10_action"
+              action="traction_team_action"
               sequence="60"/>
 
     <menuitem id="traction_strategy"

@@ -7,15 +7,15 @@
             <field name="niche">This is our niche / our market</field>
         </record>
 
-        <record id="demo_traction_level10_ti" model="traction.level10">
+        <record id="demo_traction_team_ti" model="traction.team">
             <field name="name">TI</field>
         </record>
 
-        <record id="demo_traction_level10_direction" model="traction.level10">
+        <record id="demo_traction_team_direction" model="traction.team">
             <field name="name">Direction</field>
         </record>
 
-        <record id="demo_traction_level10_sales" model="traction.level10">
+        <record id="demo_traction_team_sales" model="traction.team">
             <field name="name">Sales</field>
         </record>
 

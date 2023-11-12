@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="traction_close_meeting_wizard_view_form" model="ir.ui.view">
+            <field name="name">traction.close.meeting.wizard.view.form</field>
+            <field name="model">close.meeting.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="meeting_id" invisible="1"/>
+                            <field name="next_meeting_time" widget="datetime"/>
+                            <field name="send_meeting_minutes"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button special="cancel" string="Cancel" class="btn btn-secondary"/>
+                        <button name="action_close_meeting" string="Close Meeting" type="object"
+                                class="btn btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

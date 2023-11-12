@@ -16,16 +16,16 @@ class TractionRock(models.Model):
     user_id = fields.Many2one(comodel_name='res.users', string='Responsible', index=True)
 
 
-class TractionLevel10(models.Model):
-    _name = 'traction.level10'
-    _description = 'Level 10'
+class TractionTeam(models.Model):
+    _name = 'traction.team'
+    _description = 'Traction Team'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string='Name')
     member_ids = fields.Many2many(comodel_name='res.users', string='Members')
 
     activity_ids = fields.One2many(comodel_name='mail.activity',
-                                   inverse_name='level10_id',
+                                   inverse_name='team_id',
                                    string='Activity')
 
     issue_ids = fields.One2many(comodel_name='mail.activity',
@@ -38,7 +38,7 @@ class TractionLevel10(models.Model):
 
     measurable_ids = fields.Many2many(comodel_name='traction.measurable', string='Measurable')
 
-    meeting_ids = fields.One2many(comodel_name='calendar.event', inverse_name='level10_id', string='Meetings')
+    meeting_ids = fields.One2many(comodel_name='calendar.event', inverse_name='team_id', string='Meetings')
 
     @api.depends('activity_ids')
     def _compute_issues_headlines(self):
@@ -50,6 +50,7 @@ class TractionLevel10(models.Model):
 
     def _inverse_issues_headlines(self):
         pass
+
 
 class TractionMeasurable(models.Model):
     _name = 'traction.measurable'
@@ -80,9 +81,9 @@ class TractionMeasurable(models.Model):
     show_average = fields.Boolean(string='Show average', default=False)
     show_cumulative = fields.Boolean(string='Show cumulative',
                                      default=False)
-    level10_ids = fields.Many2many(comodel_name='traction.level10',
-                                   string='Level 10',
-                                   copy=False)
+    team_ids = fields.Many2many(comodel_name='traction.team',
+                                string='Traction Teams',
+                                copy=False)
     value_ids = fields.One2many(comodel_name='traction.measurable.value',
                                 inverse_name='measurable_id',
                                 string='Values')

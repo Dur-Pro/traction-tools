@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="traction_level10_form" model="ir.ui.view">
-        <field name="name">traction.level10.form</field>
-        <field name="model">traction.level10</field>
+    <record id="traction_team_form" model="ir.ui.view">
+        <field name="name">traction.team.form</field>
+        <field name="model">traction.team</field>
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_plan_next_level10">Plan next Level 10</button>
-                    <button name="action_start_level10">Start Level 10</button>
-                    <button name="action_end_level10">End Level 10</button>
                 </header>
 
 
                 <sheet>
+                    <div class="oe_button_box">
+                    </div>
                     <div class="oe_title">
                         <div class="oe_edit_only">
                             <label for="name"/>
@@ -34,8 +33,8 @@
                                 <tree string="Measurable">
                                     <field name="name"/>
                                     <field name="goal"/>
-<!--                                    <field name="goal_unit"/>-->
-                                    <field name="level10_ids"/>
+                                    <!--                                    <field name="goal_unit"/>-->
+                                    <field name="team_ids"/>
                                 </tree>
                             </field>
                         </page>
@@ -58,10 +57,16 @@
                         </page>
                         <page string="Meeting">
                             <field name="meeting_ids" string="Meeting">
-                                <tree string="Meeting">
+                                <tree string="Meeting" editable="bottom">
                                     <field name="name"/>
-                                    <field name="start"/>
-                                    <field name="level10_id"/>
+                                    <field name="start" widget="datetime"/>
+                                    <field name="team_id" optional="hidden"/>
+                                    <field name="state" invisible="1"/>
+                                    <button name="action_start" type="object"
+                                            attrs="{'invisible': [('state', 'in', ('in_progress', 'done'))]}"
+                                            class="btn btn-primary" string="Start"/>
+                                    <button name="view_details" class="fa fa-external-link"
+                                            title="View Details" type="object"/>
                                 </tree>
                             </field>
                         </page>

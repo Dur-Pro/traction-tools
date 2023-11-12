@@ -1,24 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="traction_level10_event_form" model="ir.ui.view">
-        <field name="name">traction.level10.event.form</field>
+    <record id="traction_team_event_form" model="ir.ui.view">
+        <field name="name">traction.team.event.form</field>
         <field name="model">calendar.event</field>
         <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
         <field name="arch" type="xml">
-<!--            <field name="name" position="attributes">-->
-<!--                <attribute name="attrs">{'readonly': [('level10_id', '!=', False)]}</attribute>-->
-<!--            </field>-->
+                <xpath expr="//div[@role='status']" position="before">
+                    <header>
+                        <button name="action_start" type="object" string="Start Meeting" cls="btn btn-primary"
+                                attrs="{'invisible': [('state', 'in', ('in_progress', 'done'))]}"/>
+                        <button name="action_end" type="object" string="End Meeting" cls="btn btn-primary"
+                                attrs="{'invisible': [('state', 'in', ('pending', 'done'))]}"/>
+                        <field name="state" widget="statusbar" options="{'clickable': False}"/>
+                    </header>
+                </xpath>
             <field name="categ_ids" position="before">
-                <field name="level10_id"/>
+                <field name="team_id"/>
             </field>
             <field name="user_id" position="replace"/>
             <page name="page_details" position="after">
+                <page name="page_headlines" string="Headlines">
+                    <group>
+                        <field name="headline_ids" nolabel="1"/>
+                    </group>
+                </page>
+                <page name="page_issues" string="Issues">
+                    <group>
+                        <field name="unsolved_issues">
+                            <tree>
+                                <field name="summary"/>
+                                <field name="create_uid" string="Raised By"/>
+                                <field name="create_date" string="Date Raised"/>
+                                <button name="action_start_ids" type="object" class="btn btn-primary"
+                                        string="Start IDS"/>
+                            </tree>
+                        </field>
+                        <field name="issues_discussed"/>
+                    </group>
+                </page>
                 <page name="page_meeting_activity" string="Next meeting"
-                      attrs="{'invisible': [('level10_id', '=', False)]}">
+                      attrs="{'invisible': [('team_id', '=', False)]}">
 
                 </page>
                 <page name="page_meeting_management" string="Meeting Minutes"
-                      attrs="{'invisible': [('level10_id', '=', False)]}">
+                      attrs="{'invisible': [('team_id', '=', False)]}">
                     <group>
                         <group>
                             <field name="user_id" widget="many2one_avatar_user"/>
@@ -129,16 +154,60 @@
         </field>
     </record>
 
-    <record id="traction_level10_event_tree" model="ir.ui.view">
-        <field name="name">traction.level10.event.tree</field>
+    <record id="traction_team_event_tree" model="ir.ui.view">
+        <field name="name">traction.team.event.tree</field>
         <field name="model">calendar.event</field>
         <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="level10_id"/>
+                <field name="team_id"/>
             </field>
         </field>
     </record>
+
+    <record id="traction_team_ids_view_form" model="ir.ui.view">
+        <field name="name">traction.calendar.event.ids.view.form</field>
+        <field name="model">traction.identify_discuss_solve</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" options="{'clickable': True}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box">
+                        <button name="action_solve" type="object" string="Mark Solved" class="btn btn-primary"/>
+                    </div>
+                    <div class="oe_title"><h1>Issue: <field name="name"/></h1></div>
+                    <group>
+                        <group>
+                            <separator string="Issue Details"/>
+                            <field name="date_raised"/>
+                            <field name="raised_by"/>
+                        </group>
+                        <group>
+                            <separator string="Issue Identification"/>
+                            <field name="identify" nolabel="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <separator string="Discussion"/>
+                            <field name="discuss" nolabel="1"/>
+                        </group>
+                        <group>
+                            <separator string="Resolution"/>
+                            <field name="solve" nolabel="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
 
 
 </odoo>

@@ -21,12 +21,15 @@
         'views/traction_value.xml',
         'views/traction_strategy.xml',
         'views/traction_vision.xml',
-        'views/traction_level10.xml',
+        'views/traction_team.xml',
         'views/traction_traction.xml',
         'views/traction.xml',
         'views/traction_measurable.xml',
         'views/traction_measurable_value.xml',
         'views/traction.xml',
+        'wizards/close_meeting_wizard.xml',
+        'report/calendar_event_templates.xml',
+        'report/calendar_event_report.xml',
     ],
     'assets': {
         'web.assets_backend': [

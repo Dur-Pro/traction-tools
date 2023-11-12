@@ -1,6 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_traction_rock,access.traction.rock,model_traction_rock,base.group_user,1,1,1,1
-access_traction_level10,access.traction.level10,model_traction_level10,base.group_user,1,1,1,1
+access_traction_team,access.traction.team,model_traction_team,base.group_user,1,1,1,1
 access_traction_measurable,access.traction.measurable,model_traction_measurable,base.group_user,1,1,1,1
 access_traction_measurable_value,access.traction.measurable.value,model_traction_measurable_value,base.group_user,1,1,1,1
 access_traction_vision,access.traction.vision,model_traction_vision,base.group_user,1,1,1,1
@@ -12,3 +12,6 @@ access_calendar_event_action_item_all_employee,access_calendar_event_action_item
 
 access_calendar_event_agenda_item_all_user,access_calendar_event_agenda_item_all_user,model_calendar_event_agenda_item,base.group_portal,1,0,0,0
 access_calendar_event_agenda_item_all_employee,access_calendar_event_agenda_item_all_employee,model_calendar_event_agenda_item,base.group_user,1,1,1,1
+
+access_close_meeting_wizard,access_close_meeting_wizard,model_close_meeting_wizard,base.group_user,1,1,1,1
+access_identify_discuss_solve,access_identify_discuss_solve,model_traction_identify_discuss_solve,base.group_user,1,1,1,1

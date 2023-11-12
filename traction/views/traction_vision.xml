@@ -31,7 +31,7 @@
                                 <field name="name"/>
                                 <field name="goal"/>
 <!--                                <field name="goal_unit"/>-->
-                                <field name="level10_ids"/>
+                                <field name="team_ids"/>
                             </tree>
                         </field>
                         <field name="rock_ids">
