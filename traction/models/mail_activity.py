@@ -3,12 +3,6 @@ from odoo.tools import is_html_empty
 from odoo.exceptions import ValidationError
 
 
-class MailActivityType(models.Model):
-    _inherit = "mail.activity.type"
-
-    category = fields.Selection(selection_add=[('issue', 'Issue'), ('headline', 'Headline')])
-
-
 class MailActivity(models.Model):
     _inherit = "mail.activity"
 
@@ -23,9 +17,12 @@ class MailActivity(models.Model):
         string='Meeting',
         copy=False
     )
-    issue_discuss_solve_ids = fields.Many2one(comodel_name='traction.identify_discuss_solve',
-                                              inverse_name='activity_id',
-                                              string='Discussion')
+
+    issue_discuss_solve_ids = fields.Many2one(
+        comodel_name='traction.identify_discuss_solve',
+        # inverse_name='issue_id',
+        string='Discussion'
+    )
 
     @api.constrains('activity_type_id')
     def _check_team_id(self):
