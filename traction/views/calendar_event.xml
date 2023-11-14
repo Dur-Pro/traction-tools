@@ -5,15 +5,15 @@
         <field name="model">calendar.event</field>
         <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
         <field name="arch" type="xml">
-                <xpath expr="//div[@role='status']" position="before">
-                    <header>
-                        <button name="action_start" type="object" string="Start Meeting" cls="btn btn-primary"
-                                attrs="{'invisible': [('state', 'in', ('in_progress', 'done'))]}"/>
-                        <button name="action_end" type="object" string="End Meeting" cls="btn btn-primary"
-                                attrs="{'invisible': [('state', 'in', ('pending', 'done'))]}"/>
-                        <field name="state" widget="statusbar" options="{'clickable': False}"/>
-                    </header>
-                </xpath>
+            <xpath expr="//div[@role='status']" position="before">
+                <header>
+                    <button name="action_start" type="object" string="Start Meeting" cls="btn btn-primary"
+                            attrs="{'invisible': [('state', 'in', ('in_progress', 'done'))]}"/>
+                    <button name="action_end" type="object" string="End Meeting" cls="btn btn-primary"
+                            attrs="{'invisible': [('state', 'in', ('pending', 'done'))]}"/>
+                    <field name="state" widget="statusbar" options="{'clickable': False}"/>
+                </header>
+            </xpath>
             <field name="categ_ids" position="before">
                 <field name="team_id"/>
             </field>
