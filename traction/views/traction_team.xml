@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="traction_team_form" model="ir.ui.view">
-        <field name="name">traction.team.form</field>
+    <record id="traction_team_view_form" model="ir.ui.view">
+        <field name="name">traction.team.view.form</field>
         <field name="model">traction.team</field>
         <field name="arch" type="xml">
             <form>
@@ -18,24 +18,36 @@
                             <field name="name"/>
                         </h1>
                     </div>
-                    <div>
-                        <field name="channel_ids" invisible="1"/>
-                    </div>
-                    <notebook>
-                        <page string="Members" name="member_ids">
-                            <field name="member_ids">
-                                <tree string="Members">
-                                    <field name="name"/>
-                                </tree>
-                            </field>
-                        </page>
-                        <page string="Measurable" name="measurable_ids">
+                    <field name="channel_ids" invisible="1"/>
+                    <group>
+                        <group name="members" string="Members">
+                            <field name="member_ids" widget="many2many_avatar_user"/>
+                        </group>
+                        <group name="measurables" string="Measurables">
                             <field name="measurable_ids">
-                                <tree string="Measurable">
+                                <tree>
                                     <field name="name"/>
                                     <field name="goal"/>
-                                    <!--                                    <field name="goal_unit"/>-->
                                     <field name="team_ids"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Meetings">
+                            <field name="meeting_ids" string="Meeting">
+                                <tree string="Meetings" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="start" widget="datetime"/>
+                                    <field name="duration" widget="float"/>
+                                    <field name="stop" widget="datetime" optional="hide"/>
+                                    <field name="team_id" optional="hidden"/>
+                                    <field name="state" invisible="1"/>
+                                    <button name="action_start" type="object"
+                                            attrs="{'invisible': [('state', 'in', ('in_progress', 'done'))]}"
+                                            class="btn btn-primary" string="Start"/>
+                                    <button name="view_details" class="fa fa-external-link"
+                                            title="View Details" type="object"/>
                                 </tree>
                             </field>
                         </page>
@@ -56,26 +68,51 @@
                                 </tree>
                             </field>
                         </page>
-                        <page string="Meeting">
-                            <field name="meeting_ids" string="Meeting">
-                                <tree string="Meeting" editable="bottom">
-                                    <field name="name"/>
-                                    <field name="start" widget="datetime"/>
-                                    <field name="duration" widget="float"/>
-                                    <field name="stop" widget="datetime" optional="hide"/>
-                                    <field name="team_id" optional="hidden"/>
-                                    <field name="state" invisible="1"/>
-                                    <button name="action_start" type="object"
-                                            attrs="{'invisible': [('state', 'in', ('in_progress', 'done'))]}"
-                                            class="btn btn-primary" string="Start"/>
-                                    <button name="view_details" class="fa fa-external-link"
-                                            title="View Details" type="object"/>
-                                </tree>
-                            </field>
-                        </page>
                     </notebook>
                 </sheet>
             </form>
+        </field>
+    </record>
+    <record id="traction_team_view_kanban" model="ir.ui.view">
+        <field name="name">traction.team.view.kanban</field>
+        <field name="model">traction.team</field>
+        <field name="arch" type="xml">
+            <kanban group_create="false"
+                    group_edit="false"
+                    group_delete="false"
+                    records_draggable="false"
+                    default_order="name">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+<!--                            <div class="oe_kanban_image">-->
+<!--                            </div>-->
+                            <div class="oe_kanban_details">
+                                <h4 class="oe_kanban_title">
+                                    <field name="name"/>
+                                </h4>
+                                <div class="oe_kanban_content">
+                                    <div>
+                                        <span class="fa fa-calendar">
+                                            <strong>Next meeting: </strong><field name="next_meeting_time"/>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span class="fa fa-clock-o">
+                                            <strong>Duration: </strong><field name="next_meeting_duration"/> hours
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span class="fa fa-exclamation-triangle">
+                                            <strong>Issues: </strong><field name="issues_count"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
         </field>
     </record>
 </odoo>

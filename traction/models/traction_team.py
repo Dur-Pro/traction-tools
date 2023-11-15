@@ -49,6 +49,25 @@ class TractionTeam(models.Model):
         inverse_name='team_id',
         string='Meetings'
     )
+    next_meeting_id = fields.Many2one(
+        comodel_name='calendar.event',
+        compute='_compute_next_meeting',
+    )
+    next_meeting_time = fields.Datetime(related='next_meeting_id.start')
+    next_meeting_duration = fields.Float(related='next_meeting_id.duration')
+    issues_count = fields.Integer(compute='_compute_issues_count')
+
+    @api.depends('meeting_ids')
+    def _compute_next_meeting(self):
+        for rec in self:
+            rec.next_meeting_id = rec.meeting_ids.filtered(
+                lambda meeting: meeting.start > datetime.now()
+            ).sorted(key=lambda meeting: meeting.start)
+
+    @api.depends('issue_ids')
+    def _compute_issues_count(self):
+        for rec in self:
+            rec.issues_count = len(rec.issue_ids)
 
     @api.depends('channel_ids.channel_partner_ids')
     def _compute_member_ids(self):
@@ -68,4 +87,3 @@ class TractionTeam(models.Model):
 
     def _inverse_issues_headlines(self):
         pass
-

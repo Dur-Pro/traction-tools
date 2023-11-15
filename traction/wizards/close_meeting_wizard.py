@@ -41,8 +41,5 @@ class CloseMeetingWizard(models.TransientModel):
         )
         return {
             'type': 'ir.actions.act_window_close',
-            # 'res_model': 'traction.team',
-            # 'view_mode': 'form',
-            # 'res_id': self.meeting_id.team_id.id,
             'context': self.env.context,
         }

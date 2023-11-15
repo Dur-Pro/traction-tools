@@ -12,7 +12,7 @@
         <field name="res_model">res.company</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="traction_traction_form"/>
-<!--        <field name="res_id">user.company_id</field>-->
+        <!--        <field name="res_id">user.company_id</field>-->
         <field name="res_id" eval="1"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -57,7 +57,7 @@
         <field name="name">Traction Team</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">traction.team</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">kanban,tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
             </p>
@@ -101,66 +101,50 @@
     <menuitem id="traction_root"
               name="Traction EOS"
               web_icon="traction,static/description/icon.png"
-              sequence="2"/>
+              sequence="2"
+              action="traction_team_action">
+        <menuitem id="traction_vto"
+                  name="V/TO"
+                  sequence="20">
+            <menuitem id="traction_dashboard"
+                      name="Dashboard"
+                      action="traction_dashboard_action"
+                      sequence="10"/>
+            <menuitem id="traction_traction"
+                      name="Traction"
+                      action="traction_traction_action"
+                      sequence="40"/>
+            <menuitem id="traction_vision"
+                      name="Vision"
+                      action="traction_vision_action"
+                      sequence="40"/>
+            <menuitem id="traction_meeting"
+                      name="Meeting"
+                      action="traction_meeting_action"
+                      sequence="60"/>
+        </menuitem>
 
-    <menuitem id="traction_vto"
-              name="V/TO"
-              parent="traction_root"
-              sequence="20"/>
-
-    <menuitem id="traction_company"
-              name="Company"
-              parent="traction_root"
-              sequence="40"/>
-
-    <menuitem id="traction_dashboard"
-              name="Dashboard"
-              parent="traction_vto"
-              action="traction_dashboard_action"
-              sequence="10"/>
-
-    <menuitem id="traction_traction"
-              name="Traction"
-              parent="traction_vto"
-              action="traction_traction_action"
-              sequence="40"/>
-
-    <menuitem id="traction_vision"
-              name="Vision"
-              parent="traction_vto"
-              action="traction_vision_action"
-              sequence="40"/>
-
-    <menuitem id="traction_meeting"
-              name="Meeting"
-              parent="traction_vto"
-              action="traction_meeting_action"
-              sequence="60"/>
-
-    <menuitem id="traction_value"
-              name="Core Values"
-              parent="traction_company"
-              action="traction_value_action"
-              sequence="40"/>
-
-    <menuitem id="traction_measurable"
-              name="Measurable"
-              parent="traction_company"
-              action="traction_measurable_action"
-              sequence="60"/>
-
-    <menuitem id="traction_team"
-              name="Team"
-              parent="traction_company"
-              action="traction_team_action"
-              sequence="60"/>
-
-    <menuitem id="traction_strategy"
-              name="Strategies"
-              parent="traction_company"
-              action="traction_strategy_action"
-              sequence="60"/>
-
+        <menuitem id="traction_company"
+                  name="Company"
+                  sequence="40">
+            <menuitem id="traction_value"
+                      name="Core Values"
+                      action="traction_value_action"
+                      sequence="40"/>
+            <menuitem id="traction_measurable"
+                      name="Measurable"
+                      action="traction_measurable_action"
+                      sequence="60"/>
+            <menuitem id="traction_team"
+                      name="Team"
+                      action="traction_team_action"
+                      sequence="60"/>
+            <menuitem id="traction_strategy"
+                      name="Strategies"
+                      action="traction_strategy_action"
+                      sequence="60"/>
+        </menuitem>
+    </menuitem>
 
     <!--
     <record id="traction_vision_form" model="ir.ui.view">
