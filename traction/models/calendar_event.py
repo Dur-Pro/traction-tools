@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import api, fields, models, Command
 from datetime import timedelta
 
 
@@ -79,6 +79,7 @@ class Meeting(models.Model):
             vals['name'] = "Level 10 - " + team_id.name
             if 'privacy' not in vals:
                 vals['privacy'] = 'confidential'
+            vals['partner_ids'] = [Command.link(member.partner_id.id) for member in team_id.member_ids]
         return super(Meeting, self).create(vals)
 
     @api.onchange('team_id')
