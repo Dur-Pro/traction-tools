@@ -25,6 +25,7 @@ class IdentifyDiscussSolve(models.Model):
     identify = fields.Html()
     discuss = fields.Html()
     solve = fields.Html()
+
     state = fields.Selection(
         selection=[
             ('open', 'Open'),
@@ -33,15 +34,22 @@ class IdentifyDiscussSolve(models.Model):
         default='open'
     )
 
-    name = fields.Char(related='issue_id.summary', readonly=False)
+    name = fields.Char(
+        related='issue_id.summary',
+        readonly=False
+    )
 
-    date_raised = fields.Datetime(string='Raised on:',
-                                  related='issue_id.create_date',
-                                  readonly=True)
+    date_raised = fields.Datetime(
+        string='Raised on:',
+        related='issue_id.create_date',
+        readonly=True
+    )
 
-    raised_by = fields.Many2one(string='Raised by:',
-                                related='issue_id.create_uid',
-                                readonly=True)
+    raised_by = fields.Many2one(
+        string='Raised by:',
+        related='issue_id.create_uid',
+        readonly=True
+    )
 
     def action_solve(self):
         self.issue_id.action_done()

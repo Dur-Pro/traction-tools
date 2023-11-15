@@ -6,5 +6,10 @@ from odoo.exceptions import ValidationError
 class MailActivityType(models.Model):
     _inherit = "mail.activity.type"
 
-    category = fields.Selection(selection_add=[('issue', 'Issue'), ('headline', 'Headline')])
+    category = fields.Selection(
+        selection_add=[
+            ('issue', 'Issue'),
+            ('headline', 'Headline')
+        ]
+    )
 

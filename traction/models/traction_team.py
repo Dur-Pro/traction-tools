@@ -9,11 +9,6 @@ class TractionTeam(models.Model):
 
     name = fields.Char(string='Name')
 
-    # member_ids = fields.Many2many(
-    #     comodel_name='res.users',
-    #     string='Members'
-    # )
-
     member_ids = fields.Many2many(
         comodel_name='res.users',
         string='All Members',

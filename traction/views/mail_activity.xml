@@ -5,8 +5,8 @@
         <field name="model">mail.activity</field>
         <field name="inherit_id" ref="todo_list.action_todo_form" />
         <field name="arch" type="xml">
-            <field name="new_date" position="after">
-<!--                <field name="team_id" attrs="{'invisible': [('activity_type_id', '!=', '11')]}"/>-->
+            <field name="recurring" position="before">
+<!--                       attrs="{'invisible': [('activity_type_id', 'not in', ['issue', 'headline'])]}"/>-->
                 <field name="team_id" />
             </field>
         </field>

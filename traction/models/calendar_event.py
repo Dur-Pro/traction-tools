@@ -5,9 +5,13 @@ from datetime import timedelta
 class Meeting(models.Model):
     _inherit = ["calendar.event"]
 
-    state = fields.Selection(selection=[('pending', 'Pending'),
-                                        ('in_progress', 'In Progress'),
-                                        ('done', 'Done')])
+    state = fields.Selection(
+        selection=[
+            ('pending', 'Pending'),
+            ('in_progress', 'In Progress'),
+            ('done', 'Done')
+        ]
+    )
 
     team_id = fields.Many2one(
         comodel_name='traction.team',
@@ -45,12 +49,6 @@ class Meeting(models.Model):
     is_responsible_user = fields.Boolean(
         string='Is Responsible User',
         compute='_compute_is_responsible_user',
-    )
-
-    ids_items = fields.One2many(
-        comodel_name='traction.identify_discuss_solve',
-        related='meeting_ids',
-        string='Issues Discussed'
     )
 
     unsolved_issues = fields.One2many(
@@ -92,9 +90,11 @@ class Meeting(models.Model):
 
     def _compute_is_responsible_user(self):
         for event in self:
-            event.is_responsible_user = (self.env.user == event.user_id or
-                                         self.env.user == event.note_taker_user_id or
-                                         self.env.user._is_admin())
+            event.is_responsible_user = (
+                    self.env.user == event.user_id or
+                    self.env.user == event.note_taker_user_id or
+                    self.env.user._is_admin()
+            )
 
     def action_send_mm(self):
         template = self.env.ref('traction.meeting_minutes_document')

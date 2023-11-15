@@ -7,7 +7,13 @@ class TractionVision(models.Model):
     _description = 'Vision'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name = fields.Char(string='Vision', copy=False, readonly=True, index=True, default=lambda self: _('New'))
+    name = fields.Char(
+        string='Vision',
+        copy=False,
+        readonly=True,
+        index=True,
+        default=lambda self: _('New')
+    )
 
     company_id = fields.Many2one(
         comodel_name='res.company',
@@ -21,7 +27,8 @@ class TractionVision(models.Model):
             ('3mth', 'Three months'),
             ('1yr', 'One year'),
             ('3yr', 'Three years'),
-            ('10yr', 'Ten years')],
+            ('10yr', 'Ten years')
+        ],
         default='3mth',
         string='Vision range'
     )
