@@ -77,9 +77,9 @@ class Meeting(models.Model):
         if vals.get('team_id'):
             team_id = self.env['traction.team'].browse(vals.get('team_id'))
             vals['name'] = "Level 10 - " + team_id.name
-
-        result = super(Meeting, self).create(vals)
-        return result
+            if 'privacy' not in vals:
+                vals['privacy'] = 'confidential'
+        return super(Meeting, self).create(vals)
 
     @api.onchange('team_id')
     def _rename_meet(self):
