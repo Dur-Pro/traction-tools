@@ -28,6 +28,7 @@
         'views/traction_measurable_value.xml',
         'views/traction.xml',
         'views/mail_channel_views.xml',
+        'wizards/close_meeting_wizard.xml',
         'report/calendar_event_templates.xml',
         'report/calendar_event_report.xml',
     ],

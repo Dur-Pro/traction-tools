@@ -35,6 +35,14 @@ class CloseMeetingWizard(models.TransientModel):
 
     def action_close_meeting(self):
         self.ensure_one()
-        self.meeting_id.action_close_meeting(send_minutes=self.send_meeting_minutes,
-                                             next_meeting_time=self.next_meeting_time)
-        return {'type': 'ir.actions.act_window_close'}
+        self.meeting_id.action_close_meeting(
+            send_minutes=self.send_meeting_minutes,
+            next_meeting_time=self.next_meeting_time
+        )
+        return {
+            'type': 'ir.actions.act_window_close',
+            # 'res_model': 'traction.team',
+            # 'view_mode': 'form',
+            # 'res_id': self.meeting_id.team_id.id,
+            'context': self.env.context,
+        }

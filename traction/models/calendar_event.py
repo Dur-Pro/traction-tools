@@ -5,6 +5,8 @@ from datetime import timedelta
 class Meeting(models.Model):
     _inherit = ["calendar.event"]
 
+    duration = fields.Float(string='Duration (hours)')
+
     state = fields.Selection(
         selection=[
             ('pending', 'Pending'),

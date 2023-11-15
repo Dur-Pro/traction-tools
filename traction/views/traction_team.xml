@@ -61,6 +61,8 @@
                                 <tree string="Meeting" editable="bottom">
                                     <field name="name"/>
                                     <field name="start" widget="datetime"/>
+                                    <field name="duration" widget="float"/>
+                                    <field name="stop" widget="datetime" optional="hide"/>
                                     <field name="team_id" optional="hidden"/>
                                     <field name="state" invisible="1"/>
                                     <button name="action_start" type="object"
