@@ -9,9 +9,21 @@ class TractionTeam(models.Model):
 
     name = fields.Char(string='Name')
 
+    # member_ids = fields.Many2many(
+    #     comodel_name='res.users',
+    #     string='Members'
+    # )
+
     member_ids = fields.Many2many(
         comodel_name='res.users',
-        string='Members'
+        string='All Members',
+        compute='_compute_member_ids'
+    )
+
+    channel_ids = fields.One2many(
+        comodel_name='mail.channel',
+        inverse_name='traction_team_id',
+        string='Channels'
     )
 
     activity_ids = fields.One2many(
@@ -43,6 +55,14 @@ class TractionTeam(models.Model):
         string='Meetings'
     )
 
+    @api.depends('channel_ids.channel_partner_ids')
+    def _compute_member_ids(self):
+        for record in self:
+            members = record.member_ids
+            for channel in record.channel_ids:
+                members |= channel.channel_partner_ids.user_ids
+            record.member_ids = members
+
     @api.depends('activity_ids')
     def _compute_issues_headlines(self):
         for rec in self:
@@ -53,5 +73,4 @@ class TractionTeam(models.Model):
 
     def _inverse_issues_headlines(self):
         pass
-
 

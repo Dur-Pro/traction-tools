@@ -47,14 +47,30 @@ class Meeting(models.Model):
         compute='_compute_is_responsible_user',
     )
 
-    ids_items = fields.One2many('traction.identify_discuss_solve', 'meeting_ids',
-                                string='Issues Discussed')
+    ids_items = fields.One2many(
+        comodel_name='traction.identify_discuss_solve',
+        related='meeting_ids',
+        string='Issues Discussed'
+    )
 
-    unsolved_issues = fields.One2many(comodel_name='mail.activity', related='team_id.issue_ids', readonly=True)
-    issues_discussed = fields.Many2many(comodel_name='traction.identify_discuss_solve',
-                                        relation='calendar_event_identify_discuss_solve_rel',
-                                        column1='meeting_id', column2='identify_discuss_solve_id', )
-    headline_ids = fields.One2many(comodel_name='mail.activity', related='team_id.headline_ids', readonly=True)
+    unsolved_issues = fields.One2many(
+        comodel_name='mail.activity',
+        related='team_id.issue_ids',
+        readonly=True
+    )
+
+    issues_discussed = fields.Many2many(
+        comodel_name='traction.identify_discuss_solve',
+        relation='calendar_event_identify_discuss_solve_rel',
+        column1='meeting_id',
+        column2='identify_discuss_solve_id'
+    )
+
+    headline_ids = fields.One2many(
+        comodel_name='mail.activity',
+        related='team_id.headline_ids',
+        readonly=True
+    )
 
     @api.model
     def create(self, vals):
@@ -84,6 +100,7 @@ class Meeting(models.Model):
         template = self.env.ref('traction.meeting_minutes_document')
         for event in self:
             recipient_ids = [(4, pid) for pid in event.partner_ids.ids]
+            print(recipient_ids)
             # TODO: Make a mail template and use it here for sending with the report as attachment
             # template.send_mail(event.id, email_values={'recipient_ids': recipient_ids})
 

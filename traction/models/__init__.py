@@ -7,6 +7,7 @@ from . import traction_rock
 from . import traction_vision
 from . import mail_activity_type
 from . import mail_activity
+from . import mail_channel
 from . import traction_identify_discuss_solve
 from . import calendar_event_action_item
 from . import calendar_event_agenda_item

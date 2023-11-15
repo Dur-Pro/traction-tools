@@ -7,8 +7,6 @@
             <form>
                 <header>
                 </header>
-
-
                 <sheet>
                     <div class="oe_button_box">
                     </div>
@@ -19,6 +17,9 @@
                         <h1>
                             <field name="name"/>
                         </h1>
+                    </div>
+                    <div>
+                        <field name="channel_ids" invisible="1"/>
                     </div>
                     <notebook>
                         <page string="Members" name="member_ids">
