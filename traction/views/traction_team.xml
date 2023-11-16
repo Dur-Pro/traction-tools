@@ -53,7 +53,9 @@
                         </page>
                         <page string="Issues and Headlines" name="issue_ids">
                             <label for="headline_ids">Headlines</label>
-                            <field name="headline_ids" string="Headlines">
+                            <field name="headline_ids"
+                                   string="Headlines"
+                                   context="{'reload_on_close': True}">
                                 <tree string="Headlines">
                                     <field name="summary"/>
                                     <field name="activity_type_id"/>
@@ -61,7 +63,9 @@
                                 </tree>
                             </field>
                             <label for="issue_ids">Issues</label>
-                            <field name="issue_ids" string="Issues">
+                            <field name="issue_ids"
+                                   string="Issues"
+                                   context="{'reload_on_close': True}">
                                 <tree string="Issues">
                                     <field name="summary"/>
                                     <field name="write_uid"/>

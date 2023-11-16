@@ -58,6 +58,10 @@ class IdentifyDiscussSolve(models.Model):
         self.issue_id.action_done()
         self.state = 'solved'
         self.date_solved = fields.Datetime.now()
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload',
+        }
 
     @api.model_create_multi
     def create(self, vals_list):

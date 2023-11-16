@@ -74,22 +74,26 @@ class MailActivity(models.Model):
             'target': 'current',
         }
 
-    # TODO: Figure out how to properly link the activities to the meetings to keep a trace of what was discussed
-    # def _action_done(self, feedback=False, attachment_ids=None):
-    #     issue_type = self.env.ref('traction.mail_activity_data_issue')
-    #     headline_type = self.env.ref('traction.mail_activity_data_headline')
-    #     if self.meet_id:
-    #         if self.activity_type_id == headline_type:
-    #             self.meet_id.message_post(
-    #                 subject=f"Headline: {self.summary}",
-    #                 body=f"""Headline discussed at {datetime.now():%Y-%m-%d %H:%M}\n{self.note}""",
-    #                 message_type="comment",
-    #             )
-    #         elif self.activity_type_id == issue_type:
-    #             self.meet_id.message_post(
-    #                 subject=f"Issue: {self.summary}",
-    #                 body=f"Issue closed at {datetime.now():%Y-%m-%d %H:%M}. See issues tab for more details.\n"
-    #                      f"{self.note}",
-    #                 message_type="comment",
-    #             )
-    #     return super()._action_done()
+    def action_done(self):
+        res = super().action_done()
+        if 'reload_on_close' in self.env.context and self.env.context.get('reload_on_close'):
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'reload',
+            }
+        return res
+
+    def action_done_schedule_next(self):
+        res = super().action_done_schedule_next()
+        if 'reload_on_close' in self.env.context:
+            res['context']['reload_on_close'] = self.env.context.get('reload_on_close')
+        return res
+
+    def action_close_dialog(self):
+        res =super().action_close_dialog()
+        if 'reload_on_close' in self.env.context and self.env.context.get('reload_on_close'):
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'reload',
+            }
+        return res
