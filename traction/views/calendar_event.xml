@@ -37,14 +37,6 @@
                                         class="btn btn-primary fa fa-bookmark-o"
                                         title="Add to Agenda"
                                         attrs="{'invisible': [('can_be_added_to_agenda', '=', False)]}"/>
-<!--                                <button name="action_start_ids" type="object" class="btn btn-primary"-->
-<!--                                        string="Start IDS"-->
-<!--                                        attrs="{'invisible': [('issue_discuss_solve_ids', '!=', False)]}"-->
-<!--                                />-->
-<!--                                <button name="action_start_ids" type="object" class="btn btn-primary"-->
-<!--                                        string="Open IDS"-->
-<!--                                        attrs="{'invisible': [('issue_discuss_solve_ids', '=', False)]}"-->
-<!--                                />-->
                             </tree>
                         </field>
                         <field name="issues_discussed"/>

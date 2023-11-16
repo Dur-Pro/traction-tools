@@ -125,6 +125,13 @@ class Meeting(models.Model):
     def action_start(self):
         self.ensure_one()
         self.state = 'in_progress'
+        for headline in self.headline_ids:
+            item = self.add_agenda_item(
+                name=headline.summary,
+                description=headline.note,
+                item_type='headline',
+                activity_id=headline.id
+            )
         return {
             'name': self.name,
             'type': 'ir.actions.act_window',
@@ -136,6 +143,9 @@ class Meeting(models.Model):
     def action_close_meeting(self, send_minutes=True, next_meeting_time=False):
         self.ensure_one()
         self.state = 'done'
+        # Mark any discussed headlines as complete (close the mail.activity records related to them)
+        for item in self.agenda_item_ids.filtered(lambda rec: rec.item_type == 'headline' and rec.discussed):
+            item.activity_id.action_done()
         if send_minutes:
             self.action_send_mm()
         if next_meeting_time:
@@ -156,8 +166,8 @@ class Meeting(models.Model):
         }
 
     def add_agenda_item(self, name: str, description: str = "", item_type: str = 'other', section_subtype: str = None,
-                        duration=5):
-        """ Add an item to the agenda of this (or these) calendar events. Passing type='issue' or type='headline' will
+                        duration=5, activity_id=None):
+        """ Add an item to the agenda of this calendar event. Passing type='issue' or type='headline' will
         attempt to add the item to the appropriate section in the agenda (assuming one exists).
 
         :param name: Name of the agenda item
@@ -166,26 +176,26 @@ class Meeting(models.Model):
                           traction/models/calendar_event_action_item.py
         :param section_subtype: 'issue', 'headline' or None. Applicable only if type=='section'
         :param duration: The duration of the agenda item, in minutes
+        :param activity_id: The activity to attach the new agenda item to (issue or headline, usually)
 
         :return: Recordset containing the items created
         """
-        items = self.env['calendar.event.agenda.item']
-        for rec in self:
-            # Put it at the end by default
-            sequence = rec._get_next_sequence(section_type=item_type)
+        self.ensure_one()
+        sequence = self._get_next_sequence(section_type=item_type)
 
-            items |= self.env['calendar.event.agenda.item'].create({
-                'name': name,
-                'description': description,
-                'sequence': sequence,
-                'item_type': item_type,
-                'section_subtype': section_subtype,
-                'duration': duration,
-                'event_id': rec.id
-            })
-        return items
+        return self.env['calendar.event.agenda.item'].create({
+            'name': name,
+            'description': description,
+            'sequence': sequence,
+            'item_type': item_type,
+            'section_subtype': section_subtype,
+            'duration': duration,
+            'event_id': self.id,
+            'activity_id': activity_id,
+        })
 
     def _get_next_sequence(self, section_type=None):
+        # Put it at the end by default
         sequence = max(self.agenda_item_ids.mapped('sequence')) + 1
         section_type = ({
             'issue': 'issues',

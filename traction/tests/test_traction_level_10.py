@@ -1,6 +1,7 @@
 from odoo.tests import TransactionCase, tagged, Form
 from odoo import Command
 from datetime import datetime, timedelta
+from odoo.exceptions import MissingError
 
 
 class TractionLevel10Test(TransactionCase):
@@ -75,7 +76,7 @@ class TractionLevel10Test(TransactionCase):
 
         meeting.action_start()
         issue.with_context({'active_id': meeting.id}).action_start_ids()
-        meeting.action_end()
+        meeting.action_close_meeting(send_minutes=False)
 
         self.assertTrue(issue in team.issue_ids)
 
@@ -94,3 +95,47 @@ class TractionLevel10Test(TransactionCase):
         self.assertTrue(next_meeting)
         self.assertEqual(next_meeting.start, next_meeting_time)
         self.assertEqual(next_meeting.team_id, team)
+
+    def test_making_headlines_creates_no_agenda_items(self):
+        team = self._generate_team()
+        meeting = self._generate_meeting(team.id)
+        partner = self._generate_partner()
+
+        headline1 = self._generate_headline(partner, team.id)
+        headline2 = self._generate_headline(partner, team.id, summary='Test issue 2')
+
+        self.assertFalse(headline1.agenda_item_ids)
+        self.assertFalse(headline2.agenda_item_ids)
+        self.assertFalse(any([item.activity_id in (headline1 | headline2) for item in meeting.agenda_item_ids]))
+
+    def test_starting_meeting_makes_headlines_into_agenda_items(self):
+        team = self._generate_team()
+        meeting = self._generate_meeting(team.id)
+        partner = self._generate_partner()
+        headline1 = self._generate_headline(partner, team.id)
+        headline2 = self._generate_headline(partner, team.id, summary='Test issue 2')
+
+        meeting.action_start()
+
+        self.assertTrue(headline1.agenda_item_ids)
+        self.assertTrue(headline2.agenda_item_ids)
+        self.assertEqual(len(meeting.agenda_item_ids.filtered(lambda rec: rec.item_type == 'headline')), 2)
+        self.assertTrue(headline1.agenda_item_ids in meeting.agenda_item_ids)
+        self.assertTrue(headline2.agenda_item_ids in meeting.agenda_item_ids)
+
+    def test_closing_meeting_closes_discussed_headlines(self):
+        team = self._generate_team()
+        meeting = self._generate_meeting(team.id)
+        partner = self._generate_partner()
+        headline1 = self._generate_headline(partner, team.id)
+        headline2 = self._generate_headline(partner, team.id)
+        meeting.action_start()
+
+        headline1.agenda_item_ids.action_discussed()
+
+        meeting.action_close_meeting(send_minutes=False)
+
+        with self.assertRaises(MissingError):
+            test = headline1.summary
+        # Should still exist, so no error
+        test = headline2.summary
