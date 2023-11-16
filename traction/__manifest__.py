@@ -13,9 +13,9 @@
         'data/traction_demo.xml'
     ],
     'data': [
-        'data/mail_data_various.xml',
         'security/ir.model.access.csv',
-        'views/calendar_event.xml',
+        'data/mail_data_various.xml',
+        'data/calendar_event_agenda_template.xml',
         'views/mail_activity.xml',
         'views/traction_value.xml',
         'views/traction_strategy.xml',
@@ -28,6 +28,8 @@
         'views/traction.xml',
         'views/mail_channel_views.xml',
         'views/traction_identify_discuss_solve.xml',
+        'views/calendar_event_agenda_template_views.xml',
+        'views/calendar_event.xml',
         'wizards/close_meeting_wizard.xml',
         'report/calendar_event_templates.xml',
         'report/calendar_event_report.xml',

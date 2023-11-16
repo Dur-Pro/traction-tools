@@ -80,7 +80,7 @@
                         </tr>
                     </thead>
                     <tbody id="agenda_items_body">
-                        <t t-foreach="o.agenda_items" t-as="agenda_item">
+                        <t t-foreach="o.agenda_item_ids" t-as="agenda_item">
                             <tr>
                                 <td style="width:20px;white-space:nowrap;">
                                     <span t-esc="agenda_item_index+1"/>
@@ -127,7 +127,7 @@
                         </tr>
                     </thead>
                     <tbody id="action_items_body">
-                        <t t-foreach="o.action_items" t-as="action_item">
+                        <t t-foreach="o.action_item_ids" t-as="action_item">
                             <tr>
                                 <td style="width:20px;white-space:nowrap;">
                                     <span t-esc="action_item_index+1"/>

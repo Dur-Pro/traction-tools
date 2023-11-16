@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="calendar_event_agenda_template_view_form" model="ir.ui.view">
+        <field name="name">calendar.event.agenda.template.view.form</field>
+        <field name="model">calendar.event.agenda.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <header></header>
+                <sheet>
+                    <div class="oe_title">
+                        <div class="oe_edit_only"><strong>Name</strong></div>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <h2>Meeting Agenda</h2>
+                    <field name="agenda_item_ids"/>
+                    <h2>Traction Teams Using this Template</h2>
+                    <field name="traction_team_ids" widget="many2many_tags"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="calendar_event_agenda_item_template_view_tree" model="ir.ui.view">
+        <field name="name">calendar.event.agenda.item.template.view.tree</field>
+        <field name="model">calendar.event.agenda.item.template</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="duration"/>
+                <field name="item_type"/>
+                <field name="section_subtype"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

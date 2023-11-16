@@ -20,10 +20,11 @@
                     </div>
                     <field name="channel_ids" invisible="1"/>
                     <group>
-                        <group name="members" string="Members">
+                        <group name="info_left">
                             <field name="member_ids" widget="many2many_avatar_user"/>
+                            <field name="agenda_template_id"/>
                         </group>
-                        <group name="measurables" string="Measurables">
+                        <group name="info_right">
                             <field name="measurable_ids">
                                 <tree>
                                     <field name="name"/>
@@ -55,7 +56,7 @@
                             <label for="headline_ids">Headlines</label>
                             <field name="headline_ids"
                                    string="Headlines"
-                                   context="{'reload_on_close': True}">
+                                   context="{'form_view_ref': 'traction.traction_mail_activity_form_reload_on_close'}">
                                 <tree string="Headlines">
                                     <field name="summary"/>
                                     <field name="activity_type_id"/>
@@ -65,7 +66,7 @@
                             <label for="issue_ids">Issues</label>
                             <field name="issue_ids"
                                    string="Issues"
-                                   context="{'reload_on_close': True}">
+                                   context="{'form_view_ref': 'traction.traction_mail_activity_form_reload_on_close'}">
                                 <tree string="Issues">
                                     <field name="summary"/>
                                     <field name="write_uid"/>

@@ -32,13 +32,13 @@ class Meeting(models.Model):
         domain="[('id', 'in', partner_ids)]",
     )
 
-    agenda_items = fields.One2many(
+    agenda_item_ids = fields.One2many(
         string='Agenda Items',
         comodel_name='calendar.event.agenda.item',
         inverse_name='event_id',
     )
 
-    action_items = fields.One2many(
+    action_item_ids = fields.One2many(
         string='Action / Decision Items',
         comodel_name='calendar.event.action.item',
         inverse_name='event_id',
@@ -72,15 +72,20 @@ class Meeting(models.Model):
         readonly=True
     )
 
-    @api.model
-    def create(self, vals):
-        if vals.get('team_id'):
-            team_id = self.env['traction.team'].browse(vals.get('team_id'))
-            vals['name'] = "Level 10 - " + team_id.name
-            if 'privacy' not in vals:
-                vals['privacy'] = 'confidential'
-            vals['partner_ids'] = [Command.link(member.partner_id.id) for member in team_id.member_ids]
-        return super(Meeting, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('team_id'):
+                team_id = self.env['traction.team'].browse(vals.get('team_id'))
+                vals['name'] = "Level 10 - " + team_id.name
+                if 'privacy' not in vals:
+                    vals['privacy'] = 'confidential'
+                vals['partner_ids'] = [Command.link(member.partner_id.id) for member in team_id.member_ids]
+        res = super().create(vals_list)
+        for rec in res:
+            if rec.team_id:
+                rec.agenda_item_ids = rec.team_id.generate_new_meeting_agenda(self)
+        return res
 
     @api.onchange('team_id')
     def _rename_meet(self):
@@ -106,10 +111,6 @@ class Meeting(models.Model):
             print(recipient_ids)
             # TODO: Make a mail template and use it here for sending with the report as attachment
             # template.send_mail(event.id, email_values={'recipient_ids': recipient_ids})
-
-    def _compute_unsolved_issues(self):
-        for event in self:
-            event.unsolved_issues = event.traction_items.filtered(lambda x: x.state == 'open')
 
     def action_end(self):
         return {
@@ -153,3 +154,61 @@ class Meeting(models.Model):
             'view_mode': 'form',
             'res_id': self.id,
         }
+
+    def add_agenda_item(self, name: str, description: str = "", item_type: str = 'other', section_subtype: str = None,
+                        duration=5):
+        """ Add an item to the agenda of this (or these) calendar events. Passing type='issue' or type='headline' will
+        attempt to add the item to the appropriate section in the agenda (assuming one exists).
+
+        :param name: Name of the agenda item
+        :param description: The description of the agenda item
+        :param item_type: The type of agenda item to add. See item_type field in
+                          traction/models/calendar_event_action_item.py
+        :param section_subtype: 'issue', 'headline' or None. Applicable only if type=='section'
+        :param duration: The duration of the agenda item, in minutes
+
+        :return: Recordset containing the items created
+        """
+        items = self.env['calendar.event.agenda.item']
+        for rec in self:
+            # Put it at the end by default
+            sequence = rec._get_next_sequence(section_type=item_type)
+
+            items |= self.env['calendar.event.agenda.item'].create({
+                'name': name,
+                'description': description,
+                'sequence': sequence,
+                'item_type': item_type,
+                'section_subtype': section_subtype,
+                'duration': duration,
+                'event_id': rec.id
+            })
+        return items
+
+    def _get_next_sequence(self, section_type=None):
+        sequence = max(self.agenda_item_ids.mapped('sequence')) + 1
+        section_type = ({
+            'issue': 'issues',
+            'headline': 'headlines',
+        }).get(section_type, False)
+        if section_type in ('issues', 'headlines'):
+            new_section_item = self.agenda_item_ids.filtered(
+                lambda item: item.item_type == 'section' and item.section_subtype == section_type
+            )
+            if new_section_item:
+                new_section_item = new_section_item[0]
+                sections = list(self.agenda_item_ids.sorted('sequence', reverse=True).filtered(
+                    lambda item: item.item_type == 'section'
+                ))
+                # Check if there are other sections. If so, we need to figure out what sequence number to use.
+                if len(sections) > 1:
+                    all_items = list(self.agenda_item_ids.sorted('sequence', reverse=True))
+                    next_section = sections[sections.index(new_section_item) + 1]
+                    next_section_index = all_items.index(next_section)
+                    last_item_in_section = all_items[next_section_index - 1]
+                    if last_item_in_section.sequence == next_section.sequence - 1:
+                        # We need to bump the next items to higher sequence numbers
+                        for item in all_items[next_section_index:]:
+                            item.sequence += 10
+                    sequence = last_item_in_section.sequence + 1
+        return sequence

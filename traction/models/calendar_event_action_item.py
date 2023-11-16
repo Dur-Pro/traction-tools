@@ -43,3 +43,7 @@ class MeetingActionItem(models.Model):
     description = fields.Html(
         string='Description / Notes',
     )
+    activity_id = fields.Many2one(
+        comodel_name='mail.activity',
+        string='Related Activity',
+    )

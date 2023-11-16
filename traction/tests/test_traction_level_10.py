@@ -5,8 +5,6 @@ from datetime import datetime, timedelta
 
 class TractionLevel10Test(TransactionCase):
 
-    # No setUpClass overload because we keep tests isolated from one another
-
     @classmethod
     def _generate_partner(cls, name="Test Partner", is_company=True, parent_id=None):
         return cls.env['res.partner'].create({

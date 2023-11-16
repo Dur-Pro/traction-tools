@@ -76,5 +76,9 @@ class IdentifyDiscussSolve(models.Model):
             rec.identify = rec.issue_id.note or ""
             rec.date_raised = rec.issue_id.create_date
             rec.raised_by = rec.issue_id.create_uid
+            rec.meeting_ids.add_agenda_item(
+                name=rec.name,
+                item_type='issue',
+            )
         return res
 

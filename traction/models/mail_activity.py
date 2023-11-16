@@ -13,12 +13,16 @@ class MailActivity(models.Model):
         copy=False
     )
 
-    meet_id = fields.Many2one(
-        comodel_name='calendar.event',
-        string='Meeting',
-        copy=False
+    agenda_item_ids = fields.One2many(
+        comodel_name='calendar.event.agenda.item',
+        string='Agenda Items',
+        inverse_name='activity_id',
     )
-
+    action_item_ids = fields.One2many(
+        comodel_name='calendar.event.action.item',
+        string='Meeting Action Items',
+        inverse_name='activity_id',
+    )
     issue_discuss_solve_ids = fields.Many2one(
         comodel_name='traction.identify_discuss_solve',
         # inverse_name='issue_id',
@@ -45,6 +49,7 @@ class MailActivity(models.Model):
 
     needs_team_id = fields.Boolean(compute='_compute_needs_team_id')
 
+    can_be_added_to_agenda = fields.Boolean(compute='_compute_can_be_added_to_agenda')
     @api.depends('activity_type_id')
     def _compute_needs_team_id(self):
         for record in self:
@@ -97,3 +102,35 @@ class MailActivity(models.Model):
                 'tag': 'reload',
             }
         return res
+
+    @api.depends_context('active_id')
+    def action_add_to_agenda(self):
+        event = self.env['calendar.event'].browse(self.env.context.get('active_id'))
+        issue_type = self.env.ref('traction.mail_activity_data_issue')
+        headline_type = self.env.ref('traction.mail_activity_data_headline')
+        for rec in self:
+            item_type = ({
+                issue_type: 'issue',
+                headline_type: 'headline',
+            }).get(rec.activity_type_id, None)
+            item = event.add_agenda_item(
+                name=rec.summary,
+                description=rec.note,
+                item_type=item_type,
+            )
+            rec.write({'agenda_item_ids': [(4, item.id)]})
+
+    @api.depends_context('active_id', 'issues_list_mode')
+    @api.depends('agenda_item_ids')
+    def _compute_can_be_added_to_agenda(self):
+        ctx = self.env.context
+        active_id = ctx.get('active_id', False)
+        if not ctx.get('issues_list_mode', False) or not active_id:
+            self.can_be_added_to_agenda = False
+        event = self.env['calendar.event'].browse(active_id)
+        if not event:
+            self.can_be_added_to_agenda = False
+        for rec in self:
+            rec.can_be_added_to_agenda = not bool(
+                rec.agenda_item_ids.filtered(lambda item: item in event.agenda_item_ids))
+

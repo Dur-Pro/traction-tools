@@ -13,3 +13,5 @@ from . import calendar_event_action_item
 from . import calendar_event_agenda_item
 from . import calendar_event
 from . import res_company
+from . import calendar_event_agenda_item_template
+from . import calendar_event_agenda_template

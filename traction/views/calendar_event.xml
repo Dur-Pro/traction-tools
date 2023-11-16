@@ -26,20 +26,25 @@
                 </page>
                 <page name="page_issues" string="Issues">
                     <group>
-                        <field name="unsolved_issues" context="{'active_id': id}">
+                        <field name="unsolved_issues" context="{'active_id': id, 'issues_list_mode': True,}">
                             <tree>
                                 <field name="issue_discuss_solve_ids" invisible="1"/>
                                 <field name="summary"/>
                                 <field name="create_uid" string="Raised By"/>
                                 <field name="create_date" string="Date Raised"/>
-                                <button name="action_start_ids" type="object" class="btn btn-primary"
-                                        string="Start IDS"
-                                        attrs="{'invisible': [('issue_discuss_solve_ids', '!=', False)]}"
-                                />
-                                <button name="action_start_ids" type="object" class="btn btn-primary"
-                                        string="Open IDS"
-                                        attrs="{'invisible': [('issue_discuss_solve_ids', '=', False)]}"
-                                />
+                                <field name="can_be_added_to_agenda" invisible="1"/>
+                                <button name="action_add_to_agenda" type="object"
+                                        class="btn btn-primary fa fa-bookmark-o"
+                                        title="Add to Agenda"
+                                        attrs="{'invisible': [('can_be_added_to_agenda', '=', False)]}"/>
+<!--                                <button name="action_start_ids" type="object" class="btn btn-primary"-->
+<!--                                        string="Start IDS"-->
+<!--                                        attrs="{'invisible': [('issue_discuss_solve_ids', '!=', False)]}"-->
+<!--                                />-->
+<!--                                <button name="action_start_ids" type="object" class="btn btn-primary"-->
+<!--                                        string="Open IDS"-->
+<!--                                        attrs="{'invisible': [('issue_discuss_solve_ids', '=', False)]}"-->
+<!--                                />-->
                             </tree>
                         </field>
                         <field name="issues_discussed"/>
@@ -63,12 +68,13 @@
                         <field name="absent_partner_ids" nolabel="1" colspan="2" widget="many2many_tags"/>
                     </group>
                     <group name="agenda_items" string="Agenda">
-                        <field name="agenda_items" widget="one2many" mode="tree,kanban" nolabel="1" colspan="2">
+                        <field name="agenda_item_ids" widget="one2many" mode="tree,kanban" nolabel="1" colspan="2">
                             <tree editable="bottom" decoration-success="discussed == True">
                                 <field name="sequence" widget="handle"/>
                                 <field name="name"/>
                                 <field name="description"/>
-                                <field name="discussed"/>
+                                <field name="duration" sum="Total Duration"/>
+                                <field name="discussed" optional="hide"/>
                                 <button type="object" help="Mark as discussed"
                                         name="action_discussed" icon="fa-flag"
                                         attrs="{'invisible': [('discussed', '=', True)]}"/>
@@ -103,12 +109,12 @@
                         </field>
                     </group>
                     <group name="action_items" string="Actions / Decisions">
-                        <field name="action_items" widget="one2many" mode="tree,kanban" nolabel="1" colspan="2">
+                        <field name="action_item_ids" widget="one2many" mode="tree,kanban" nolabel="1" colspan="2">
                             <tree editable="bottom">
                                 <field name="sequence" widget="handle"/>
                                 <field name="name"/>
                                 <field name="description"/>
-                                <field name="agenda_item_id" optional="hide" domain="[('id', 'in', parent.agenda_items)]"/>
+                                <field name="agenda_item_id" optional="hide" domain="[('id', 'in', parent.agenda_item_ids)]"/>
                                 <field name="user_id" optional="show"/>
                                 <field name="user_ids" optional="show" widget="many2many_tags"/>
                                 <field name="date_deadline"/>
@@ -124,7 +130,7 @@
                                         <field name="user_ids" optional="show" widget="many2many_tags"/>
                                     </group>
                                     <group>
-                                        <field name="agenda_item_id" optional="hide" domain="[('id', 'in', parent.agenda_items)]"/>
+                                        <field name="agenda_item_id" optional="hide" domain="[('id', 'in', parent.agenda_item_ids)]"/>
                                         <field name="date_deadline"/>
                                     </group>
                                 </group>

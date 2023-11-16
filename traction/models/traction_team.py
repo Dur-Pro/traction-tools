@@ -56,6 +56,18 @@ class TractionTeam(models.Model):
     next_meeting_time = fields.Datetime(related='next_meeting_id.start')
     next_meeting_duration = fields.Float(related='next_meeting_id.duration')
     issues_count = fields.Integer(compute='_compute_issues_count')
+    agenda_template_id = fields.Many2one(
+        comodel_name='calendar.event.agenda.template',
+        string='Default Meeting Agenda',
+        help='The agenda used by default when a meeting is created. '
+             'Does not apply to meetings created as next meeting when closing a meeting.'
+    )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        res = super().create(vals_list)
+        res.agenda_template_id = self.env.ref('traction.calendar_event_agenda_template_default')
+        return res
 
     @api.depends('meeting_ids')
     def _compute_next_meeting(self):
@@ -87,3 +99,13 @@ class TractionTeam(models.Model):
 
     def _inverse_issues_headlines(self):
         pass
+
+    def generate_new_meeting_agenda(self, meeting):
+        """
+        Generate a new meeting agenda from this team's default meeting agenda template. Applicable on singletons only.
+
+        :param meeting: The meeting to which the new agenda should be attached.
+        :return: The Recordset containing the newly created agenda items.
+        """
+        self.ensure_one()
+        return self.agenda_template_id.generate_new_meeting_agenda_items(meeting)
