@@ -73,11 +73,10 @@ class TractionLevel10Test(TransactionCase):
         partner = self._generate_partner()
         team = self._generate_team()
         issue = self._generate_issue(partner, team.id)
-
         meeting = self._generate_meeting(team.id)
 
         meeting.action_start()
-        issue.action_start_ids()
+        issue.with_context({'active_id': meeting.id}).action_start_ids()
         meeting.action_end()
 
         self.assertTrue(issue in team.issue_ids)

@@ -1,6 +1,7 @@
 from odoo import api, models, fields, tools, _
 from odoo.tools import is_html_empty
 from odoo.exceptions import ValidationError
+from datetime import datetime
 
 
 class MailActivity(models.Model):
@@ -24,19 +25,45 @@ class MailActivity(models.Model):
         string='Discussion'
     )
 
-    @api.constrains('activity_type_id')
-    def _check_team_id(self):
+    priority = fields.Selection(
+        selection=[
+            ('0', 'Normal'),
+            ('1', 'Important'),
+            ('2', 'Very Important'),
+            ('3', 'Urgent'),
+        ],
+        default='0',
+        index=True,
+        store=True)
+
+    state = fields.Selection(
+        selection_add=[
+            ('done', 'Done'),
+            ('cancel', 'Cancelled'),
+        ],
+        store=True)
+
+    needs_team_id = fields.Boolean(compute='_compute_needs_team_id')
+
+    @api.depends('activity_type_id')
+    def _compute_needs_team_id(self):
         for record in self:
-            if (record.activity_type_id == self.env.ref('traction.mail_activity_data_issue')) and (
-                    record.team_id == False):
-                raise ValidationError("Issues need to be assign to Traction Team")
-        # all records passed the test, don't return anything
+            record.needs_team_id = record.activity_type_id in [
+                self.env.ref('traction.mail_activity_data_issue'),
+                self.env.ref('traction.mail_activity_data_headline')]
+
+    @api.constrains('activity_type_id', 'team_id')
+    @api.depends('needs_team_id')
+    def _check_team_id(self):
+        if self.needs_team_id and not self.team_id:
+            raise ValidationError(_('Traction Team is required for this activity type.'))
 
     def action_start_ids(self):
         self.ensure_one()
         if not self.issue_discuss_solve_ids:
             self.issue_discuss_solve_ids = self.env['traction.identify_discuss_solve'].create({
                 'issue_id': self.id,
+                'meeting_ids': [(4, self.env.context.get('active_id'))]
             })
         return {
             'name': (_('Issue IDS')),
@@ -47,21 +74,22 @@ class MailActivity(models.Model):
             'target': 'current',
         }
 
-    def action_done(self):
-        # Fix the CybroAddons version by making sure we call the original method
-        messages, next_activities = super()._action_done()
-        self.write({'state': 'done'})
-        if self.recurring:
-            next_activities += self.env['mail.activity'].create({
-                'res_id': self.res_id,
-                'res_model_id': self.res_model_id.id,
-                'summary': self.summary,
-                'priority': self.priority,
-                'date_deadline': self.new_date,
-                'recurring': self.recurring,
-                'interval': self.interval,
-                'activity_type_id': self.activity_type_id.id,
-                'new_date': self.get_date(),
-                'user_id': self.user_id.id
-            })
-        return messages.ids and messages.ids[0] or False
+    # TODO: Figure out how to properly link the activities to the meetings to keep a trace of what was discussed
+    # def _action_done(self, feedback=False, attachment_ids=None):
+    #     issue_type = self.env.ref('traction.mail_activity_data_issue')
+    #     headline_type = self.env.ref('traction.mail_activity_data_headline')
+    #     if self.meet_id:
+    #         if self.activity_type_id == headline_type:
+    #             self.meet_id.message_post(
+    #                 subject=f"Headline: {self.summary}",
+    #                 body=f"""Headline discussed at {datetime.now():%Y-%m-%d %H:%M}\n{self.note}""",
+    #                 message_type="comment",
+    #             )
+    #         elif self.activity_type_id == issue_type:
+    #             self.meet_id.message_post(
+    #                 subject=f"Issue: {self.summary}",
+    #                 body=f"Issue closed at {datetime.now():%Y-%m-%d %H:%M}. See issues tab for more details.\n"
+    #                      f"{self.note}",
+    #                 message_type="comment",
+    #             )
+    #     return super()._action_done()

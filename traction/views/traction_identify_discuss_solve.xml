@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="traction_team_ids_view_form" model="ir.ui.view">
+        <field name="name">traction.calendar.event.ids.view.form</field>
+        <field name="model">traction.identify_discuss_solve</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_solve" type="object" string="Mark Solved" class="btn btn-primary"/>
+                    <field name="state" widget="statusbar" options="{'clickable': True}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box">
+                    </div>
+                    <div class="oe_title">
+                        <div class="oe_edit_only">Issue</div>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group col="2">
+                        <group>
+                            <field name="date_raised"/>
+                            <field name="date_solved" attrs="{'invisible': [('state', '!=', 'solved')]}"/>
+                        </group>
+                        <group>
+                            <field name="raised_by"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="identify" class="oe-bordered-editor"/>
+                        <field name="discuss" class="oe-bordered-editor"/>
+                        <field name="solve" class="oe-bordered-editor"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="traction_identify_discuss_solve_view_tree" model="ir.ui.view">
+        <field name="name">traction.identify_discuss_solve.view.tree</field>
+        <field name="model">traction.identify_discuss_solve</field>
+        <field name="arch" type="xml">
+            <tree string="Issues" decoration-success="state == 'solved'" decoration-warning="state != 'solved'">
+                <field name="state" invisible="1"/>
+                <field name="name"/>
+                <field name="raised_by"/>
+                <field name="date_raised"/>
+                <field name="date_solved"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

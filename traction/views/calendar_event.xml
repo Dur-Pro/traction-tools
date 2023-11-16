@@ -26,13 +26,20 @@
                 </page>
                 <page name="page_issues" string="Issues">
                     <group>
-                        <field name="unsolved_issues">
+                        <field name="unsolved_issues" context="{'active_id': id}">
                             <tree>
+                                <field name="issue_discuss_solve_ids" invisible="1"/>
                                 <field name="summary"/>
                                 <field name="create_uid" string="Raised By"/>
                                 <field name="create_date" string="Date Raised"/>
                                 <button name="action_start_ids" type="object" class="btn btn-primary"
-                                        string="Start IDS"/>
+                                        string="Start IDS"
+                                        attrs="{'invisible': [('issue_discuss_solve_ids', '!=', False)]}"
+                                />
+                                <button name="action_start_ids" type="object" class="btn btn-primary"
+                                        string="Open IDS"
+                                        attrs="{'invisible': [('issue_discuss_solve_ids', '=', False)]}"
+                                />
                             </tree>
                         </field>
                         <field name="issues_discussed"/>
@@ -164,50 +171,4 @@
             </field>
         </field>
     </record>
-
-    <record id="traction_team_ids_view_form" model="ir.ui.view">
-        <field name="name">traction.calendar.event.ids.view.form</field>
-        <field name="model">traction.identify_discuss_solve</field>
-        <field name="arch" type="xml">
-            <form>
-                <header>
-                    <field name="state" widget="statusbar" options="{'clickable': True}"/>
-                </header>
-                <sheet>
-                    <div class="oe_button_box">
-                        <button name="action_solve" type="object" string="Mark Solved" class="btn btn-primary"/>
-                    </div>
-                    <div class="oe_title"><h1>Issue: <field name="name"/></h1></div>
-                    <group>
-                        <group>
-                            <separator string="Issue Details"/>
-                            <field name="date_raised"/>
-                            <field name="raised_by"/>
-                        </group>
-                        <group>
-                            <separator string="Issue Identification"/>
-                            <field name="identify" nolabel="1"/>
-                        </group>
-                    </group>
-                    <group>
-                        <group>
-                            <separator string="Discussion"/>
-                            <field name="discuss" nolabel="1"/>
-                        </group>
-                        <group>
-                            <separator string="Resolution"/>
-                            <field name="solve" nolabel="1"/>
-                        </group>
-                    </group>
-                </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers"/>
-                    <field name="message_ids" widget="mail_thread"/>
-                </div>
-            </form>
-        </field>
-    </record>
-
-
-
 </odoo>

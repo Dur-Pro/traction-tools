@@ -8,7 +8,6 @@
     'license': 'LGPL-3',
     'depends': [
         'calendar',
-        'todo_list'
     ],
     'demo': [
         'data/traction_demo.xml'
@@ -28,6 +27,7 @@
         'views/traction_measurable_value.xml',
         'views/traction.xml',
         'views/mail_channel_views.xml',
+        'views/traction_identify_discuss_solve.xml',
         'wizards/close_meeting_wizard.xml',
         'report/calendar_event_templates.xml',
         'report/calendar_event_report.xml',
