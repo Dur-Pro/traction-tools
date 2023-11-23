@@ -65,10 +65,6 @@
                         <field name="issues_discussed"/>
                     </group>
                 </page>
-                <page name="page_meeting_activity" string="Next meeting"
-                      attrs="{'invisible': [('team_id', '=', False)]}">
-
-                </page>
                 <page name="page_meeting_management" string="Meeting Minutes"
                       attrs="{'invisible': [('team_id', '=', False)]}">
                     <group>
