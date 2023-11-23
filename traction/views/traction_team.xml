@@ -56,7 +56,13 @@
                             <label for="headline_ids">Headlines</label>
                             <field name="headline_ids"
                                    string="Headlines"
-                                   context="{'form_view_ref': 'traction.traction_mail_activity_form_reload_on_close'}">
+                                   context="{
+                                            'form_view_ref': 'traction.traction_mail_activity_form_reload_on_close',
+                                            'default_res_id': id,
+                                            'default_res_model': 'traction.team',
+                                            'default_team_id': id,
+                                            'traction_mode': 'headline',
+                                        }">
                                 <tree string="Headlines">
                                     <field name="summary"/>
                                     <field name="activity_type_id"/>
@@ -66,7 +72,13 @@
                             <label for="issue_ids">Issues</label>
                             <field name="issue_ids"
                                    string="Issues"
-                                   context="{'form_view_ref': 'traction.traction_mail_activity_form_reload_on_close'}">
+                                   context="{
+                                            'form_view_ref': 'traction.traction_mail_activity_form_reload_on_close',
+                                            'default_res_id': id,
+                                            'default_res_model': 'traction.team',
+                                            'default_team_id': id,
+                                            'traction_mode': 'issue',
+                                        }">
                                 <tree string="Issues">
                                     <field name="summary"/>
                                     <field name="write_uid"/>

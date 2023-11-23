@@ -36,7 +36,7 @@ class MeetingAgendaItem(models.Model):
             ('issues', 'Issues'),
             ('headlines', 'Headlines'),
         ])
-    description = fields.Text(
+    description = fields.Html(
         string='Description / Notes',
     )
     discussed = fields.Boolean(

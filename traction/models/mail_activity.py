@@ -134,3 +134,15 @@ class MailActivity(models.Model):
             rec.can_be_added_to_agenda = not bool(
                 rec.agenda_item_ids.filtered(lambda item: item in event.agenda_item_ids))
 
+    def default_get(self, fields):
+        res = super().default_get(fields)
+        if 'activity_type_id' in fields:
+            view_mode = self.env.context.get('traction_mode', False)
+            if view_mode:
+                res.update({
+                    'activity_type_id': ({
+                        'issue': self.env.ref('traction.mail_activity_data_issue'),
+                        'headline': self.env.ref('traction.mail_activity_data_headline'),
+                    }).get(str(view_mode), False)
+                })
+        return res
