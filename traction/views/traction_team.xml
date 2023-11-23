@@ -4,7 +4,7 @@
         <field name="name">traction.team.view.form</field>
         <field name="model">traction.team</field>
         <field name="arch" type="xml">
-            <form>
+            <form create="false">
                 <header>
                 </header>
                 <sheet>
@@ -98,7 +98,8 @@
                     group_edit="false"
                     group_delete="false"
                     records_draggable="false"
-                    default_order="name">
+                    default_order="name"
+                    create="false">
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
