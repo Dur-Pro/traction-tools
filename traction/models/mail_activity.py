@@ -50,6 +50,7 @@ class MailActivity(models.Model):
     needs_team_id = fields.Boolean(compute='_compute_needs_team_id')
 
     can_be_added_to_agenda = fields.Boolean(compute='_compute_can_be_added_to_agenda')
+
     @api.depends('activity_type_id')
     def _compute_needs_team_id(self):
         for record in self:
@@ -95,11 +96,13 @@ class MailActivity(models.Model):
         return res
 
     def action_close_dialog(self):
-        res =super().action_close_dialog()
+        res = super().action_close_dialog()
         if 'reload_on_close' in self.env.context and self.env.context.get('reload_on_close'):
+            ctx = {key: value for key, value in self.env.context.items() if key != 'reload_on_close'}
             return {
                 'type': 'ir.actions.client',
                 'tag': 'reload',
+                'context': ctx,
             }
         return res
 

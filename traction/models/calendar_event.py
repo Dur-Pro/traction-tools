@@ -56,7 +56,7 @@ class Meeting(models.Model):
     unsolved_issues = fields.One2many(
         comodel_name='mail.activity',
         related='team_id.issue_ids',
-        readonly=True
+        readonly=False,
     )
 
     issues_discussed = fields.Many2many(
@@ -69,7 +69,7 @@ class Meeting(models.Model):
     headline_ids = fields.One2many(
         comodel_name='mail.activity',
         related='team_id.headline_ids',
-        readonly=True
+        readonly=False,
     )
 
     @api.model_create_multi
