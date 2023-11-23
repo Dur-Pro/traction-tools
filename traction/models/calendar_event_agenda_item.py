@@ -31,20 +31,25 @@ class MeetingAgendaItem(models.Model):
             ('issue', 'Issue'),
             ('other', 'Other'),
         ])
+
     section_subtype = fields.Selection(
         selection=[
             ('issues', 'Issues'),
             ('headlines', 'Headlines'),
         ])
+
     description = fields.Html(
         string='Description / Notes',
     )
+
     discussed = fields.Boolean(
         string='Discussed',
     )
+
     activity_id = fields.Many2one(
         comodel_name='mail.activity',
-        string='Related Activity')
+        string='Related Activity'
+    )
 
     def action_discussed(self):
         return self.write({'discussed': True})

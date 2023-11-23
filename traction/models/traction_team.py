@@ -30,13 +30,15 @@ class TractionTeam(models.Model):
     issue_ids = fields.One2many(
         comodel_name='mail.activity',
         compute='_compute_issues_headlines',
-        inverse='_inverse_issues_headlines'
+        inverse='_inverse_issues_headlines',
+        string='Issues'
     )
 
     headline_ids = fields.One2many(
         comodel_name='mail.activity',
         compute='_compute_issues_headlines',
-        inverse='_inverse_issues_headlines'
+        inverse='_inverse_issues_headlines',
+        string='Headlines'
     )
 
     measurable_ids = fields.Many2many(
@@ -49,13 +51,16 @@ class TractionTeam(models.Model):
         inverse_name='team_id',
         string='Meetings'
     )
+
     next_meeting_id = fields.Many2one(
         comodel_name='calendar.event',
         compute='_compute_next_meeting',
     )
+
     next_meeting_time = fields.Datetime(related='next_meeting_id.start')
     next_meeting_duration = fields.Float(related='next_meeting_id.duration')
     issues_count = fields.Integer(compute='_compute_issues_count')
+
     agenda_template_id = fields.Many2one(
         comodel_name='calendar.event.agenda.template',
         string='Default Meeting Agenda',

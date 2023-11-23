@@ -13,6 +13,7 @@ class CalendarEventAgendaTemplate(models.Model):
         column1='template_id',
         column2='item_id',
     )
+
     traction_team_ids = fields.One2many(
         comodel_name='traction.team',
         inverse_name='agenda_template_id',

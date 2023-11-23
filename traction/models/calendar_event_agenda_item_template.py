@@ -9,22 +9,27 @@ class CalendarEventAgendaItemTemplate(models.Model):
         string='Sequence',
         default=10,
     )
+
     name = fields.Char(
         string='Topic',
         required=True,
     )
+
     duration = fields.Integer(
         string='Duration (minutes)',
         required=True,
         default=5,
     )
+
     item_type = fields.Selection(
         selection=[
             ('section', 'Section'),
             ('headline', 'Headline'),
             ('issue', 'Issue'),
             ('other', 'Other'),
-        ])
+        ]
+    )
+
     section_subtype = fields.Selection(
         selection=[
             ('issues', 'Issues'),
@@ -33,6 +38,7 @@ class CalendarEventAgendaItemTemplate(models.Model):
     description = fields.Text(
         string='Description / Notes',
     )
+
     template_ids = fields.Many2many(
         comodel_name='calendar.event.agenda.template',
         string='Agenda Templates',

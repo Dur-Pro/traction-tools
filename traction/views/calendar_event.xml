@@ -167,9 +167,9 @@
                                             </div>
                                         </div>
                                     </t>
-                                </templates>
+                                    </templates>
                             </kanban>
-                        </field>
+                        </field >
                     </group>
                     <group name="closing_conclusion_notes" string="Closing / Conclusion Notes">
                         <field name="closing_conclusion_notes" nolabel="1"/>

@@ -13,16 +13,6 @@ class MailChannel(models.Model):
 
     is_traction_team = fields.Boolean(string='Is Traction Team')
 
-    @api.model
-    def create(self, vals):
-        res = super().create(vals)
-        res._process_traction_team_in_vals(vals)
-        return res
-
-    def write(self, vals):
-        super().write(vals)
-        self._process_traction_team_in_vals(vals)
-
     def _process_traction_team_in_vals(self, vals):
         if 'is_traction_team' in vals and vals['is_traction_team'] and not self.traction_team_id:
             # See if there is already a team by this name to link
@@ -38,3 +28,14 @@ class MailChannel(models.Model):
                 })
         if 'is_traction_team' in vals and not vals['is_traction_team']:
             self.traction_team_id = False
+
+    @api.model
+    def create(self, vals):
+        res = super().create(vals)
+        res._process_traction_team_in_vals(vals)
+        return res
+
+    def write(self, vals):
+        super().write(vals)
+        self._process_traction_team_in_vals(vals)
+

@@ -18,11 +18,13 @@ class MailActivity(models.Model):
         string='Agenda Items',
         inverse_name='activity_id',
     )
+
     action_item_ids = fields.One2many(
         comodel_name='calendar.event.action.item',
         string='Meeting Action Items',
         inverse_name='activity_id',
     )
+
     issue_discuss_solve_ids = fields.Many2one(
         comodel_name='traction.identify_discuss_solve',
         # inverse_name='issue_id',
@@ -38,14 +40,16 @@ class MailActivity(models.Model):
         ],
         default='0',
         index=True,
-        store=True)
+        store=True
+    )
 
     state = fields.Selection(
         selection_add=[
             ('done', 'Done'),
             ('cancel', 'Cancelled'),
         ],
-        store=True)
+        store=True
+    )
 
     needs_team_id = fields.Boolean(compute='_compute_needs_team_id')
 
