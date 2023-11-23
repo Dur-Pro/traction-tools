@@ -14,7 +14,7 @@
     ],
     'data': [
         'security/ir.model.access.csv',
-        'data/mail_activity_type_data.xml.xml',
+        'data/mail_activity_type_data.xml',
         'data/calendar_event_agenda_template.xml',
         'views/mail_activity.xml',
         'views/traction_value.xml',
