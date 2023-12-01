@@ -51,8 +51,9 @@
                                             'traction_mode': 'issue',
                                         }">
                             <tree>
-                                <field name="issue_discuss_solve_ids" invisible="1"/>
+                                <field name="identify_discuss_solve_id" invisible="1"/>
                                 <field name="summary"/>
+                                <field name="identify_discuss_solve_id" widget="many2one"/>
                                 <field name="create_uid" string="Raised By"/>
                                 <field name="create_date" string="Date Raised"/>
                                 <field name="can_be_added_to_agenda" invisible="1"/>
@@ -85,6 +86,12 @@
                                 <field name="name"/>
                                 <field name="description"/>
                                 <field name="duration" sum="Total Duration"/>
+                                <field name="item_type" optional="hide"/>
+                                <button name="action_start_ids"
+                                        type="object"
+                                        class="button btn-primary"
+                                        string="IDS"
+                                        attrs="{'invisible': [('item_type', '!=', 'issue')]}"/>
                                 <field name="discussed" optional="hide"/>
                                 <button type="object" help="Mark as discussed"
                                         name="action_discussed" icon="fa-flag"

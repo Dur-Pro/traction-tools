@@ -25,7 +25,7 @@ class MailActivity(models.Model):
         inverse_name='activity_id',
     )
 
-    issue_discuss_solve_ids = fields.Many2one(
+    identify_discuss_solve_id = fields.Many2one(
         comodel_name='traction.identify_discuss_solve',
         # inverse_name='issue_id',
         string='Discussion'
@@ -70,8 +70,8 @@ class MailActivity(models.Model):
 
     def action_start_ids(self):
         self.ensure_one()
-        if not self.issue_discuss_solve_ids:
-            self.issue_discuss_solve_ids = self.env['traction.identify_discuss_solve'].create({
+        if not self.identify_discuss_solve_id:
+            self.identify_discuss_solve_id = self.env['traction.identify_discuss_solve'].create({
                 'issue_id': self.id,
                 'meeting_ids': [(4, self.env.context.get('active_id'))]
             })
@@ -79,7 +79,7 @@ class MailActivity(models.Model):
             'name': (_('Issue IDS')),
             'view_mode': 'form',
             'res_model': 'traction.identify_discuss_solve',
-            'res_id': self.issue_discuss_solve_ids.id,
+            'res_id': self.identify_discuss_solve_id.id,
             'type': 'ir.actions.act_window',
             'target': 'current',
         }

@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from datetime import timedelta
 
 
@@ -51,8 +51,30 @@ class MeetingAgendaItem(models.Model):
         string='Related Activity'
     )
 
+    identify_discuss_solve_id = fields.Many2one(
+        comodel_name='traction.identify_discuss_solve',
+        related='activity_id.identify_discuss_solve_id',
+        readonly=False,
+    )
+
     def action_discussed(self):
         return self.write({'discussed': True})
 
     def action_reset(self):
         return self.write({'discussed': False})
+
+    def action_start_ids(self):
+        self.ensure_one()
+        if not self.identify_discuss_solve_id:
+            self.identify_discuss_solve_id = self.env['traction.identify_discuss_solve'].create({
+                'issue_id': self.activity_id.id,
+                'meeting_ids': [(4, self.event_id.id)]
+            })
+        return {
+            'name': (_('Issue IDS')),
+            'view_mode': 'form',
+            'res_model': 'traction.identify_discuss_solve',
+            'res_id': self.identify_discuss_solve_id.id,
+            'type': 'ir.actions.act_window',
+            'target': 'current',
+        }
