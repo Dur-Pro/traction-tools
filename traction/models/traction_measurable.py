@@ -28,7 +28,7 @@ class TractionMeasurable(models.Model):
             ('Percentage', 'Percentage'),
             ('Absolute', 'Absolute')
         ],
-        string='Variation'
+        string='Variation Type'
     )
 
     goal_variation = fields.Float(string='Variation')
@@ -63,42 +63,49 @@ class TractionMeasurable(models.Model):
     average_value_ever = fields.Float(
         string='Average',
         compute='_compute_measurable',
+        compute_sudo=True,
         store=True
     )
 
     average_value_year = fields.Float(
         string='Average this year',
         compute='_compute_measurable',
+        compute_sudo=True,
         store=True
     )
 
     average_value_12mth = fields.Float(
         string='Average 12 months',
         compute='_compute_measurable',
+        compute_sudo=True,
         store=True
     )
 
     cumulative_value_ever = fields.Float(
         string='Cumulative',
         compute='_compute_measurable',
+        compute_sudo=True,
         store=True
     )
 
     cumulative_value_year = fields.Float(
         string='Cumulative this year',
         compute='_compute_measurable',
+        compute_sudo=True,
         store=True
     )
 
     cumulative_value_12mth = fields.Float(
         string='Cumulative 12 months',
         compute='_compute_measurable',
+        compute_sudo=True,
         store=True
     )
 
     last_value_color = fields.Integer(
         string='Last value color',
         compute='_compute_measurable',
+        compute_sudo=True,
     )
 
     @api.depends('value_ids')
