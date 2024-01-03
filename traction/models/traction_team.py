@@ -77,9 +77,10 @@ class TractionTeam(models.Model):
     @api.depends('meeting_ids')
     def _compute_next_meeting(self):
         for rec in self:
-            rec.next_meeting_id = rec.meeting_ids.filtered(
+            upcoming_meetings = rec.meeting_ids.filtered(
                 lambda meeting: meeting.start > datetime.now()
             ).sorted(key=lambda meeting: meeting.start)
+            rec.next_meeting_id = upcoming_meetings and upcoming_meetings[0]
 
     @api.depends('issue_ids')
     def _compute_issues_count(self):
