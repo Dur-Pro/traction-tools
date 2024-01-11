@@ -55,18 +55,6 @@ class MailActivity(models.Model):
 
     can_be_added_to_agenda = fields.Boolean(compute='_compute_can_be_added_to_agenda')
 
-    # @api.model_create_multi
-    # def create(self, vals_list):
-    #     # In the case of issues and headlines, we don't want to really assign the activity to a human user, but
-    #     # rather track it on a traction team's list. For this reason, we reassign any activity created
-    #     issue_type = self.env.ref('traction.mail_activity_data_issue')
-    #     headline_type = self.env.ref('traction.mail_activity_data_headline')
-    #     sys_user = self.env.ref('base.user_root')
-    #     for vals in vals_list:
-    #         if vals.get('activity_type_id') in (issue_type.id, headline_type.id):
-    #             vals.update({'user_id': sys_user.id})
-    #     super().create(vals_list)
-
     @api.depends('activity_type_id')
     def _compute_needs_team_id(self):
         for record in self:
