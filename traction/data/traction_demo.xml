@@ -68,17 +68,16 @@
 
         <record id="demo_traction_measurable1" model="traction.measurable">
             <field name="vision_id" ref="demo_traction_vision3mth"/>
-            <field name="goal_type">lt</field>
+            <field name="goal_type">less</field>
             <field name="goal">4</field>
             <field name="name">Mean serv time</field>
             <field name="show_average">True</field>
             <field name="show_cumulative">False</field>
-            <field name="responsible" ref="base.user_demo"/>
         </record>
 
         <record id="demo_traction_measurable2" model="traction.measurable">
             <field name="vision_id" ref="demo_traction_vision3mth"/>
-            <field name="goal_type">gteq</field>
+            <field name="goal_type">greater</field>
             <field name="goal">400000</field>
             <field name="name">Sale per week</field>
             <field name="show_average">False</field>

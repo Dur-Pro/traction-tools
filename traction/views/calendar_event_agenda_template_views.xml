@@ -27,8 +27,6 @@
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="duration"/>
-                <field name="item_type"/>
-                <field name="section_subtype"/>
             </tree>
         </field>
     </record>

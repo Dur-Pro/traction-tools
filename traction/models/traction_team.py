@@ -8,64 +8,53 @@ class TractionTeam(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string='Name')
-
     member_ids = fields.Many2many(
         comodel_name='res.users',
         string='All Members',
         compute='_compute_member_ids'
     )
-
     channel_ids = fields.One2many(
         comodel_name='mail.channel',
         inverse_name='traction_team_id',
         string='Channels'
     )
-
-    activity_ids = fields.One2many(
-        comodel_name='mail.activity',
-        inverse_name='team_id',
-        string='Activity'
+    issues_list_ids = fields.Many2many(
+        comodel_name='traction.issues.list',
+        string='Issues Lists',
+        relation='traction_team_issues_list_rel',
+        column1='team_id',
+        column2='issues_list_id',
+        help="Issues lists that this team is tracking."
     )
-
     issue_ids = fields.One2many(
-        comodel_name='mail.activity',
-        compute='_compute_issues_headlines',
-        inverse='_inverse_issues_headlines',
-        string='Issues'
+        comodel_name="traction.issue",
+        string="Issues",
+        related="issues_list_ids.issue_ids",
     )
-
     headline_ids = fields.One2many(
-        comodel_name='mail.activity',
-        compute='_compute_issues_headlines',
-        inverse='_inverse_issues_headlines',
+        comodel_name='traction.headline',
+        inverse_name="team_id",
         string='Headlines'
     )
-
     measurable_ids = fields.Many2many(
         comodel_name='traction.measurable',
         string='Measurable'
     )
-
     meeting_ids = fields.One2many(
         comodel_name='calendar.event',
         inverse_name='team_id',
         string='Meetings'
     )
-
     next_meeting_id = fields.Many2one(
         comodel_name='calendar.event',
         compute='_compute_next_meeting',
     )
-
     next_meeting_time = fields.Datetime(related='next_meeting_id.start')
     next_meeting_duration = fields.Float(related='next_meeting_id.duration')
     issues_count = fields.Integer(compute='_compute_issues_count')
-
     agenda_template_id = fields.Many2one(
-        comodel_name='calendar.event.agenda.template',
-        string='Default Meeting Agenda',
-        help='The agenda used by default when a meeting is created. '
-             'Does not apply to meetings created as next meeting when closing a meeting.'
+        string="Default Meeting Agenda",
+        comodel_name="calendar.event.agenda.template",
     )
 
     @api.model_create_multi
@@ -85,7 +74,7 @@ class TractionTeam(models.Model):
     @api.depends('issue_ids')
     def _compute_issues_count(self):
         for rec in self:
-            rec.issues_count = len(rec.issue_ids)
+            rec.issues_count = len(rec.issue_ids.filtered(lambda issue: issue.state == "open"))
 
     @api.depends('channel_ids.channel_partner_ids')
     def _compute_member_ids(self):
@@ -94,24 +83,3 @@ class TractionTeam(models.Model):
             for channel in record.channel_ids:
                 members |= channel.channel_partner_ids.user_ids
             record.member_ids = members
-
-    @api.depends('activity_ids')
-    def _compute_issues_headlines(self):
-        for rec in self:
-            rec.issue_ids = rec.activity_ids.filtered(lambda l: l.activity_type_id == self.env.ref(
-                'traction.mail_activity_data_issue'))
-            rec.headline_ids = rec.activity_ids.filtered(
-                lambda l: l.activity_type_id == self.env.ref('traction.mail_activity_data_headline'))
-
-    def _inverse_issues_headlines(self):
-        pass
-
-    def generate_new_meeting_agenda(self, meeting):
-        """
-        Generate a new meeting agenda from this team's default meeting agenda template. Applicable on singletons only.
-
-        :param meeting: The meeting to which the new agenda should be attached.
-        :return: The Recordset containing the newly created agenda items.
-        """
-        self.ensure_one()
-        return self.agenda_template_id.generate_new_meeting_agenda_items(meeting)

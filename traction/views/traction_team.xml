@@ -37,51 +37,34 @@
                     <notebook>
                         <page string="Meetings">
                             <field name="meeting_ids" string="Meeting">
-                                <tree string="Meetings" editable="bottom">
+                                <tree string="Meetings">
                                     <field name="name"/>
                                     <field name="start" widget="datetime"/>
                                     <field name="duration" widget="float"/>
                                     <field name="stop" widget="datetime" optional="hide"/>
                                     <field name="team_id" optional="hidden"/>
-                                    <field name="state" invisible="1"/>
-                                    <button name="action_start" type="object"
-                                            attrs="{'invisible': [('state', 'in', ('in_progress', 'done'))]}"
-                                            class="btn btn-primary" string="Start"/>
                                     <button name="view_details" class="fa fa-external-link"
                                             title="View Details" type="object"/>
                                 </tree>
                             </field>
                         </page>
-                        <page string="Issues and Headlines" name="issue_ids">
+                        <page string="Headlines" name="headlines">
                             <label for="headline_ids">Headlines</label>
                             <field name="headline_ids"
-                                   string="Headlines"
-                                   context="{
-                                            'form_view_ref': 'traction.traction_mail_activity_form_reload_on_close',
-                                            'default_res_id': id,
-                                            'default_res_model': 'traction.team',
-                                            'default_team_id': id,
-                                            'traction_mode': 'headline',
-                                        }">
+                                   string="Headlines">
                                 <tree string="Headlines">
                                     <field name="summary"/>
-                                    <field name="activity_type_id"/>
+                                    <field name="extra_info"/>
                                     <field name="write_uid"/>
                                 </tree>
                             </field>
-                            <label for="issue_ids">Issues</label>
-                            <field name="issue_ids"
-                                   string="Issues"
-                                   context="{
-                                            'form_view_ref': 'traction.traction_mail_activity_form_reload_on_close',
-                                            'default_res_id': id,
-                                            'default_res_model': 'traction.team',
-                                            'default_team_id': id,
-                                            'traction_mode': 'issue',
-                                        }">
+                        </page>
+                        <page string="Issues" name="issues">
+                            <label for="issues_list_ids">Issues Lists</label>
+                            <field name="issues_list_ids">
                                 <tree string="Issues">
-                                    <field name="summary"/>
-                                    <field name="write_uid"/>
+                                    <field name="name"/>
+                                    <field name="issues_count"/>
                                 </tree>
                             </field>
                         </page>
@@ -103,8 +86,8 @@
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
-<!--                            <div class="oe_kanban_image">-->
-<!--                            </div>-->
+                            <!--                            <div class="oe_kanban_image">-->
+                            <!--                            </div>-->
                             <div class="oe_kanban_details">
                                 <h4 class="oe_kanban_title">
                                     <field name="name"/>

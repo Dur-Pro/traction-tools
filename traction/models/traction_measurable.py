@@ -102,6 +102,9 @@ class TractionMeasurable(models.Model):
         store=True
     )
 
+    last_value = fields.Float(
+        string="Last Value",
+    )
     last_value_color = fields.Integer(
         string='Last value color',
         compute='_compute_measurable',

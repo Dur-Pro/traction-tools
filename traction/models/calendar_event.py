@@ -3,71 +3,52 @@ from datetime import timedelta
 
 
 class Meeting(models.Model):
-    _inherit = ["calendar.event"]
+    _name = "calendar.event"
+    _inherit = ["calendar.event", "mail.activity.mixin"]
 
     duration = fields.Float(string='Duration (hours)')
-
-    state = fields.Selection(
-        selection=[
-            ('pending', 'Pending'),
-            ('in_progress', 'In Progress'),
-            ('done', 'Done')
-        ]
-    )
-
     team_id = fields.Many2one(
         comodel_name='traction.team',
         string='Traction Team',
         index=True)
-
-    note_taker_user_id = fields.Many2one(
-        string='Note Taker',
-        comodel_name='res.users',
+    agenda_id = fields.Many2one(
+        string="Agenda",
+        comodel_name="calendar.event.agenda",
     )
-
-    absent_partner_ids = fields.Many2many(
-        string='Absent Members',
-        comodel_name='res.partner',
-        relation='calendar_event_absent_res_partner_rel',
-        domain="[('id', 'in', partner_ids)]",
-    )
-
     agenda_item_ids = fields.One2many(
-        string='Agenda Items',
-        comodel_name='calendar.event.agenda.item',
-        inverse_name='event_id',
-    )
-
-    action_item_ids = fields.One2many(
-        string='Action / Decision Items',
-        comodel_name='calendar.event.action.item',
-        inverse_name='event_id',
-    )
-
-    closing_conclusion_notes = fields.Text(
-        string='Closing / Conclusion Notes',
-    )
-
-    is_responsible_user = fields.Boolean(
-        string='Is Responsible User',
-        compute='_compute_is_responsible_user',
-    )
-
-    unsolved_issues = fields.One2many(
-        comodel_name='mail.activity',
-        related='team_id.issue_ids',
+        string="Agenda Items",
+        comodel_name="calendar.event.agenda.item",
+        related="agenda_id.item_ids",
         readonly=False,
     )
-
+    agenda_template_id = fields.Many2one(
+        string="Agenda Template",
+        comodel_name="calendar.event.agenda.template",
+        related="team_id.agenda_template_id",
+    )
+    facilitator_id = fields.Many2one(
+        string="Facilitator",
+        help="The person responsible for managing the overall meeting flow.",
+        comodel_name="res.users",
+    )  # TODO: Add to the views
+    scribe_id = fields.Many2one(
+        string='Scribe',
+        help="The person assigned to take meeting minutes",
+        comodel_name='res.users',
+    )  # TODO: Add to the views
+    timekeeper_id = fields.Many2one(
+        string="Timekeeper",
+        help="The person assigned to keep the meeting running on time.",
+        comodel_name='res.users',
+    )  # TODO: Add to the views
     issues_discussed = fields.Many2many(
-        comodel_name='traction.identify_discuss_solve',
+        comodel_name='traction.issue',
         relation='calendar_event_identify_discuss_solve_rel',
         column1='meeting_id',
         column2='identify_discuss_solve_id'
     )
-
     headline_ids = fields.One2many(
-        comodel_name='mail.activity',
+        comodel_name='traction.headline',
         related='team_id.headline_ids',
         readonly=False,
     )
@@ -84,7 +65,7 @@ class Meeting(models.Model):
         res = super().create(vals_list)
         for rec in res:
             if rec.team_id:
-                rec.agenda_item_ids = rec.team_id.generate_new_meeting_agenda(self)
+                rec.agenda_id = rec.agenda_template_id.generate_agenda(rec)
         return res
 
     @api.onchange('team_id')
@@ -122,25 +103,8 @@ class Meeting(models.Model):
             'context': {'default_meeting_id': self.id}
         }
 
-    def action_start(self):
-        self.ensure_one()
-        self.state = 'in_progress'
-        for headline in self.headline_ids:
-            item = self.add_agenda_item(
-                name=headline.summary,
-                description=headline.note,
-                item_type='headline',
-                activity_id=headline.id
-            )
-        return {
-            'name': self.name,
-            'type': 'ir.actions.act_window',
-            'res_model': 'calendar.event',
-            'view_mode': 'form',
-            'res_id': self.id,
-        }
-
     def action_close_meeting(self, send_minutes=True, next_meeting_time=False):
+        # TODO: Rewrite this code if it's wanted
         self.ensure_one()
         self.state = 'done'
         # Mark any discussed headlines as complete (close the mail.activity records related to them)
@@ -190,7 +154,7 @@ class Meeting(models.Model):
             'item_type': item_type,
             'section_subtype': section_subtype,
             'duration': duration,
-            'event_id': self.id,
+            'meeting_id': self.id,
             'activity_id': activity_id,
         })
 

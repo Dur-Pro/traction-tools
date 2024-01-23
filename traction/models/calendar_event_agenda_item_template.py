@@ -21,20 +21,6 @@ class CalendarEventAgendaItemTemplate(models.Model):
         default=5,
     )
 
-    item_type = fields.Selection(
-        selection=[
-            ('section', 'Section'),
-            ('headline', 'Headline'),
-            ('issue', 'Issue'),
-            ('other', 'Other'),
-        ]
-    )
-
-    section_subtype = fields.Selection(
-        selection=[
-            ('issues', 'Issues'),
-            ('headlines', 'Headlines'),
-        ])
     description = fields.Text(
         string='Description / Notes',
     )
@@ -47,20 +33,20 @@ class CalendarEventAgendaItemTemplate(models.Model):
         column2='template_id',
     )
 
-    def copy_as_agenda_items(self, meeting):
+    def copy_as_agenda_items(self, agenda):
         """
         Create a new calendar.event.agenda.item based on this template and attach it to meeting.
         This method is applicable on Recordsets containing multiple records.
 
-        :param meeting: The meeting record to which the new agenda item should be attached.
+        :param agenda: The calendar.event.agenda record to which the new agenda items should be attached.
         :return: The agenda item created.
         """
         new_items = self.env['calendar.event.agenda.item']
         for rec in self:
-            new_items |= rec._copy_as_agenda_item(meeting)
+            new_items |= rec._copy_as_agenda_item(agenda)
         return new_items
 
-    def _copy_as_agenda_item(self, meeting):
+    def _copy_as_agenda_item(self, agenda):
         """
         Private helper method to execute the creation of a single agenda item from a template.
 
@@ -69,10 +55,9 @@ class CalendarEventAgendaItemTemplate(models.Model):
         """
         self.ensure_one()
         return self.env['calendar.event.agenda.item'].create({
+            'sequence': self.sequence,
             'name': self.name,
             'duration': self.duration,
-            'item_type': self.item_type,
-            'section_subtype': self.section_subtype,
             'description': self.description,
-            'event_id': meeting.id,
+            'agenda_id': agenda.id,
         })

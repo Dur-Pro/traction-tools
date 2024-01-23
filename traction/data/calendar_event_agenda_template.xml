@@ -8,7 +8,6 @@
             <field name="name">Segue</field>
             <field name="duration" eval="5"/>
             <field name="sequence">10</field>
-            <field name="item_type">section</field>
             <field name="description">Share one piece of good professional news and one piece of good personal news.</field>
             <field name="template_ids" eval="[(4, ref('calendar_event_agenda_template_default'))]"/>
         </record>
@@ -16,7 +15,6 @@
             <field name="name">Scorecard</field>
             <field name="sequence">20</field>
             <field name="duration" eval="5"/>
-            <field name="item_type">section</field>
             <field name="description">Review all elements on the company and team scorecards.</field>
             <field name="template_ids" eval="[(4, ref('calendar_event_agenda_template_default'))]"/>
         </record>
@@ -24,7 +22,6 @@
             <field name="name">Rock Review</field>
             <field name="sequence">30</field>
             <field name="duration" eval="5"/>
-            <field name="item_type">section</field>
             <field name="description">Review all elements on the company and team rocks sheets.</field>
             <field name="template_ids" eval="[(4, ref('calendar_event_agenda_template_default'))]"/>
         </record>
@@ -32,8 +29,6 @@
             <field name="name">Customer/Employee Headlines</field>
             <field name="sequence">40</field>
             <field name="duration" eval="5"/>
-            <field name="item_type">section</field>
-            <field name="section_subtype">headlines</field>
             <field name="description">Review headlines from the headlines tab.</field>
             <field name="template_ids" eval="[(4, ref('calendar_event_agenda_template_default'))]"/>
         </record>
@@ -41,7 +36,6 @@
             <field name="name">To-do List Review</field>
             <field name="sequence">50</field>
             <field name="duration" eval="5"/>
-            <field name="item_type">section</field>
             <field name="description">Review all elements on the team's to-do list.</field>
             <field name="template_ids" eval="[(4, ref('calendar_event_agenda_template_default'))]"/>
         </record>
@@ -49,8 +43,6 @@
             <field name="name">IDS</field>
             <field name="sequence">60</field>
             <field name="duration" eval="60"/>
-            <field name="item_type">section</field>
-            <field name="section_subtype">issues</field>
             <field name="description">Pick issues from the issues tab and run through IDS on them.</field>
             <field name="template_ids" eval="[(4, ref('calendar_event_agenda_template_default'))]"/>
         </record>
@@ -58,7 +50,6 @@
             <field name="name">Close</field>
             <field name="sequence">70</field>
             <field name="duration" eval="5"/>
-            <field name="item_type">section</field>
             <field name="description">Review next actions and rate the meeting.</field>
             <field name="template_ids" eval="[(4, ref('calendar_event_agenda_template_default'))]"/>
         </record>

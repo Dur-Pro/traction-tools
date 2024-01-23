@@ -18,14 +18,16 @@ class CalendarEventAgendaTemplate(models.Model):
         comodel_name='traction.team',
         inverse_name='agenda_template_id',
     )
-    # TODO: Look at adding other template items like duration, start time, etc.
 
-    def generate_new_meeting_agenda_items(self, meeting):
+    def generate_agenda(self, meeting):
         """
-        Generate a full meeting agenda from this template and attach it to meeting.
+        Generate a new calendar.event.agenda for a specific calendar.event. Expected to be called on a single record.
 
-        :param meeting: The meeting to which newly created agenda items should be linked.
-        :return: Recordset containing the created calendar.event.agenda.item records (already attached to meeting)
+        :param meeting: The calendar.event record to which this agenda pertains.
         """
-        return self.agenda_item_ids.copy_as_agenda_items(meeting)
-
+        self.ensure_one()
+        agenda = self.env['calendar.event.agenda'].create({
+            'meeting_ids': [Command.set([meeting.id])],
+        })
+        self.agenda_item_ids.copy_as_agenda_items(agenda)
+        return agenda

@@ -8,15 +8,15 @@
     'license': 'LGPL-3',
     'depends': [
         'calendar',
+        'uom',
     ],
     'demo': [
         'data/traction_demo.xml'
     ],
     'data': [
         'security/ir.model.access.csv',
-        'data/mail_activity_type_data.xml',
+        'security/traction_groups.xml',
         'data/calendar_event_agenda_template.xml',
-        'views/mail_activity.xml',
         'views/traction_value.xml',
         'views/traction_strategy.xml',
         'views/traction_vision.xml',
@@ -27,7 +27,7 @@
         'views/traction_measurable_value.xml',
         'views/traction.xml',
         'views/mail_channel_views.xml',
-        'views/traction_identify_discuss_solve.xml',
+        'views/traction_issues.xml',
         'views/calendar_event_agenda_template_views.xml',
         'views/calendar_event_views.xml',
         'wizards/close_meeting_wizard.xml',
@@ -36,10 +36,12 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'traction/static/src/js/traction_dashboard.js'
+            'traction/static/src/js/traction_dashboard.js',
+            'traction/static/src/components/systray_issues/systray_issues.js',
         ],
         'web.assets_qweb': [
-            'traction/static/src/xml/traction_dashboard.xml'
+            'traction/static/src/xml/traction_dashboard.xml',
+            'traction/static/src/components/systray_issues/systray_issues.xml',
         ],
     },
     'installable': True,

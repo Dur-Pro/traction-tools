@@ -7,11 +7,11 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@role='status']" position="before">
                 <header>
-                    <button name="action_start" type="object" string="Start Meeting" cls="btn btn-primary"
-                            attrs="{'invisible': [('state', 'in', ('in_progress', 'done'))]}"/>
-                    <button name="action_end" type="object" string="End Meeting" cls="btn btn-primary"
-                            attrs="{'invisible': [('state', 'in', ('pending', 'done'))]}"/>
-                    <field name="state" widget="statusbar" options="{'clickable': False}"/>
+<!--                    <button name="action_start" type="object" string="Start Meeting" cls="btn btn-primary"-->
+<!--                            attrs="{'invisible': [('state', 'in', ('in_progress', 'done'))]}"/>-->
+<!--                    <button name="action_end" type="object" string="End Meeting" cls="btn btn-primary"-->
+<!--                            attrs="{'invisible': [('state', 'in', ('pending', 'done'))]}"/>-->
+<!--                    <field name="state" widget="statusbar" options="{'clickable': False}"/>-->
                 </header>
             </xpath>
             <field name="categ_ids" position="before">
@@ -22,172 +22,43 @@
                 <page name="page_headlines" string="Headlines">
                     <group>
                         <field name="headline_ids"
-                               nolabel="1"
-                               context="{
-                                            'form_view_ref': 'traction.traction_mail_activity_form_reload_on_close',
-                                            'default_res_id': team_id,
-                                            'default_res_model': 'traction.team',
-                                            'default_team_id': team_id,
-                                            'traction_mode': 'headline',
-                                        }">
+                               nolabel="1">
                             <tree>
                                 <field name="summary"/>
-                                <field name="note"/>
+                                <field name="extra_info"/>
+                                <field name="status" widget="boolean"/>
                                 <field name="create_uid" string="Raised By"/>
                             </tree>
                         </field>
                     </group>
                 </page>
-                <page name="page_issues" string="Issues">
-                    <group>
-                        <field name="unsolved_issues"
-                               context="{
-                                            'active_id': id,
-                                            'issues_list_mode': True,
-                                            'form_view_ref': 'traction.traction_mail_activity_form_reload_on_close',
-                                            'default_res_id': team_id,
-                                            'default_res_model': 'traction.team',
-                                            'default_team_id': team_id,
-                                            'traction_mode': 'issue',
-                                        }">
-                            <tree>
-                                <field name="identify_discuss_solve_id" invisible="1"/>
-                                <field name="summary"/>
-                                <field name="identify_discuss_solve_id" widget="many2one"/>
-                                <field name="create_uid" string="Raised By"/>
-                                <field name="create_date" string="Date Raised"/>
-                                <field name="can_be_added_to_agenda" invisible="1"/>
-                                <button name="action_add_to_agenda" type="object"
-                                        class="btn btn-primary fa fa-bookmark-o"
-                                        title="Add to Agenda"
-                                        attrs="{'invisible': [('can_be_added_to_agenda', '=', False)]}"/>
-                            </tree>
-                        </field>
-                        <field name="issues_discussed"/>
-                    </group>
-                </page>
-                <page name="page_meeting_management" string="Meeting Minutes"
+                <page name="page_meeting_management" string="Agenda"
                       attrs="{'invisible': [('team_id', '=', False)]}">
                     <group>
-                        <group>
                             <field name="user_id" widget="many2one_avatar_user"/>
-                        </group>
-                        <group>
-                            <field name="note_taker_user_id" widget="many2one_avatar_user"/>
-                        </group>
-                    </group>
-                    <group name="absent_members" string="Absent Members">
-                        <field name="absent_partner_ids" nolabel="1" colspan="2" widget="many2many_tags"/>
+                            <field name="scribe_id" widget="many2one_avatar_user"/>
                     </group>
                     <group name="agenda_items" string="Agenda">
-                        <field name="agenda_item_ids" widget="one2many" mode="tree,kanban" nolabel="1" colspan="2">
-                            <tree editable="bottom" decoration-success="discussed == True">
-                                <field name="sequence" widget="handle"/>
-                                <field name="name"/>
-                                <field name="description"/>
-                                <field name="duration" sum="Total Duration"/>
-                                <field name="item_type" optional="hide"/>
-                                <button name="action_start_ids"
-                                        type="object"
-                                        class="button btn-primary"
-                                        string="IDS"
-                                        attrs="{'invisible': [('item_type', '!=', 'issue')]}"/>
-                                <field name="discussed" optional="hide"/>
-                                <button type="object" help="Mark as discussed"
-                                        name="action_discussed" icon="fa-flag"
-                                        attrs="{'invisible': [('discussed', '=', True)]}"/>
-                                <button type="object" help="Reset"
-                                        name="action_reset" icon="fa-undo"
-                                        attrs="{'invisible': [('discussed', '=', False)]}"/>
-                            </tree>
-                            <form>
-                                <group>
-                                    <field name="name"/>
-                                    <field name="description"/>
-                                    <field name="discussed"/>
-                                </group>
-                                <footer>
-                                    <button type="object" string="Mark as discussed"
-                                            name="action_discussed" icon="fa-flag"
-                                            attrs="{'invisible': [('discussed', '=', True)]}"/>
-                                    <button type="object" string="Reset"
-                                            name="action_reset" icon="fa-undo"
-                                            attrs="{'invisible': [('discussed', '=', False)]}"/>
-                                </footer>
-                            </form>
-                            <kanban class="o_kanban_mobile" create="false" delete="false">
-                                <templates>
-                                    <t t-name="kanban-box">
-                                        <div class="d-flex flex-column justify-content-between">
-                                            <field name="name"/>
-                                        </div>
-                                    </t>
-                                </templates>
-                            </kanban>
-                        </field>
-                    </group>
-                    <group name="action_items" string="Actions / Decisions">
-                        <field name="action_item_ids" widget="one2many" mode="tree,kanban" nolabel="1" colspan="2">
-                            <tree editable="bottom">
-                                <field name="sequence" widget="handle"/>
-                                <field name="name"/>
-                                <field name="description"/>
-                                <field name="agenda_item_id" optional="hide"
-                                       domain="[('id', 'in', parent.agenda_item_ids)]"/>
-                                <field name="user_id" optional="show"/>
-                                <field name="user_ids" optional="show" widget="many2many_tags"/>
-                                <field name="date_deadline"/>
-                            </tree>
-                            <form>
-                                <group>
-                                    <field name="name"/>
-                                    <field name="description"/>
-                                </group>
-                                <group>
-                                    <group>
-                                        <field name="user_id" optional="show"/>
-                                        <field name="user_ids" optional="show" widget="many2many_tags"/>
-                                    </group>
-                                    <group>
-                                        <field name="agenda_item_id" optional="hide"
-                                               domain="[('id', 'in', parent.agenda_item_ids)]"/>
-                                        <field name="date_deadline"/>
-                                    </group>
-                                </group>
-                            </form>
-                            <kanban class="o_kanban_mobile" create="false" delete="false">
-                                <templates>
-                                    <t t-name="kanban-box">
-                                        <div class="d-flex flex-column justify-content-between">
-                                            <field name="name"/>
-                                            <div>
-                                                Responsible:
-                                                <field name="user_id" widget="many2one_avatar_user"/>
-                                            </div>
-                                            <div>
-                                                Assigned To:
-                                                <field name="user_ids" widget="many2one_avatar_user"/>
-                                            </div>
-                                        </div>
-                                    </t>
-                                    </templates>
-                            </kanban>
-                        </field >
-                    </group>
-                    <group name="closing_conclusion_notes" string="Closing / Conclusion Notes">
-                        <field name="closing_conclusion_notes" nolabel="1"/>
-                    </group>
-                    <group>
-                        <field name="is_responsible_user" invisible="True"/>
-                        <button type="object" name="action_send_mm" string="Send Meeting Minutes to Attendees"
-                                icon="fa-paper-plane"
-                                attrs="{'invisible':[('is_responsible_user', '=', False)]}"/>
+                        <field name="agenda_item_ids"/>
                     </group>
                 </page>
             </page>
         </field>
     </record>
 
+    <record id="calendar_event_agenda_item_view_tree" model="ir.ui.view">
+        <field name="name">calendar.event.agenda.item.view.tree</field>
+        <field name="model">calendar.event.agenda.item</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="duration"/>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="discussed" widget="boolean"/>
+            </tree>
+        </field>
+    </record>
     <record id="traction_team_event_tree" model="ir.ui.view">
         <field name="name">traction.team.event.tree</field>
         <field name="model">calendar.event</field>
