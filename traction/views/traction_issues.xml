@@ -43,17 +43,27 @@
     <record id="traction_issue_view_form_simple_modif" model="ir.ui.view">
         <field name="name">traction.issue.view.form.simple.modif</field>
         <field name="model">traction.issue</field>
-        <field name="inherit_id" ref="traction.traction_issue_view_form"/>
-        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <group name="ids" position="replace"></group>
-            <xpath expr="//div[hasclass('oe_chatter')]" position="replace">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <div class="oe_edit_only">Issue</div>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group col="2">
+                        <group>
+                            <field name="issues_list_id"/>
+                            <field name="date_raised" />
+                            <field name="related_record"/>
+                        </group>
+                    </group>
+                </sheet>
                 <footer>
                     <button name="save_and_close" type="object" string="Save" class="btn-primary"/>
                     <button name="cancel" string="Cancel" special="cancel" class="btn-secondary"/>
                 </footer>
-            </xpath>
-        </field>
+        </form>
+    </field>
     </record>
     <record id="traction_issue_view_tree" model="ir.ui.view">
         <field name="name">traction.issue.view.tree</field>

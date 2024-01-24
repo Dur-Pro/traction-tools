@@ -110,6 +110,20 @@ class TractionIssue(models.Model):
         tracking=True,
     )
 
+    @api.depends_context("res_model", "res_id")
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        if "related_record" in fields_list:
+            res_model = self.env.context.get("res_model", False)
+            res_id = self.env.context.get("res_id", False)
+            if res_model and res_id:
+                rec = self.env[res_model].browse(res_id)
+                res['related_record'] = rec
+            else:
+                res['related_record'] = False
+        return res
+
+
     @api.depends("state")
     def _compute_date_solved(self):
         for rec in self:
@@ -123,5 +137,5 @@ class TractionIssue(models.Model):
 
     def save_and_close(self):
         return {
-            "type": "ir.actions.act_window_close"
+            "type": "ir.actions.act_window_close",
         }
