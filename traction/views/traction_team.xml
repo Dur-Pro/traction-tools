@@ -8,7 +8,11 @@
                 <header>
                 </header>
                 <sheet>
-                    <div class="oe_button_box">
+                    <field name="issues_list_ids" invisible="1"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="action_open_issues_lists" type="object" icon="fa-list"
+                                attrs="{'invisible': [('issues_list_ids', '=', False)]}" string="Issues">
+                        </button>
                     </div>
                     <div class="oe_title">
                         <div class="oe_edit_only">
@@ -56,15 +60,6 @@
                                     <field name="summary"/>
                                     <field name="extra_info"/>
                                     <field name="write_uid"/>
-                                </tree>
-                            </field>
-                        </page>
-                        <page string="Issues" name="issues">
-                            <label for="issues_list_ids">Issues Lists</label>
-                            <field name="issues_list_ids">
-                                <tree string="Issues">
-                                    <field name="name"/>
-                                    <field name="issues_count"/>
                                 </tree>
                             </field>
                         </page>

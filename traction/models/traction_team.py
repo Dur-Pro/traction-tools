@@ -83,3 +83,13 @@ class TractionTeam(models.Model):
             for channel in record.channel_ids:
                 members |= channel.channel_partner_ids.user_ids
             record.member_ids = members
+
+    def action_open_issues_lists(self):
+        self.ensure_one()
+        return {
+            "name": f"Issues for {self.name}",
+            "type": "ir.actions.act_window",
+            "view_mode": "kanban",
+            "res_model": "traction.issues.list",
+            "domain": [["team_ids", "in", [self.id]]]
+        }
