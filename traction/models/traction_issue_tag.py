@@ -1,9 +1,10 @@
 from odoo import models, fields, api, _
 from random import randint
 
+
 class IssueTag(models.Model):
-    _name="traction.issue.tag"
-    _description="Issue Tag"
+    _name = "traction.issue.tag"
+    _description = "Issue Tag"
 
     @api.model
     def _get_default_color(self):

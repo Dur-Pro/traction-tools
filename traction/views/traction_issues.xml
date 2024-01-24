@@ -18,10 +18,11 @@
                     <group col="2">
                         <group>
                             <field name="issues_list_id"/>
-                            <field name="date_raised"/>
-                            <field name="date_solved" attrs="{'invisible': [('state', '!=', 'solved')]}"/>
+                            <field name="date_raised" widget="date"/>
+                            <field name="date_solved" widget="date" attrs="{'invisible': [('state', '!=', 'solved')]}"/>
                         </group>
                         <group>
+                            <field name="tag_ids" widget="many2many_tags"/>
                             <field name="raised_by"/>
                             <field name="related_record"/>
                         </group>
@@ -83,8 +84,10 @@
         <field name="name">traction.issue.view.kanban</field>
         <field name="model">traction.issue</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="tag_ids">
-                <field name="state" invisible="1"/>
+            <kanban default_group_by="category_id">
+                <field name="state"/>
+                <field name="category_id"/>
+                <field name="tag_ids"/>
                 <field name="name"/>
                 <field name="raised_by"/>
                 <field name="date_raised"/>
@@ -99,19 +102,32 @@
                                         <strong class="o_kanban_record_title">
                                             <field name="name"/>
                                         </strong>
+                                        <separator/>
+                                        <div>
+                                            <span>Raised by:
+                                                <field name="raised_by" widget="many2one_avatar_user"/>
+                                                <span t-out="record.raised_by.value"/>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="float-left">
-                                    <field name="raised_by" widget="many2one_avatar_user"/>
+                                <div class="o_kanban_card_content">
+                                    <div>
+                                        <span>Raised on: <field name="date_raised" widget="date"/></span>
+                                    </div>
+                                    <div>
+                                        <span t-attf-class="#{record.days_open.raw_value > 120 ? 'text-danger' : record.days_open.raw_value > 60 ? 'text-warning' : ''}">Days open:
+                                            <field name="days_open"/>
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="float-right">
-                                    <label for="days_open"/>
-                                    <field name="days_open"
-                                           t-attf-class="#{record.days_open > 120 ? 'text-danger' : record.days_open > 60 ? 'text-warning' : ''}"
-                                           nolabel="1"/>
-                                </div>
-                                <div class="o_kanban_record_bottom">
-                                    <field name="write_date" widget="date" string="Last Updated"/>
+                                <div class="oe_kanban_bottom">
+                                    <div>
+                                        <field name="tag_ids" widget="many2many_tags"/>
+                                    </div>
+                                    <div>
+                                        <span>Last updated: <field name="write_date" widget="date"/></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

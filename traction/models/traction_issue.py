@@ -67,6 +67,10 @@ class TractionIssue(models.Model):
         string="Tags",
         help="Tags to help categorize the issue.",
     )
+    category_id = fields.Many2one(
+        comodel_name="traction.issue.category",
+        string="Category",
+    )
     issues_list_id = fields.Many2one(
         comodel_name="traction.issues.list",
     )
