@@ -44,18 +44,6 @@ export class SystrayLauncherButton extends Component {
                 [this.create_action_id, "form"],
             ],
             context: context,
-        }, {
-            onClose: (onCloseInfo) => {
-                if (onCloseInfo && "special" in onCloseInfo) {
-                    // The cancel button was pressed, do nothing
-                    return;
-                } else {
-                    this.notification.add(
-                        `${this.modelDisplayName} successfully created.`,
-                        {type: "success"},
-                    )
-                }
-            }
         });
     }
 }

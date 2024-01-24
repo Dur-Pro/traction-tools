@@ -138,4 +138,5 @@ class TractionIssue(models.Model):
     def save_and_close(self):
         return {
             "type": "ir.actions.act_window_close",
+            "context": self.env.context | {"special": "save"}
         }
