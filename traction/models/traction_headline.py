@@ -36,3 +36,6 @@ class TractionHeadline(models.Model):
 
     def action_done(self):
         self.write({"status": "discussed"})
+
+    def save_and_close(self):
+        return {"type": "ir.actions.act_window_close"}

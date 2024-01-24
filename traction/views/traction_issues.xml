@@ -60,7 +60,7 @@
                 </sheet>
                 <footer>
                     <button name="save_and_close" type="object" string="Save" class="btn-primary"/>
-                    <button name="cancel" string="Cancel" special="cancel" class="btn-secondary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
                 </footer>
         </form>
     </field>

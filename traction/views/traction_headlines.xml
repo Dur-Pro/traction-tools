@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="traction_headline_view_form_simple_modif" model="ir.ui.view">
+        <field name="name">traction.headline.view.form.simple.modif</field>
+        <field name="model">traction.headline</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <div class="oe_edit_only">Headline</div>
+                        <h1><field name="summary"/></h1>
+                    </div>
+                    <group>
+                        <field name="team_id"/>
+                        <field name="extra_info"/>
+                    </group>
+                    <footer>
+                        <button name="save_and_close" type="object" string="Save" class="btn-primary"/>
+                        <button string="Cancel" special="cancel" class="btn-secondary"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

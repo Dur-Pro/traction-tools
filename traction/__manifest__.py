@@ -28,6 +28,7 @@
         'views/traction.xml',
         'views/mail_channel_views.xml',
         'views/traction_issues.xml',
+        'views/traction_headlines.xml',
         'views/calendar_event_agenda_template_views.xml',
         'views/calendar_event_views.xml',
         'wizards/close_meeting_wizard.xml',
@@ -36,12 +37,10 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'traction/static/src/js/traction_dashboard.js',
-            'traction/static/src/components/systray_issues/systray_issues.js',
+            'traction/static/src/**/*.js',
         ],
         'web.assets_qweb': [
-            'traction/static/src/xml/traction_dashboard.xml',
-            'traction/static/src/components/systray_issues/systray_issues.xml',
+            'traction/static/src/**/*.xml',
         ],
     },
     'installable': True,
