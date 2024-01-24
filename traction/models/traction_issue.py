@@ -58,6 +58,7 @@ class TractionIssue(models.Model):
     name = fields.Char(
         readonly=False,
     )
+    sequence = fields.Integer(default=1)
     tag_ids = fields.Many2many(
         comodel_name="traction.issue.tag",
         relation="traction_issue_tag_rel",
@@ -84,6 +85,10 @@ class TractionIssue(models.Model):
         string='Raised on:',
         readonly=True,
         default=_today,
+    )
+    days_open = fields.Integer(
+        string="Days open",
+        compute="_compute_days_open",
     )
     date_solved = fields.Datetime(
         string="Solved on:",
@@ -138,5 +143,12 @@ class TractionIssue(models.Model):
     def save_and_close(self):
         return {
             "type": "ir.actions.act_window_close",
-            "context": self.env.context | {"special": "save"}
         }
+
+    @api.depends("date_raised", "date_solved")
+    def _compute_days_open(self):
+        for rec in self:
+            if rec.date_solved:
+                rec.days_open = (rec.date_solved - rec.date_raised).days
+            else:
+                rec.days_open = (datetime.now() - rec.date_raised).days

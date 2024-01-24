@@ -17,6 +17,16 @@ class IssuesList(models.Model):
         help="Teams that this issues list is shared with."
     )
 
+    member_ids = fields.Many2many(
+        comodel_name="res.users",
+        related="team_ids.member_ids",
+        string="Members",
+    )
+
+    members_count = fields.Integer(
+        compute="_compute_members_count",
+    )
+
     issue_ids = fields.One2many(
         comodel_name='traction.issue',
         inverse_name='issues_list_id',
@@ -28,10 +38,25 @@ class IssuesList(models.Model):
         string="Issue Count"
     )
 
+    @api.depends("issue_ids")
     def _compute_issues_count(self):
         for rec in self:
             rec.issues_count = len(rec.issue_ids)
 
+    @api.depends("member_ids")
+    def _compute_members_count(self):
+        for rec in self:
+            rec.members_count = len(rec.member_ids)
 
-
-
+    def action_view_issues(self):
+        self.ensure_one()
+        return {
+            "name": self.name,
+            "type": "ir.actions.act_window",
+            "view_mode": "kanban,tree,form",
+            "res_model": "traction.issue",
+            "domain": [["issues_list_id", "=", self.id]],
+            "context": {
+                "default_issues_list_id": self.id
+            }
+        }

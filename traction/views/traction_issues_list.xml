@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="traction_issues_list_view_kanban" model="ir.ui.view">
+        <field name="name">traction.issues.list.view.kanban</field>
+        <field name="model">traction.issues.list</field>
+        <field name="arch" type="xml">
+            <kanban js_class="issues_list_kanban">
+                <field name="name"/>
+                <field name="team_ids"/>
+                <field name="members_count"/>
+                <field name="issues_count"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click oe_kanban_card">
+                            <div class="o_dropdown_kanban dropdown">
+                                <a role="button" class="dropdown-toggle o-no-caret btn" data-toggle="dropdown"
+                                   href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                    <span class="fa fa-ellipsis-v"/>
+                                </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                    <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                    <div class="o_kanban_record_headings">
+                                        <field name="team_ids" widget="many2many_tags"/>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="o_issues_list_kanban_boxes float-left">
+                                        <a class="o_issues_list_kanban_box" name="action_view_issues" type="object">
+                                            <div>
+                                                <span class="o_value"><t t-esc="record.issues_count.value"/></span>
+                                                <span class="o_label">Issues</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="float-right">
+                                        <field name="members_count"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>

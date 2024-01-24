@@ -18,7 +18,7 @@
                     <group col="2">
                         <group>
                             <field name="issues_list_id"/>
-                            <field name="date_raised" />
+                            <field name="date_raised"/>
                             <field name="date_solved" attrs="{'invisible': [('state', '!=', 'solved')]}"/>
                         </group>
                         <group>
@@ -53,7 +53,7 @@
                     <group col="2">
                         <group>
                             <field name="issues_list_id"/>
-                            <field name="date_raised" />
+                            <field name="date_raised"/>
                             <field name="related_record"/>
                         </group>
                     </group>
@@ -62,20 +62,62 @@
                     <button name="save_and_close" type="object" string="Save" class="btn-primary"/>
                     <button string="Cancel" special="cancel" class="btn-secondary"/>
                 </footer>
-        </form>
-    </field>
+            </form>
+        </field>
     </record>
     <record id="traction_issue_view_tree" model="ir.ui.view">
         <field name="name">traction.issue.view.tree</field>
         <field name="model">traction.issue</field>
         <field name="arch" type="xml">
             <tree string="Issues" decoration-success="state == 'solved'" decoration-warning="state != 'solved'">
+                <field name="sequence" widget="handle"/>
                 <field name="state" invisible="1"/>
                 <field name="name"/>
                 <field name="raised_by"/>
                 <field name="date_raised"/>
                 <field name="date_solved"/>
             </tree>
+        </field>
+    </record>
+    <record id="traction_issue_view_kanban" model="ir.ui.view">
+        <field name="name">traction.issue.view.kanban</field>
+        <field name="model">traction.issue</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="tag_ids">
+                <field name="state" invisible="1"/>
+                <field name="name"/>
+                <field name="raised_by"/>
+                <field name="date_raised"/>
+                <field name="date_solved"/>
+                <field name="days_open"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record">
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="float-left">
+                                    <field name="raised_by" widget="many2one_avatar_user"/>
+                                </div>
+                                <div class="float-right">
+                                    <label for="days_open"/>
+                                    <field name="days_open"
+                                           t-attf-class="#{record.days_open > 120 ? 'text-danger' : record.days_open > 60 ? 'text-warning' : ''}"
+                                           nolabel="1"/>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <field name="write_date" widget="date" string="Last Updated"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
         </field>
     </record>
 </odoo>
