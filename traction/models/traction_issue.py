@@ -120,3 +120,8 @@ class TractionIssue(models.Model):
             else:  # rec.state == "solved" and not rec.date_solved
                 # We just moved from open to solved, set the date
                 rec.date_solved = datetime.now()
+
+    def save_and_close(self):
+        return {
+            "type": "ir.actions.act_window_close"
+        }

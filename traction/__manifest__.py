@@ -1,6 +1,6 @@
 {
     'name': 'EOS',
-    'version': '15.0.1.1.0',
+    'version': '15.0.2.1.0',
     'summary': '',
     'author': '',
     'company': '',
