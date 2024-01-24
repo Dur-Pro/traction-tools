@@ -151,11 +151,8 @@ class Meeting(models.Model):
             'name': name,
             'description': description,
             'sequence': sequence,
-            'item_type': item_type,
-            'section_subtype': section_subtype,
             'duration': duration,
             'meeting_id': self.id,
-            'activity_id': activity_id,
         })
 
     def _get_next_sequence(self, section_type=None):
@@ -186,3 +183,13 @@ class Meeting(models.Model):
                             item.sequence += 10
                     sequence = last_item_in_section.sequence + 1
         return sequence
+
+    def action_open_issues_lists(self):
+        self.ensure_one()
+        return {
+            "name": f"Issues Lists for {self.team_id.name}",
+            "type": "ir.actions.act_window",
+            "res_model": "traction.issues.list",
+            "view_mode": "kanban",
+            "domain": [["team_ids", "in", self.team_id.id]],
+        }

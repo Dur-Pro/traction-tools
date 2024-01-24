@@ -5,20 +5,47 @@
         <field name="model">calendar.event</field>
         <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button class="oe_stat_button" name="action_open_issues_lists" type="object" icon="fa-list"
+                        attrs="{'invisible': [('team_id', '=', False)]}" string="Issues"/>
+            </xpath>
             <xpath expr="//div[@role='status']" position="before">
                 <header>
-<!--                    <button name="action_start" type="object" string="Start Meeting" cls="btn btn-primary"-->
-<!--                            attrs="{'invisible': [('state', 'in', ('in_progress', 'done'))]}"/>-->
-<!--                    <button name="action_end" type="object" string="End Meeting" cls="btn btn-primary"-->
-<!--                            attrs="{'invisible': [('state', 'in', ('pending', 'done'))]}"/>-->
-<!--                    <field name="state" widget="statusbar" options="{'clickable': False}"/>-->
+                    <!--                    <button name="action_start" type="object" string="Start Meeting" cls="btn btn-primary"-->
+                    <!--                            attrs="{'invisible': [('state', 'in', ('in_progress', 'done'))]}"/>-->
+                    <!--                    <button name="action_end" type="object" string="End Meeting" cls="btn btn-primary"-->
+                    <!--                            attrs="{'invisible': [('state', 'in', ('pending', 'done'))]}"/>-->
+                    <!--                    <field name="state" widget="statusbar" options="{'clickable': False}"/>-->
                 </header>
             </xpath>
+            <notebook position="before">
+                <group>
+                    <group>
+                        <field name="team_id"/>
+                        <field name="facilitator_id" widget="many2one_avatar_user"/>
+                        <field name="scribe_id" widget="many2one_avatar_user"/>
+                        <field name="timekeeper_id" widget="many2one_avatar_user"/>
+                        <field name="description" position="move"/>
+                    </group>
+                    <group>
+                        <field name="start" position="move"/>
+                        <field name="stop" position="move"/>
+                        <field name="location" position="move"/>
+                        <field name="videocall_location" position="move"/>
+                    </group>
+                </group>
+            </notebook>
             <field name="categ_ids" position="before">
                 <field name="team_id"/>
             </field>
             <field name="user_id" position="replace"/>
-            <page name="page_details" position="after">
+            <page name="page_details" position="before">
+                <page name="page_meeting_management" string="Agenda"
+                      attrs="{'invisible': [('team_id', '=', False)]}">
+                    <group name="agenda_items" string="Agenda">
+                        <field name="agenda_item_ids"/>
+                    </group>
+                </page>
                 <page name="page_headlines" string="Headlines">
                     <group>
                         <field name="headline_ids"
@@ -30,16 +57,6 @@
                                 <field name="create_uid" string="Raised By"/>
                             </tree>
                         </field>
-                    </group>
-                </page>
-                <page name="page_meeting_management" string="Agenda"
-                      attrs="{'invisible': [('team_id', '=', False)]}">
-                    <group>
-                            <field name="user_id" widget="many2one_avatar_user"/>
-                            <field name="scribe_id" widget="many2one_avatar_user"/>
-                    </group>
-                    <group name="agenda_items" string="Agenda">
-                        <field name="agenda_item_ids"/>
                     </group>
                 </page>
             </page>
@@ -55,7 +72,7 @@
                 <field name="duration"/>
                 <field name="name"/>
                 <field name="description"/>
-                <field name="discussed" widget="boolean"/>
+                <field name="discussed" widget="boolean_toggle"/>
             </tree>
         </field>
     </record>

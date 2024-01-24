@@ -11,8 +11,7 @@
                     <field name="issues_list_ids" invisible="1"/>
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" name="action_open_issues_lists" type="object" icon="fa-list"
-                                attrs="{'invisible': [('issues_list_ids', '=', False)]}" string="Issues">
-                        </button>
+                                attrs="{'invisible': [('issues_list_ids', '=', False)]}" string="Issues"/>
                     </div>
                     <div class="oe_title">
                         <div class="oe_edit_only">
