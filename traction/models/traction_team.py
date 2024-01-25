@@ -33,10 +33,6 @@ class TractionTeam(models.Model):
         inverse_name="team_id",
         string='Headlines'
     )
-    measurable_ids = fields.Many2many(
-        comodel_name='traction.measurable',
-        string='Measurable'
-    )
     meeting_ids = fields.One2many(
         comodel_name='calendar.event',
         inverse_name='team_id',
