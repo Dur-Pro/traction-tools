@@ -35,16 +35,15 @@
                                     </div>
                                 </div>
                                 <div class="o_kanban_record_bottom">
-                                    <div class="o_issues_list_kanban_boxes float-left">
+                                    <div class="o_issues_list_kanban_boxes oe_kanban_bottom_left">
                                         <a class="o_issues_list_kanban_box" name="action_view_issues" type="object">
                                             <div>
-                                                <span class="o_value"><t t-esc="record.issues_count.value"/></span>
-                                                <span class="o_label">Issues</span>
+                                                <span class="o_label">Issues: <field name="issues_count"/></span>
                                             </div>
                                         </a>
                                     </div>
-                                    <div class="float-right">
-                                        <field name="members_count"/>
+                                    <div class="oe_kanban_bottom_right">
+                                        <span>Members: <field name="members_count"/></span>
                                     </div>
                                 </div>
                             </div>

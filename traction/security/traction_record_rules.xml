@@ -4,6 +4,9 @@
         <field name="name">Only owner or admin can delete the Issues Lists</field>
         <field name="model_id" ref="model_traction_issues_list"/>
         <field name="perm_unlink" eval="1"/>
+        <field name="perm_read" eval="0"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
         <field name="groups" eval="[(4, ref('base.group_user'))]"/>
         <field name="domain_force">[('create_uid', '=', user.id)]</field>
     </record>
@@ -13,6 +16,7 @@
         <field name="perm_read" eval="1"/>
         <field name="perm_write" eval="1"/>
         <field name="perm_unlink" eval="1"/>
+        <field name="perm_create" eval="0"/>
         <field name="groups" eval="[(4, ref('base.group_user'))]"/>
         <field name="domain_force">[('allowed_user_ids', 'in', user.id)]</field>
     </record>
@@ -26,6 +30,28 @@
         <field name="groups" eval="[(4, ref('base.group_user'))]"/>
         <field name="domain_force">['|', ('team_id', '=', False), ('allowed_user_ids', 'in', user.id)]</field>
     </record>
+    <record id="traction_user_own_teams_only" model="ir.rule">
+        <field name="name">Restrict team access to members</field>
+        <field name="model_id" ref="model_traction_team"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="perm_write" eval="0"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">[('member_ids', 'in', user.id)]</field>
+    </record>
+    <!-- Only users to get only traction ir.ui.view data via JS -->
+    <record id="traction_restrict_ir_model_data_all_non_traction_records" model="ir.rule">
+        <field name="name">Restrict ir.model.data record access for all regular users</field>
+        <field name="model_id" ref="base.model_ir_model_data"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="perm_write" eval="0"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">[('module', '=', 'traction'), ('model', '=', 'ir.ui.view')]</field>
+    </record>
+    <!-- below rules to be re-thought -->
 <!--    <record id="calendar_event_agenda_item_rule" model="ir.rule">-->
 <!--        <field name="model_id" ref="model_calendar_event_agenda_item"/>-->
 <!--        <field name="name">Only responsible user or note taker can manage event agenda</field>-->

@@ -45,7 +45,7 @@ class TractionIssue(models.Model):
     @api.model
     def fetch_model_list(self):
         model_list = []
-        for model in self.env['ir.model'].search([('transient', '=', False)], order='name'):
+        for model in self.env['ir.model'].sudo().search([('transient', '=', False)], order='name'):
             if model.model in SKIP_MODEL:
                 continue
             model_list += [(model.model, model.name + " (%s)" % (model.model))]
@@ -77,6 +77,7 @@ class TractionIssue(models.Model):
     related_record = fields.Reference(
         selection='fetch_model_list',
         string='Related Record',
+        compute_sudo=True,
     )
     state = fields.Selection(
         selection=[
@@ -122,6 +123,7 @@ class TractionIssue(models.Model):
         comodel_name="res.users",
         related="issues_list_id.team_ids.member_ids",
         string="Allowed Users",
+        compute_sudo=True,
     )
     @api.depends_context("res_model", "res_id")
     def default_get(self, fields_list):

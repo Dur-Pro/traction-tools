@@ -6,18 +6,22 @@
 <!--            <field name="purpose">This is our purpose / our greater goal</field>-->
 <!--            <field name="niche">This is our niche / our market</field>-->
 <!--        </record>-->
-
-        <record id="demo_traction_team_ti" model="traction.team">
-            <field name="name">TI</field>
+        <record model="mail.channel" id="mail.channel_all_employees">
+            <field name="is_traction_team" eval="True"/>
         </record>
-
-        <record id="demo_traction_team_direction" model="traction.team">
-            <field name="name">Direction</field>
+        <record model="traction.issues.list" id="short_term_issues">
+            <field name="name">Short-Term Issues</field>
+            <field name="create_uid" ref="base.user_admin"/>
         </record>
-
-        <record id="demo_traction_team_sales" model="traction.team">
-            <field name="name">Sales</field>
+        <record model="traction.issues.list" id="long_term_issues">
+            <field name="name">Long-Term Issues</field>
+            <field name="create_uid" ref="base.user_admin"/>
         </record>
+        <function model="traction.team" name="write">
+            <value model="traction.team"
+                   eval="obj().search([('channel_ids', 'in', ref('mail.channel_all_employees'))]).id"/>
+            <value eval="{'issues_list_ids': [Command.set([ref('short_term_issues'), ref('long_term_issues')])]}"/>
+        </function>
 
 <!--        <record id="demo_traction_value1" model="traction.value">-->
 <!--            <field name="name">This is our first value</field>-->

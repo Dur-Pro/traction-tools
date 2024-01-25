@@ -11,7 +11,8 @@ class TractionTeam(models.Model):
     member_ids = fields.Many2many(
         comodel_name='res.users',
         string='All Members',
-        compute='_compute_member_ids'
+        compute='_compute_member_ids',
+        compute_sudo=True,
     )
     channel_ids = fields.One2many(
         comodel_name='mail.channel',

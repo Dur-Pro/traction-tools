@@ -17,14 +17,9 @@ class IssuesList(models.Model):
         help="Teams that this issues list is shared with."
     )
 
-    member_ids = fields.Many2many(
-        comodel_name="res.users",
-        related="team_ids.member_ids",
-        string="Members",
-    )
-
     members_count = fields.Integer(
         compute="_compute_members_count",
+        compute_sudo=True,
     )
 
     issue_ids = fields.One2many(
@@ -43,10 +38,10 @@ class IssuesList(models.Model):
         for rec in self:
             rec.issues_count = len(rec.issue_ids)
 
-    @api.depends("member_ids")
+    @api.depends("team_ids.member_ids")
     def _compute_members_count(self):
         for rec in self:
-            rec.members_count = len(rec.member_ids)
+            rec.members_count = len(rec.team_ids.member_ids)
 
     def action_view_issues(self):
         self.ensure_one()
