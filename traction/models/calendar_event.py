@@ -35,22 +35,16 @@ class Meeting(models.Model):
         string="Facilitator",
         help="The person responsible for managing the overall meeting flow.",
         comodel_name="res.users",
-    )  # TODO: Add to the views
+    )
     scribe_id = fields.Many2one(
         string='Scribe',
         help="The person assigned to take meeting minutes",
         comodel_name='res.users',
-    )  # TODO: Add to the views
+    )
     timekeeper_id = fields.Many2one(
         string="Timekeeper",
         help="The person assigned to keep the meeting running on time.",
         comodel_name='res.users',
-    )  # TODO: Add to the views
-    issues_discussed = fields.Many2many(
-        comodel_name='traction.issue',
-        relation='calendar_event_identify_discuss_solve_rel',
-        column1='meeting_id',
-        column2='identify_discuss_solve_id'
     )
     headline_ids = fields.One2many(
         comodel_name='traction.headline',
