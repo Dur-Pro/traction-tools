@@ -55,10 +55,15 @@ class TractionIssue(models.Model):
     def _current_user(self):
         return self.env.user
 
+    active = fields.Boolean(
+        default=True,
+    )
     name = fields.Char(
         readonly=False,
     )
-    sequence = fields.Integer(default=1)
+    sequence = fields.Integer(
+        default=1
+    )
     tag_ids = fields.Many2many(
         comodel_name="traction.issue.tag",
         relation="traction_issue_tag_rel",

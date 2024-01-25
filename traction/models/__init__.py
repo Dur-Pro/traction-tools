@@ -11,7 +11,7 @@ from . import traction_issue_tag
 from . import traction_issue_category
 from . import traction_issues_list
 from . import traction_headline
-from . import calendar_event_action_item
+# from . import calendar_event_action_item
 from . import calendar_event_agenda_item
 from . import calendar_event
 # from . import res_company
