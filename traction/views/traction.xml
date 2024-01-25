@@ -114,6 +114,14 @@
               web_icon="traction,static/description/icon.png"
               sequence="2"
               action="traction_team_action">
+        <menuitem id="traction_teams"
+                  name="Teams"
+                  sequence="10"
+                  action="traction_team_action"/>
+        <menuitem id="traction_issues_lists"
+                  name="Issues"
+                  sequence="30"
+                  action="traction_issues_list_action"/>
 <!--        <menuitem id="traction_vto"-->
 <!--                  name="V/TO"-->
 <!--                  sequence="20">-->
@@ -156,10 +164,6 @@
 <!--                      sequence="60"/>-->
 <!--        </menuitem>-->
 
-        <menuitem id="traction_issues_lists"
-                  name="Issues"
-                  sequence="30"
-                  action="traction_issues_list_action"/>
     </menuitem>
 
     <!--

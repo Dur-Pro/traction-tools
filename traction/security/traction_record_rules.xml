@@ -10,6 +10,16 @@
         <field name="groups" eval="[(4, ref('base.group_user'))]"/>
         <field name="domain_force">[('create_uid', '=', user.id)]</field>
     </record>
+    <record id="traction_issues_list_only_members" model="ir.rule">
+        <field name="name">Only members or admins can view Issues Lists</field>
+        <field name="model_id" ref="model_traction_issues_list"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">[('team_ids.member_ids', 'in', user.id)]</field>
+    </record>
     <record id="traction_view_issue_rule" model="ir.rule">
         <field name="name">Issues are only visible to team members</field>
         <field name="model_id" ref="model_traction_issue"/>

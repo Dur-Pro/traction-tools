@@ -121,8 +121,9 @@ class TractionIssue(models.Model):
     )
     allowed_user_ids = fields.Many2many(
         comodel_name="res.users",
-        related="issues_list_id.team_ids.member_ids",
         string="Allowed Users",
+        compute="_compute_allowed_user_ids",
+        store=True,
         compute_sudo=True,
     )
     @api.depends_context("res_model", "res_id")
@@ -162,3 +163,8 @@ class TractionIssue(models.Model):
                 rec.days_open = (rec.date_solved - rec.date_raised).days
             else:
                 rec.days_open = (datetime.now() - rec.date_raised).days
+
+    @api.depends("issues_list_id", "issues_list_id.team_ids", "issues_list_id.team_ids.member_ids")
+    def _compute_allowed_user_ids(self):
+        for rec in self:
+            rec.allowed_user_ids = rec.issues_list_id.mapped('team_ids').mapped('member_ids')

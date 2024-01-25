@@ -12,6 +12,7 @@ class TractionTeam(models.Model):
         comodel_name='res.users',
         string='All Members',
         compute='_compute_member_ids',
+        store=True,
         compute_sudo=True,
     )
     channel_ids = fields.One2many(
@@ -26,11 +27,6 @@ class TractionTeam(models.Model):
         column1='team_id',
         column2='issues_list_id',
         help="Issues lists that this team is tracking."
-    )
-    issue_ids = fields.One2many(
-        comodel_name="traction.issue",
-        string="Issues",
-        related="issues_list_ids.issue_ids",
     )
     headline_ids = fields.One2many(
         comodel_name='traction.headline',
@@ -52,7 +48,7 @@ class TractionTeam(models.Model):
     )
     next_meeting_time = fields.Datetime(related='next_meeting_id.start')
     next_meeting_duration = fields.Float(related='next_meeting_id.duration')
-    issues_count = fields.Integer(compute='_compute_issues_count')
+    issues_count = fields.Integer(compute='_compute_issues_count', compute_sudo=True)
     agenda_template_id = fields.Many2one(
         string="Default Meeting Agenda",
         comodel_name="calendar.event.agenda.template",
@@ -77,13 +73,10 @@ class TractionTeam(models.Model):
         for rec in self:
             rec.issues_count = sum(rec.issues_list_ids.mapped('issues_count'))
 
-    @api.depends('channel_ids.channel_partner_ids')
+    @api.depends('channel_ids', 'channel_ids.channel_partner_ids', 'channel_ids.channel_partner_ids.user_ids')
     def _compute_member_ids(self):
-        for record in self:
-            members = record.member_ids
-            for channel in record.channel_ids:
-                members |= channel.channel_partner_ids.user_ids
-            record.member_ids = members
+        for rec in self:
+            rec.member_ids = rec.channel_ids.mapped('channel_partner_ids').mapped('user_ids')
 
     def action_open_issues_lists(self):
         self.ensure_one()
