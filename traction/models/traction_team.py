@@ -89,7 +89,8 @@ class TractionTeam(models.Model):
         return {
             "name": f"Issues for {self.name}",
             "type": "ir.actions.act_window",
-            "view_mode": "kanban",
+            "view_mode": "kanban,form",
             "res_model": "traction.issues.list",
-            "domain": [["team_ids", "in", [self.id]]]
+            "domain": [["team_ids", "in", [self.id]]],
+            "context": {"default_team_ids": [self.id]}
         }

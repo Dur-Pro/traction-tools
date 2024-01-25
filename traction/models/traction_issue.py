@@ -118,7 +118,11 @@ class TractionIssue(models.Model):
         help="Notes on possible and selected solutions.",
         tracking=True,
     )
-
+    allowed_user_ids = fields.Many2many(
+        comodel_name="res.users",
+        related="issues_list_id.team_ids.member_ids",
+        string="Allowed Users",
+    )
     @api.depends_context("res_model", "res_id")
     def default_get(self, fields_list):
         res = super().default_get(fields_list)

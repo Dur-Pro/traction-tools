@@ -1,3 +1,3 @@
 from . import models
 from . import tests
-from . import wizards
+# from . import wizards

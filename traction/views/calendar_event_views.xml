@@ -42,22 +42,18 @@
             <page name="page_details" position="before">
                 <page name="page_meeting_management" string="Agenda"
                       attrs="{'invisible': [('team_id', '=', False)]}">
-                    <group name="agenda_items" string="Agenda">
-                        <field name="agenda_item_ids"/>
-                    </group>
+                    <field name="agenda_item_ids"/>
                 </page>
                 <page name="page_headlines" string="Headlines">
-                    <group>
-                        <field name="headline_ids"
-                               nolabel="1">
-                            <tree>
-                                <field name="summary"/>
-                                <field name="extra_info"/>
-                                <field name="status" widget="boolean"/>
-                                <field name="create_uid" string="Raised By"/>
-                            </tree>
-                        </field>
-                    </group>
+                    <field name="headline_ids"
+                           nolabel="1">
+                        <tree>
+                            <field name="summary"/>
+                            <field name="extra_info"/>
+                            <field name="status" widget="boolean"/>
+                            <field name="create_uid" string="Raised By"/>
+                        </tree>
+                    </field>
                 </page>
             </page>
         </field>
@@ -69,10 +65,10 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="sequence" widget="handle"/>
-                <field name="duration"/>
                 <field name="name"/>
                 <field name="description"/>
                 <field name="discussed" widget="boolean_toggle"/>
+                <field name="duration" />
             </tree>
         </field>
     </record>

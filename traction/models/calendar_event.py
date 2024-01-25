@@ -11,6 +11,11 @@ class Meeting(models.Model):
         comodel_name='traction.team',
         string='Traction Team',
         index=True)
+    allowed_user_ids = fields.Many2many(
+        comodel_name="res.users",
+        related="team_id.member_ids",
+        string="Allowed Users",
+    )
     agenda_id = fields.Many2one(
         string="Agenda",
         comodel_name="calendar.event.agenda",

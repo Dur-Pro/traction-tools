@@ -30,7 +30,7 @@ class MeetingAgendaItem(models.Model):
         required=True,
     )
     description = fields.Html(
-        string='Description / Notes',
+        string='Description',
     )
     discussed = fields.Boolean(
         string='Discussed',

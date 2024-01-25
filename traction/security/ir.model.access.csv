@@ -1,11 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_traction_rock,access.traction.rock,model_traction_rock,base.group_user,1,1,1,1
 access_traction_team,access.traction.team,model_traction_team,base.group_user,1,1,1,1
-access_traction_measurable,access.traction.measurable,model_traction_measurable,base.group_user,1,1,1,1
-access_traction_measurable_value,access.traction.measurable.value,model_traction_measurable_value,base.group_user,1,1,1,1
-access_traction_vision,access.traction.vision,model_traction_vision,base.group_user,1,1,1,1
-access_traction_value,access_traction_value,traction.model_traction_value,base.group_user,1,1,1,1
-access_traction_strategy,access_traction_strategy,traction.model_traction_strategy,base.group_user,1,1,1,1
 access_calendar_event_action_item_all_user,access_calendar_event_action_item_all_user,model_calendar_event_action_item,base.group_portal,1,0,0,0
 access_calendar_event_action_item_all_employee,access_calendar_event_action_item_all_employee,model_calendar_event_action_item,base.group_user,1,1,1,1
 access_calendar_event_agenda_item_all_user,access_calendar_event_agenda_item_all_user,model_calendar_event_agenda_item,base.group_portal,1,0,0,0
@@ -22,4 +16,3 @@ access_traction_issues_list_category_all_employee,access_traaction_issue_list_ca
 access_traction_issues_list_all_employee,access_traction_issues_list_all_employee,model_traction_issues_list,base.group_user,1,1,1,1
 access_traction_issues_list_admin,access_traction_issues_list_admin,model_traction_issues_list,base.group_system,1,1,1,1
 access_traction_headline_employees,access_traction_headline_employees,model_traction_headline,base.group_user,1,1,1,1
-access_close_meeting_wizard,access_close_meeting_wizard,model_close_meeting_wizard,base.group_user,1,1,1,1

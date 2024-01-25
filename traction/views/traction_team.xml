@@ -28,34 +28,29 @@
                             <field name="agenda_template_id"/>
                         </group>
                         <group name="info_right">
-                            <field name="measurable_ids">
-                                <tree>
-                                    <field name="name"/>
-                                    <field name="goal"/>
-                                    <field name="team_ids"/>
-                                </tree>
-                            </field>
+<!--                            <field name="measurable_ids">-->
+<!--                                <tree>-->
+<!--                                    <field name="name"/>-->
+<!--                                    <field name="goal"/>-->
+<!--                                    <field name="team_ids"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
                         </group>
                     </group>
                     <notebook>
                         <page string="Meetings">
-                            <field name="meeting_ids" string="Meeting">
+                            <field name="meeting_ids">
                                 <tree string="Meetings">
                                     <field name="name"/>
                                     <field name="start" widget="datetime"/>
                                     <field name="duration" widget="float"/>
                                     <field name="stop" widget="datetime" optional="hide"/>
-                                    <field name="team_id" optional="hidden"/>
-                                    <button name="view_details" class="fa fa-external-link"
-                                            title="View Details" type="object"/>
                                 </tree>
                             </field>
                         </page>
                         <page string="Headlines" name="headlines">
-                            <label for="headline_ids">Headlines</label>
-                            <field name="headline_ids"
-                                   string="Headlines">
-                                <tree string="Headlines">
+                            <field name="headline_ids">
+                                <tree>
                                     <field name="summary"/>
                                     <field name="extra_info"/>
                                     <field name="write_uid"/>

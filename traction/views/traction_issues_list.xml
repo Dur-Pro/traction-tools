@@ -4,7 +4,8 @@
         <field name="name">traction.issues.list.view.kanban</field>
         <field name="model">traction.issues.list</field>
         <field name="arch" type="xml">
-            <kanban js_class="issues_list_kanban" create="false">
+            <kanban js_class="issues_list_kanban" on_create="traction.open_create_issues_list"
+                    sample="1">
                 <field name="name"/>
                 <field name="team_ids"/>
                 <field name="members_count"/>
@@ -52,5 +53,27 @@
                 </templates>
             </kanban>
         </field>
+    </record>
+    <record id="traction_issues_list_view_form_quick_add" model="ir.ui.view">
+        <field name="name">traction.issues.list.view.form</field>
+        <field name="model">traction.issues.list</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="team_ids"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="open_create_issues_list" model="ir.actions.act_window">
+        <field name="name">Create Issues List</field>
+        <field name="res_model">traction.issues.list</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
     </record>
 </odoo>
