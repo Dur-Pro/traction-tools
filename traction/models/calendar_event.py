@@ -128,61 +128,6 @@ class Meeting(models.Model):
             'res_id': self.id,
         }
 
-    def add_agenda_item(self, name: str, description: str = "", item_type: str = 'other', section_subtype: str = None,
-                        duration=5, activity_id=None):
-        """ Add an item to the agenda of this calendar event. Passing type='issue' or type='headline' will
-        attempt to add the item to the appropriate section in the agenda (assuming one exists).
-
-        :param name: Name of the agenda item
-        :param description: The description of the agenda item
-        :param item_type: The type of agenda item to add. See item_type field in
-                          traction/models/calendar_event_action_item.py
-        :param section_subtype: 'issue', 'headline' or None. Applicable only if type=='section'
-        :param duration: The duration of the agenda item, in minutes
-        :param activity_id: The activity to attach the new agenda item to (issue or headline, usually)
-
-        :return: Recordset containing the items created
-        """
-        self.ensure_one()
-        sequence = self._get_next_sequence(section_type=item_type)
-
-        return self.env['calendar.event.agenda.item'].create({
-            'name': name,
-            'description': description,
-            'sequence': sequence,
-            'duration': duration,
-            'meeting_id': self.id,
-        })
-
-    def _get_next_sequence(self, section_type=None):
-        # Put it at the end by default
-        sequence = max(self.agenda_item_ids.mapped('sequence')) + 1
-        section_type = ({
-            'issue': 'issues',
-            'headline': 'headlines',
-        }).get(section_type, False)
-        if section_type in ('issues', 'headlines'):
-            new_section_item = self.agenda_item_ids.filtered(
-                lambda item: item.item_type == 'section' and item.section_subtype == section_type
-            )
-            if new_section_item:
-                new_section_item = new_section_item[0]
-                sections = list(self.agenda_item_ids.sorted('sequence', reverse=True).filtered(
-                    lambda item: item.item_type == 'section'
-                ))
-                # Check if there are other sections. If so, we need to figure out what sequence number to use.
-                if len(sections) > 1:
-                    all_items = list(self.agenda_item_ids.sorted('sequence', reverse=True))
-                    next_section = sections[sections.index(new_section_item) + 1]
-                    next_section_index = all_items.index(next_section)
-                    last_item_in_section = all_items[next_section_index - 1]
-                    if last_item_in_section.sequence == next_section.sequence - 1:
-                        # We need to bump the next items to higher sequence numbers
-                        for item in all_items[next_section_index:]:
-                            item.sequence += 10
-                    sequence = last_item_in_section.sequence + 1
-        return sequence
-
     def action_open_issues_lists(self):
         self.ensure_one()
         return {
