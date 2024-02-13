@@ -14,5 +14,5 @@ fields_spec = [
 ]
 @openupgrade.migrate()
 def migrate(env, version):
-    openupgrade.rename_models(env.cr, model_spec)
     openupgrade.rename_fields(env, fields_spec)
+    openupgrade.rename_models(env.cr, model_spec)
