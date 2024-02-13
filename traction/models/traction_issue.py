@@ -1,4 +1,4 @@
-from odoo import api, fields, models, _
+from odoo import api, fields, models, _, SUPERUSER_ID
 import datetime
 from datetime import datetime, date
 from pytz import timezone
@@ -72,9 +72,11 @@ class TractionIssue(models.Model):
         string="Tags",
         help="Tags to help categorize the issue.",
     )
-    category_id = fields.Many2one(
-        comodel_name="traction.issue.category",
+    stage_id = fields.Many2one(
+        comodel_name="traction.issue.stage",
         string="Category",
+        group_expand="_read_group_stage_ids",
+        domain="[('issues_list_id', '=', issues_list_id)]"
     )
     issues_list_id = fields.Many2one(
         comodel_name="traction.issues.list",
@@ -131,6 +133,7 @@ class TractionIssue(models.Model):
         store=True,
         compute_sudo=True,
     )
+
     @api.depends_context("res_model", "res_id")
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
@@ -144,7 +147,6 @@ class TractionIssue(models.Model):
                 res['related_record'] = False
         return res
 
-
     @api.depends("state")
     def _compute_date_solved(self):
         for rec in self:
@@ -156,6 +158,7 @@ class TractionIssue(models.Model):
                 # We just moved from open to solved, set the date
                 rec.date_solved = datetime.now()
 
+    @api.model
     def save_and_close(self):
         return {
             "type": "ir.actions.act_window_close",
@@ -173,3 +176,11 @@ class TractionIssue(models.Model):
     def _compute_allowed_user_ids(self):
         for rec in self:
             rec.allowed_user_ids = rec.issues_list_id.mapped('team_ids').mapped('member_ids')
+
+    @api.model
+    def _read_group_stage_ids(self, stages, domain, order):
+        search_domain = [('id', 'in', stages.ids)]
+        if 'default_issues_list_id' in self.env.context:
+            search_domain = ['|', ('issues_list_id', '=', self.env.context['default_issues_list_id'])] + search_domain
+        stage_ids = stages._search(search_domain, order=order, access_rights_uid=SUPERUSER_ID)
+        return stages.browse(stage_ids)

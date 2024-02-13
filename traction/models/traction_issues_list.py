@@ -33,6 +33,12 @@ class IssuesList(models.Model):
         string="Issue Count"
     )
 
+    stage_ids = fields.One2many(
+        string="Stages",
+        comodel_name="traction.issue.stage",
+        inverse_name="issues_list_id",
+    )
+
     @api.depends("issue_ids")
     def _compute_issues_count(self):
         for rec in self:

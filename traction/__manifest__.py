@@ -1,6 +1,6 @@
 {
     'name': 'EOS',
-    'version': '15.0.2.0.0',
+    'version': '15.0.2.0.1',
     'summary': '',
     'author': '',
     'company': '',
@@ -38,10 +38,14 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'traction/static/src/**/*.js',
+            'traction/static/src/components/common.js',
+            'traction/static/src/components/systray_issues/systray_issues.js',
+            'traction/static/src/components/systray_headlines/systray_headlines.js',
+            'traction/static/src/js/issues_list_kanban.js',
         ],
         'web.assets_qweb': [
-            'traction/static/src/**/*.xml',
+            'traction/static/src/components/systray_headlines/systray_headlines.xml',
+            'traction/static/src/components/systray_issues/systray_issues.xml',
         ],
     },
     'installable': True,

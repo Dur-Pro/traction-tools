@@ -8,7 +8,7 @@ from . import traction_team
 from . import mail_channel
 from . import traction_issue
 from . import traction_issue_tag
-from . import traction_issue_category
+from . import traction_issue_stage
 from . import traction_issues_list
 from . import traction_headline
 # from . import calendar_event_action_item
