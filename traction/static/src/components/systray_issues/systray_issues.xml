@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<templatex xml:space="preserve">
+<templates xml:space="preserve">
     <t t-name="traction.SystrayIssues" owl="1">
         <div>
             <a class="o_SystrayIssues_icon fa fa-exclamation-triangle" title="Raise Issue" t-on-click="onClick">
             </a>
         </div>
     </t>
-</templatex>
+</templates>
