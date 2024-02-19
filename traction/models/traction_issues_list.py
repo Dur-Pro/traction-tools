@@ -54,7 +54,7 @@ class IssuesList(models.Model):
         return {
             "name": self.name,
             "type": "ir.actions.act_window",
-            "view_mode": "kanban,tree,form",
+            "view_mode": "kanban,tree,form,activity",
             "res_model": "traction.issue",
             "domain": [["issues_list_id", "=", self.id]],
             "context": {

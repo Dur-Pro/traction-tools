@@ -95,7 +95,7 @@
                 <field name="days_open"/>
                 <templates>
                     <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click o_kanban_record">
+                        <div class="oe_kanban_global_click o_kanban_record oe_kanban_content">
                             <div class="oe_kanban_details">
                                 <div class="o_kanban_record_top">
                                     <div class="o_kanban_record_headings">
@@ -116,17 +116,19 @@
                                         <span>Raised on: <field name="date_raised" widget="date"/></span>
                                     </div>
                                     <div>
-                                        <span t-attf-class="#{record.days_open.raw_value > 120 ? 'text-danger' : record.days_open.raw_value > 60 ? 'text-warning' : ''}">Days open:
+                                        <span t-attf-class="#{record.days_open.raw_value > 120 ? 'text-danger' : record.days_open.raw_value > 60 ? 'text-warning' : ''}">
+                                            Days open:
                                             <field name="days_open"/>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="oe_kanban_bottom">
-                                    <div>
+                                    <span class="oe_kanban_bottom_left">
                                         <field name="tag_ids" widget="many2many_tags"/>
-                                    </div>
-                                    <div>
                                         <span>Last updated: <field name="write_date" widget="date"/></span>
+                                    </span>
+                                    <div class="oe_kanban_bottom_right float-right">
+                                        <field name="activity_ids" widget="kanban_activity"/>
                                     </div>
                                 </div>
                             </div>
@@ -134,6 +136,22 @@
                     </t>
                 </templates>
             </kanban>
+        </field>
+    </record>
+    <record id="traction_issue_view_activity" model="ir.ui.view">
+        <field name="name">traction.issue.view.activity</field>
+        <field name="model">traction.issue</field>
+        <field name="arch" type="xml">
+            <activity string="Issues">
+                <templates>
+                    <div t-name="activity-box">
+                        <div>
+                            <field name="name" display="full"/>
+                            <field name="issues_list_id" muted="1" display="full"/>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
         </field>
     </record>
 </odoo>
