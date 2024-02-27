@@ -41,6 +41,8 @@ class TractionTeam(models.Model):
     next_meeting_id = fields.Many2one(
         comodel_name='calendar.event',
         compute='_compute_next_meeting',
+        store=True,
+        compute_sudo=True,
     )
     next_meeting_time = fields.Datetime(related='next_meeting_id.start')
     next_meeting_duration = fields.Float(related='next_meeting_id.duration')

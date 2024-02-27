@@ -22,7 +22,6 @@
         # 'views/traction_vision.xml',
         'views/traction_team.xml',
         # 'views/traction_traction.xml',
-        'views/traction.xml',
         # 'views/traction_measurable.xml',
         # 'views/traction_measurable_value.xml',
         'views/traction.xml',
