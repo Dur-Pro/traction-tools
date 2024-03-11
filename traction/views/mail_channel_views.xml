@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="mail.mail_channel_view_form" />
         <field name="arch" type="xml">
             <field name="active" position="after">
-                <field name="is_traction_team" />
+                <field name="traction_team_id" />
             </field>
         </field>
     </record>

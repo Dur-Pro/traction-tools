@@ -64,7 +64,7 @@ class TractionTeam(models.Model):
             ).sorted(key=lambda meeting: meeting.start)
             rec.next_meeting_id = upcoming_meetings and upcoming_meetings[0]
 
-    @api.depends('issues_list_ids')
+    @api.depends('issues_list_ids', 'issues_list_ids.issues_count')
     def _compute_issues_count(self):
         for rec in self:
             rec.issues_count = sum(rec.issues_list_ids.mapped('issues_count'))
@@ -72,7 +72,8 @@ class TractionTeam(models.Model):
     @api.depends('channel_ids', 'channel_ids.channel_partner_ids', 'channel_ids.channel_partner_ids.user_ids')
     def _compute_member_ids(self):
         for rec in self:
-            rec.member_ids = rec.channel_ids.mapped('channel_partner_ids').mapped('user_ids')
+            if rec.channel_ids:
+                rec.member_ids = rec.channel_ids.mapped('channel_partner_ids').mapped('user_ids')
 
     def action_open_issues_lists(self):
         self.ensure_one()
