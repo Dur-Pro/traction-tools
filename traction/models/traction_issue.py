@@ -78,6 +78,12 @@ class TractionIssue(models.Model):
         group_expand="_read_group_stage_ids",
         domain="[('issues_list_id', '=', issues_list_id)]"
     )
+
+    stage_id_selection = fields.Selection(
+        compute="_compute_stage_id_selection",
+        selection="_get_stages",
+        inverse="_inverse_stage_id_selection",
+    )
     issues_list_id = fields.Many2one(
         comodel_name="traction.issues.list",
     )
@@ -91,7 +97,7 @@ class TractionIssue(models.Model):
             ('open', 'Open'),
             ('solved', 'Solved')
         ],
-        default='open'
+        compute="_compute_state",
     )
     date_raised = fields.Datetime(
         string='Raised on:',
@@ -184,3 +190,21 @@ class TractionIssue(models.Model):
             search_domain = ['|', ('issues_list_id', '=', self.env.context['default_issues_list_id'])] + search_domain
         stage_ids = stages._search(search_domain, order=order, access_rights_uid=SUPERUSER_ID)
         return stages.browse(stage_ids)
+
+    @api.depends('stage_id', 'stage_id.is_closing_stage')
+    def _compute_state(self):
+        for rec in self:
+            rec.state = 'solved' if rec.stage_id.is_closing_stage else 'open'
+
+    def _get_stages(self):
+        stages = self.env['traction.issue.stage'].search([])
+        return [(stage.id, stage.name) for stage in stages]
+
+    @api.depends('stage_id')
+    def _compute_stage_id_selection(self):
+        for rec in self:
+            rec.stage_id_selection = rec.stage_id.id
+
+    def _inverse_stage_id_selection(self):
+        for rec in self:
+            rec.stage_id = self.env['traction.issue.stage'].browse(int(rec.stage_id_selection))

@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <field name="state" widget="statusbar" options="{'clickable': True}"/>
+                    <field name="stage_id_selection" widget="statusbar" options="{'clickable': True}"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box">
@@ -19,6 +19,7 @@
                         <group>
                             <field name="issues_list_id"/>
                             <field name="date_raised" widget="date"/>
+                            <field name="state" invisible="1"/>
                             <field name="date_solved" widget="date" attrs="{'invisible': [('state', '!=', 'solved')]}"/>
                         </group>
                         <group>
