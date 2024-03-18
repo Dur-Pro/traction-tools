@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <field name="stage_id_selection" widget="statusbar" options="{'clickable': True}"/>
+                    <field name="stage_id" widget="statusbar" options="{'clickable': True}"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box">

@@ -74,16 +74,19 @@ class TractionIssue(models.Model):
     )
     stage_id = fields.Many2one(
         comodel_name="traction.issue.stage",
-        string="Category",
+        string="Stage",
+        tracking=True,
+        index=True,
         group_expand="_read_group_stage_ids",
-        domain="[('issues_list_id', '=', issues_list_id)]"
+        domain="[('issues_list_id', '=', issues_list_id)]",
+        copy=False,
     )
 
-    stage_id_selection = fields.Selection(
-        compute="_compute_stage_id_selection",
-        selection="_get_stages",
-        inverse="_inverse_stage_id_selection",
-    )
+    # stage_id_selection = fields.Selection(
+    #     compute="_compute_stage_id_selection",
+    #     selection="_get_stages",
+    #     inverse="_inverse_stage_id_selection",
+    # )
     issues_list_id = fields.Many2one(
         comodel_name="traction.issues.list",
     )
@@ -196,15 +199,16 @@ class TractionIssue(models.Model):
         for rec in self:
             rec.state = 'solved' if rec.stage_id.is_closing_stage else 'open'
 
-    def _get_stages(self):
-        stages = self.env['traction.issue.stage'].search([])
-        return [(stage.id, stage.name) for stage in stages]
-
-    @api.depends('stage_id')
-    def _compute_stage_id_selection(self):
-        for rec in self:
-            rec.stage_id_selection = rec.stage_id.id
-
-    def _inverse_stage_id_selection(self):
-        for rec in self:
-            rec.stage_id = self.env['traction.issue.stage'].browse(int(rec.stage_id_selection))
+    # @api.depends_context('active_id')
+    # def _get_stages(self):
+    #     stages = self.env['traction.issue.stage'].search([('issues_list_id', 'in', self.mapped('issues_list_id').ids)])
+    #     return [(stage.id, stage.name) for stage in stages]
+    #
+    # @api.depends('stage_id')
+    # def _compute_stage_id_selection(self):
+    #     for rec in self:
+    #         rec.stage_id_selection = str(rec.stage_id.id)
+    #
+    # def _inverse_stage_id_selection(self):
+    #     for rec in self:
+    #         rec.stage_id = self.env['traction.issue.stage'].browse(int(rec.stage_id_selection))

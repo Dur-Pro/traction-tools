@@ -6,8 +6,8 @@
 <!--            <field name="purpose">This is our purpose / our greater goal</field>-->
 <!--            <field name="niche">This is our niche / our market</field>-->
 <!--        </record>-->
-        <record model="mail.channel" id="mail.channel_all_employees">
-            <field name="is_traction_team" eval="True"/>
+        <record model="traction.team" id="traction.default_team">
+            <field name="channel_ids" eval="Command.link(ref('mail.channel_all_employees'))"/>
         </record>
         <record model="traction.issues.list" id="short_term_issues">
             <field name="name">Short-Term Issues</field>
