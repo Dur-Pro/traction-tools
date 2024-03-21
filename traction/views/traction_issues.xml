@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="traction_issue_view_form" model="ir.ui.view">
         <field name="name">traction.calendar.event.ids.view.form</field>
@@ -6,20 +6,24 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <field name="state" widget="statusbar" options="{'clickable': True}"/>
+                    <field name="state" options="{'clickable': True}" widget="statusbar"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box">
                     </div>
                     <div class="oe_title">
-                        <div class="oe_edit_only">Issue</div>
-                        <h1><field name="name"/></h1>
+                        <div class="oe_edit_only">
+                            Issue
+                        </div>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
                     </div>
                     <group col="2">
                         <group>
                             <field name="issues_list_id"/>
                             <field name="date_raised" widget="date"/>
-                            <field name="date_solved" widget="date" attrs="{'invisible': [('state', '!=', 'solved')]}"/>
+                            <field invisible="state != 'solved'" name="date_solved" widget="date"/>
                         </group>
                         <group>
                             <field name="tag_ids" widget="many2many_tags"/>
@@ -27,10 +31,10 @@
                             <field name="related_record"/>
                         </group>
                     </group>
-                    <group name="ids" attrs="{'invisible': [('id', '=', False)]}">
-                        <field name="identify" class="oe-bordered-editor"/>
-                        <field name="discuss" class="oe-bordered-editor"/>
-                        <field name="solve" class="oe-bordered-editor"/>
+                    <group invisible="id == False" name="ids">
+                        <field class="oe-bordered-editor" name="identify"/>
+                        <field class="oe-bordered-editor" name="discuss"/>
+                        <field class="oe-bordered-editor" name="solve"/>
                     </group>
                 </sheet>
                 <div class="oe_chatter">
@@ -38,8 +42,7 @@
                     <field name="activity_ids" widget="mail_activity"/>
                     <field name="message_ids" widget="mail_thread"/>
                 </div>
-            </form>
-        </field>
+            </form></field>
     </record>
     <record id="traction_issue_view_form_simple_modif" model="ir.ui.view">
         <field name="name">traction.issue.view.form.simple.modif</field>
@@ -48,8 +51,12 @@
             <form>
                 <sheet>
                     <div class="oe_title">
-                        <div class="oe_edit_only">Issue</div>
-                        <h1><field name="name"/></h1>
+                        <div class="oe_edit_only">
+                            Issue
+                        </div>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
                     </div>
                     <group col="2">
                         <group>
@@ -60,25 +67,23 @@
                     </group>
                 </sheet>
                 <footer>
-                    <button name="save_and_close" type="object" string="Save" class="btn-primary"/>
-                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                    <button class="btn-primary" name="save_and_close" string="Save" type="object"/>
+                    <button class="btn-secondary" special="cancel" string="Cancel"/>
                 </footer>
-            </form>
-        </field>
+            </form></field>
     </record>
     <record id="traction_issue_view_tree" model="ir.ui.view">
         <field name="name">traction.issue.view.tree</field>
         <field name="model">traction.issue</field>
         <field name="arch" type="xml">
-            <tree string="Issues" decoration-success="state == 'solved'" decoration-warning="state != 'solved'">
+            <tree decoration-success="state == 'solved'" decoration-warning="state != 'solved'" string="Issues">
                 <field name="sequence" widget="handle"/>
-                <field name="state" invisible="1"/>
+                <field invisible="1" name="state"/>
                 <field name="name"/>
                 <field name="raised_by"/>
                 <field name="date_raised"/>
                 <field name="date_solved"/>
-            </tree>
-        </field>
+            </tree></field>
     </record>
     <record id="traction_issue_view_kanban" model="ir.ui.view">
         <field name="name">traction.issue.view.kanban</field>
@@ -104,7 +109,8 @@
                                         </strong>
                                         <separator/>
                                         <div>
-                                            <span>Raised by:
+                                            <span>
+                                                Raised by:
                                                 <field name="raised_by" widget="many2one_avatar_user"/>
                                                 <span t-out="record.raised_by.value"/>
                                             </span>
@@ -113,7 +119,10 @@
                                 </div>
                                 <div class="o_kanban_card_content">
                                     <div>
-                                        <span>Raised on: <field name="date_raised" widget="date"/></span>
+                                        <span>
+                                            Raised on:
+                                            <field name="date_raised" widget="date"/>
+                                        </span>
                                     </div>
                                     <div>
                                         <span t-attf-class="#{record.days_open.raw_value > 120 ? 'text-danger' : record.days_open.raw_value > 60 ? 'text-warning' : ''}">
@@ -125,7 +134,10 @@
                                 <div class="oe_kanban_bottom">
                                     <span class="oe_kanban_bottom_left">
                                         <field name="tag_ids" widget="many2many_tags"/>
-                                        <span>Last updated: <field name="write_date" widget="date"/></span>
+                                        <span>
+                                            Last updated:
+                                            <field name="write_date" widget="date"/>
+                                        </span>
                                     </span>
                                     <div class="oe_kanban_bottom_right float-right">
                                         <field name="activity_ids" widget="kanban_activity"/>
@@ -135,8 +147,7 @@
                         </div>
                     </t>
                 </templates>
-            </kanban>
-        </field>
+            </kanban></field>
     </record>
     <record id="traction_issue_view_activity" model="ir.ui.view">
         <field name="name">traction.issue.view.activity</field>
@@ -146,12 +157,11 @@
                 <templates>
                     <div t-name="activity-box">
                         <div>
-                            <field name="name" display="full"/>
-                            <field name="issues_list_id" muted="1" display="full"/>
+                            <field display="full" name="name"/>
+                            <field display="full" muted="1" name="issues_list_id"/>
                         </div>
                     </div>
                 </templates>
-            </activity>
-        </field>
+            </activity></field>
     </record>
 </odoo>

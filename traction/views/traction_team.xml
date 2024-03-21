@@ -8,10 +8,9 @@
                 <header>
                 </header>
                 <sheet>
-                    <field name="issues_list_ids" invisible="1"/>
+                    <field invisible="1" name="issues_list_ids"/>
                     <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" name="action_open_issues_lists" type="object" icon="fa-list"
-                                attrs="{'invisible': [('issues_list_ids', '=', False)]}" string="Issues"/>
+                        <button class="oe_stat_button" icon="fa-list" invisible="issues_list_ids == False" name="action_open_issues_lists" string="Issues" type="object"/>
                     </div>
                     <div class="oe_title">
                         <div class="oe_edit_only">
@@ -21,57 +20,47 @@
                             <field name="name"/>
                         </h1>
                     </div>
-                    <field name="channel_ids" invisible="1"/>
+                    <field invisible="1" name="channel_ids"/>
                     <group>
                         <group name="info_left">
                             <field name="member_ids" widget="many2many_avatar_user"/>
                             <field name="agenda_template_id"/>
                         </group>
                         <group name="info_right">
-<!--                            <field name="measurable_ids">-->
-<!--                                <tree>-->
-<!--                                    <field name="name"/>-->
-<!--                                    <field name="goal"/>-->
-<!--                                    <field name="team_ids"/>-->
-<!--                                </tree>-->
-<!--                            </field>-->
+                            <!--                            <field name="measurable_ids">-->
+                            <!--                                <tree>-->
+                            <!--                                    <field name="name"/>-->
+                            <!--                                    <field name="goal"/>-->
+                            <!--                                    <field name="team_ids"/>-->
+                            <!--                                </tree>-->
+                            <!--</field>-->
                         </group>
                     </group>
                     <notebook>
                         <page string="Meetings">
-                            <field name="meeting_ids">
-                                <tree string="Meetings">
+                            <field name="meeting_ids"><tree string="Meetings">
                                     <field name="name"/>
                                     <field name="start" widget="datetime"/>
                                     <field name="duration" widget="float"/>
-                                    <field name="stop" widget="datetime" optional="hide"/>
-                                </tree>
-                            </field>
+                                    <field name="stop" optional="hide" widget="datetime"/>
+                                </tree></field>
                         </page>
-                        <page string="Headlines" name="headlines">
-                            <field name="headline_ids">
-                                <tree>
+                        <page name="headlines" string="Headlines">
+                            <field name="headline_ids"><tree>
                                     <field name="summary"/>
                                     <field name="extra_info"/>
                                     <field name="write_uid"/>
-                                </tree>
-                            </field>
+                                </tree></field>
                         </page>
                     </notebook>
                 </sheet>
-            </form>
-        </field>
+            </form></field>
     </record>
     <record id="traction_team_view_kanban" model="ir.ui.view">
         <field name="name">traction.team.view.kanban</field>
         <field name="model">traction.team</field>
         <field name="arch" type="xml">
-            <kanban group_create="false"
-                    group_edit="false"
-                    group_delete="false"
-                    records_draggable="false"
-                    default_order="name"
-                    create="false">
+            <kanban create="false" default_order="name" group_create="false" group_delete="false" group_edit="false" records_draggable="false">
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
@@ -84,17 +73,27 @@
                                 <div class="oe_kanban_content">
                                     <div>
                                         <span class="fa fa-calendar">
-                                            <strong>Next meeting: </strong><field name="next_meeting_time"/>
+                                            <strong>
+                                                Next meeting:
+                                            </strong>
+                                            <field name="next_meeting_time"/>
                                         </span>
                                     </div>
                                     <div>
                                         <span class="fa fa-clock-o">
-                                            <strong>Duration: </strong><field name="next_meeting_duration"/> hours
+                                            <strong>
+                                                Duration:
+                                            </strong>
+                                            <field name="next_meeting_duration"/>
+                                            hours
                                         </span>
                                     </div>
                                     <div>
                                         <span class="fa fa-exclamation-triangle">
-                                            <strong>Issues: </strong><field name="issues_count"/>
+                                            <strong>
+                                                Issues:
+                                            </strong>
+                                            <field name="issues_count"/>
                                         </span>
                                     </div>
                                 </div>
@@ -102,7 +101,6 @@
                         </div>
                     </t>
                 </templates>
-            </kanban>
-        </field>
+            </kanban></field>
     </record>
 </odoo>

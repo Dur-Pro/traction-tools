@@ -6,8 +6,7 @@
         <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
-                <button class="oe_stat_button" name="action_open_issues_lists" type="object" icon="fa-list"
-                        attrs="{'invisible': [('team_id', '=', False)]}" string="Issues"/>
+                <button class="oe_stat_button" icon="fa-list" invisible="team_id == False" name="action_open_issues_lists" string="Issues" type="object"/>
             </xpath>
             <xpath expr="//div[@role='status']" position="before">
                 <header>
@@ -36,29 +35,23 @@
                 </group>
             </notebook>
             <field name="categ_ids" position="before">
-                <field name="team_id"/>
-            </field>
+                <field name="team_id"/></field>
             <field name="user_id" position="replace"/>
             <page name="page_details" position="before">
-                <page name="page_meeting_management" string="Agenda"
-                      attrs="{'invisible': [('team_id', '=', False)]}">
+                <page invisible="team_id == False" name="page_meeting_management" string="Agenda">
                     <field name="agenda_item_ids"/>
                 </page>
                 <page name="page_headlines" string="Headlines">
-                    <field name="headline_ids"
-                           nolabel="1">
+                    <field name="headline_ids" nolabel="1">
                         <tree>
                             <field name="summary"/>
                             <field name="extra_info"/>
                             <field name="status" widget="boolean"/>
                             <field name="create_uid" string="Raised By"/>
-                        </tree>
-                    </field>
+                        </tree></field>
                 </page>
-            </page>
-        </field>
+            </page></field>
     </record>
-
     <record id="calendar_event_agenda_item_view_tree" model="ir.ui.view">
         <field name="name">calendar.event.agenda.item.view.tree</field>
         <field name="model">calendar.event.agenda.item</field>
@@ -68,9 +61,8 @@
                 <field name="name"/>
                 <field name="description"/>
                 <field name="discussed" widget="boolean_toggle"/>
-                <field name="duration" />
-            </tree>
-        </field>
+                <field name="duration"/>
+            </tree></field>
     </record>
     <record id="traction_team_event_tree" model="ir.ui.view">
         <field name="name">traction.team.event.tree</field>
@@ -78,8 +70,6 @@
         <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="team_id"/>
-            </field>
-        </field>
+                <field name="team_id"/></field></field>
     </record>
 </odoo>

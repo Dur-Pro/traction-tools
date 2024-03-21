@@ -8,7 +8,7 @@
                 <sheet>
                     <div class="oe_title">
                         <h1>
-                            <field name="name"  attrs="{'readonly': 1}" />
+                            <field name="name" readonly="1"/>
                         </h1>
                     </div>
                     <group>
@@ -16,26 +16,19 @@
                         <field name="niche"/>
                     </group>
                     <group>
-                        <field name="value_ids">
-                            <tree string="Core Values">
+                        <field name="value_ids"><tree string="Core Values">
                                 <field name="name"/>
-                            </tree>
-                        </field>
-                        <field name="strategy_ids">
-                            <tree string="Strategies">
+                            </tree></field>
+                        <field name="strategy_ids"><tree string="Strategies">
                                 <field name="name"/>
-                            </tree>
-                        </field>
-                        <field name="vision_ids">
-                            <tree string="Vision">
+                            </tree></field>
+                        <field name="vision_ids"><tree string="Vision">
                                 <field name="vision_range"/>
                                 <field name="target_revenue"/>
                                 <field name="target_profit"/>
-                            </tree>
-                        </field>
+                            </tree></field>
                     </group>
                 </sheet>
-            </form>
-        </field>
+            </form></field>
     </record>
 </odoo>
