@@ -16,7 +16,7 @@ class TractionTeam(models.Model):
         compute_sudo=True,
     )
     channel_ids = fields.One2many(
-        comodel_name='mail.channel',
+        comodel_name='discuss.channel',
         inverse_name='traction_team_id',
         string='Channels'
     )

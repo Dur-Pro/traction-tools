@@ -26,7 +26,7 @@
         # 'views/traction_measurable.xml',
         # 'views/traction_measurable_value.xml',
         'views/traction.xml',
-        'views/mail_channel_views.xml',
+        'views/discuss_channel_views.xml',
         'views/traction_issues_list.xml',
         'views/traction_issues.xml',
         'views/traction_headlines.xml',

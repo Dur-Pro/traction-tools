@@ -6,7 +6,7 @@
 <!--            <field name="purpose">This is our purpose / our greater goal</field>-->
 <!--            <field name="niche">This is our niche / our market</field>-->
 <!--        </record>-->
-        <record model="mail.channel" id="mail.channel_all_employees">
+        <record model="discuss.channel" id="discuss.channel_all_employees">
             <field name="is_traction_team" eval="True"/>
         </record>
         <record model="traction.issues.list" id="short_term_issues">
@@ -19,7 +19,7 @@
         </record>
         <function model="traction.team" name="write">
             <value model="traction.team"
-                   eval="obj().search([('channel_ids', 'in', ref('mail.channel_all_employees'))]).id"/>
+                   eval="obj().search([('channel_ids', 'in', ref('discuss.channel_all_employees'))]).id"/>
             <value eval="{'issues_list_ids': [Command.set([ref('short_term_issues'), ref('long_term_issues')])]}"/>
         </function>
 

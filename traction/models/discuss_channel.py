@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 class MailChannel(models.Model):
-    _inherit = ['mail.channel']
+    _inherit = ['discuss.channel']
 
     traction_team_id = fields.Many2one(
         comodel_name='traction.team',

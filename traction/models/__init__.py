@@ -5,7 +5,7 @@ from . import traction_team
 # from . import traction_value
 # from . import traction_rock
 # from . import traction_vision
-from . import mail_channel
+from . import discuss_channel
 from . import traction_issue
 from . import traction_issue_tag
 from . import traction_issue_stage
