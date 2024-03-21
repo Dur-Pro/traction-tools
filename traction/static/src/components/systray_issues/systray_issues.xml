@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
     <t t-name="traction.SystrayIssues" owl="1">
-        <div>
-            <a class="o_SystrayIssues_icon fa fa-exclamation-triangle" title="Raise Issue" t-on-click="onClick">
-            </a>
+        <div class="o-dropdown dropdown o-dropdown--no-caret">
+            <button type="button"
+                    class="dropdown-toggle o-dropdown--narrow"
+                    t-on-click="onClick" title="Raise Issue">
+                <i class="fa fa-exclamation-triangle" role="img" aria-label="Raise Issue"/>
+            </button>
         </div>
     </t>
 </templates>

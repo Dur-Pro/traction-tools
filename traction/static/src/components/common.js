@@ -1,10 +1,8 @@
 /** @odoo-module **/
 
-import {registry} from "@web/core/registry";
 import {useService, useBus} from "@web/core/utils/hooks";
 
-const {Component} = owl;
-const {onWillStart} = owl.hooks;
+import {Component, onWillStart} from "@odoo/owl";
 
 export class SystrayLauncherButton extends Component {
     // This class is meant to be extended for a concrete implementation.
@@ -16,8 +14,8 @@ export class SystrayLauncherButton extends Component {
         this.orm = useService("orm")
         this.notification = useService("notification")
         useBus(this.env.bus, "ACTION_MANAGER:UPDATE", (payload) => {
-            this.resModel = "resModel" in payload.componentProps ? payload.componentProps.resModel : false;
-            this.resId = "resId" in payload.componentProps ? payload.componentProps.resId : false;
+            this.resModel = "resModel" in payload.detail.componentProps ? payload.detail.componentProps.resModel : false;
+            this.resId = "resId" in payload.detail.componentProps ? payload.detail.componentProps.resId : false;
         })
         onWillStart(async () => {
             let action_data = await this.orm.searchRead(

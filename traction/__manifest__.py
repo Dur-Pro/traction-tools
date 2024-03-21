@@ -41,11 +41,10 @@
             'traction/static/src/components/common.js',
             'traction/static/src/components/systray_issues/systray_issues.js',
             'traction/static/src/components/systray_headlines/systray_headlines.js',
-            'traction/static/src/js/issues_list_kanban.js',
-        ],
-        'web.assets_qweb': [
             'traction/static/src/components/systray_headlines/systray_headlines.xml',
             'traction/static/src/components/systray_issues/systray_issues.xml',
+        ],
+        'web.assets_qweb': [
         ],
     },
     'installable': True,

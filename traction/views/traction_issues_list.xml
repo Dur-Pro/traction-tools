@@ -4,8 +4,7 @@
         <field name="name">traction.issues.list.view.kanban</field>
         <field name="model">traction.issues.list</field>
         <field name="arch" type="xml">
-            <kanban js_class="issues_list_kanban" on_create="traction.open_create_issues_list"
-                    sample="1">
+            <kanban on_create="traction.open_create_issues_list" sample="1" action="action_view_issues" type="object">
                 <field name="name"/>
                 <field name="team_ids"/>
                 <field name="members_count"/>
