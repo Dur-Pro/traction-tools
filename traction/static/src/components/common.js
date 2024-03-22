@@ -6,6 +6,8 @@ import {Component, onWillStart} from "@odoo/owl";
 
 export class SystrayLauncherButton extends Component {
     // This class is meant to be extended for a concrete implementation.
+    static props = {}
+
     setup() {
         if (!this.actionName || !this.actionDialogTitle || !this.model || !this.modelDisplayName) {
             throw new Error("Required paramaters are not set for SystrayLauncherButton!");
