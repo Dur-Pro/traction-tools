@@ -42,8 +42,8 @@ class TractionTeam(models.Model):
         comodel_name='calendar.event',
         compute='_compute_next_meeting',
     )
-    next_meeting_time = fields.Datetime(related='next_meeting_id.start')
-    next_meeting_duration = fields.Float(related='next_meeting_id.duration')
+    next_meeting_time = fields.Datetime(compute='_compute_next_meeting')
+    next_meeting_duration = fields.Float(compute='_compute_next_meeting')
     issues_count = fields.Integer(compute='_compute_issues_count', compute_sudo=True)
     agenda_template_id = fields.Many2one(
         string="Default Meeting Agenda",
@@ -56,13 +56,15 @@ class TractionTeam(models.Model):
         res.agenda_template_id = self.env.ref('traction.calendar_event_agenda_template_default')
         return res
 
-    @api.depends('meeting_ids')
+    @api.depends('meeting_ids', 'meeting_ids.start', 'meeting_ids.duration')
     def _compute_next_meeting(self):
         for rec in self:
             upcoming_meetings = rec.meeting_ids.filtered(
                 lambda meeting: meeting.start > datetime.now()
             ).sorted(key=lambda meeting: meeting.start)
             rec.next_meeting_id = upcoming_meetings and upcoming_meetings[0]
+            rec.next_meeting_time = rec.next_meeting_id.start
+            rec.next_meeting_duration = rec.next_meeting_id.duration
 
     @api.depends('issues_list_ids')
     def _compute_issues_count(self):
