@@ -37,7 +37,7 @@
             <field name="categ_ids" position="before">
                 <field name="team_id"/></field>
             <field name="user_id" position="replace"/>
-            <page name="page_details" position="before">
+            <page name="page_invitations" position="before">
                 <page invisible="team_id == False" name="page_meeting_management" string="Agenda">
                     <field name="agenda_item_ids"/>
                 </page>
