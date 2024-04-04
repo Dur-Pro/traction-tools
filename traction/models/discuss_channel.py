@@ -36,6 +36,7 @@ class MailChannel(models.Model):
         return res
 
     def write(self, vals):
-        super().write(vals)
+        res = super().write(vals)
         self._process_traction_team_in_vals(vals)
+        return res
 

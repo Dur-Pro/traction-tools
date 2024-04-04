@@ -33,8 +33,6 @@
         'views/calendar_event_agenda_template_views.xml',
         'views/calendar_event_views.xml',
         # 'wizards/close_meeting_wizard.xml',
-        'report/calendar_event_templates.xml',
-        'report/calendar_event_report.xml',
     ],
     'assets': {
         'web.assets_backend': [
