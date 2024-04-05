@@ -9,6 +9,7 @@
     'depends': [
         'calendar',
         'uom',
+        'mail',
     ],
     'demo': [
         'data/traction_demo.xml'
