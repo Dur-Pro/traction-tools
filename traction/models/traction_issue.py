@@ -171,7 +171,6 @@ class TractionIssue(models.Model):
     raised_by = fields.Many2one(
         comodel_name="res.users",
         string="Raised by:",
-        readonly=True,
         default=_current_user,
     )
     identify = fields.Html(
