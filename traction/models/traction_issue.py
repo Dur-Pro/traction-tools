@@ -154,7 +154,7 @@ class TractionIssue(models.Model):
     state = fields.Selection(
         selection=[("open", "Open"), ("solved", "Solved")], default="open"
     )
-    date_raised = fields.Datetime(
+    date_raised = fields.Date(
         string="Raised on:",
         readonly=True,
         default=_today,
