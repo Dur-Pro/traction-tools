@@ -163,7 +163,7 @@ class TractionIssue(models.Model):
         string="Days open",
         compute="_compute_days_open",
     )
-    date_solved = fields.Datetime(
+    date_solved = fields.Date(
         string="Solved on:",
         compute="_compute_date_solved",
         store=True,
