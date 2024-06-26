@@ -226,7 +226,7 @@ class TractionIssue(models.Model):
             if rec.date_solved:
                 rec.days_open = (rec.date_solved - rec.date_raised).days
             else:
-                rec.days_open = (datetime.now() - rec.date_raised).days
+                rec.days_open = (date.today() - rec.date_raised).days
 
     @api.depends(
         "issues_list_id",
