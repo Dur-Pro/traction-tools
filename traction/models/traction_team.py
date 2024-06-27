@@ -45,6 +45,13 @@ class TractionTeam(models.Model):
         string="Default Meeting Agenda",
         comodel_name="calendar.event.agenda.template",
     )
+    rock_ids = fields.Many2many(
+        comodel_name="traction.rock",
+        relation="traction_rock_team_rel",
+        column1="team_id",
+        column2="rock_id",
+        string="Rocks",
+    )
 
     @api.model_create_multi
     def create(self, vals_list):
