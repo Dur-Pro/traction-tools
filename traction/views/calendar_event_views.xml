@@ -1,12 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="traction_team_event_form" model="ir.ui.view">
         <field name="name">traction.team.event.form</field>
         <field name="model">calendar.event</field>
-        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form" />
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
-                <button class="oe_stat_button" icon="fa-list" invisible="team_id == False" name="action_open_issues_lists" string="Issues" type="object"/>
+                <button
+          class="oe_stat_button"
+          icon="fa-list"
+          invisible="team_id == False"
+          name="action_open_issues_lists"
+          string="Issues"
+          type="object"
+        />
             </xpath>
             <xpath expr="//div[@role='status']" position="before">
                 <header>
@@ -20,34 +27,40 @@
             <notebook position="before">
                 <group>
                     <group>
-                        <field name="team_id"/>
-                        <field name="facilitator_id" widget="many2one_avatar_user"/>
-                        <field name="scribe_id" widget="many2one_avatar_user"/>
-                        <field name="timekeeper_id" widget="many2one_avatar_user"/>
-                        <field name="description" position="move"/>
+                        <field name="team_id" />
+                        <field name="facilitator_id" widget="many2one_avatar_user" />
+                        <field name="scribe_id" widget="many2one_avatar_user" />
+                        <field name="timekeeper_id" widget="many2one_avatar_user" />
+                        <field name="description" position="move" />
                     </group>
                     <group>
-                        <field name="start" position="move"/>
-                        <field name="stop" position="move"/>
-                        <field name="location" position="move"/>
-                        <field name="videocall_location" position="move"/>
+                        <field name="start" position="move" />
+                        <field name="stop" position="move" />
+                        <field name="location" position="move" />
+                        <field name="videocall_location" position="move" />
                     </group>
                 </group>
             </notebook>
             <field name="categ_ids" position="before">
-                <field name="team_id"/></field>
-            <field name="user_id" position="replace"/>
+                <field name="team_id" /></field>
+            <field name="user_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
             <page name="page_invitations" position="before">
-                <page invisible="team_id == False" name="page_meeting_management" string="Agenda">
-                    <field name="agenda_item_ids"/>
+                <page
+          invisible="team_id == False"
+          name="page_meeting_management"
+          string="Agenda"
+        >
+                    <field name="agenda_item_ids" />
                 </page>
                 <page name="page_headlines" string="Headlines">
                     <field name="headline_ids" nolabel="1">
                         <tree>
-                            <field name="summary"/>
-                            <field name="extra_info"/>
-                            <field name="status" widget="boolean"/>
-                            <field name="create_uid" string="Raised By"/>
+                            <field name="summary" />
+                            <field name="extra_info" />
+                            <field name="status" widget="boolean" />
+                            <field name="create_uid" string="Raised By" />
                         </tree></field>
                 </page>
             </page></field>
@@ -57,19 +70,19 @@
         <field name="model">calendar.event.agenda.item</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="sequence" widget="handle"/>
-                <field name="name"/>
-                <field name="description"/>
-                <field name="discussed" widget="boolean_toggle"/>
-                <field name="duration"/>
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="description" />
+                <field name="discussed" widget="boolean_toggle" />
+                <field name="duration" />
             </tree></field>
     </record>
     <record id="traction_team_event_tree" model="ir.ui.view">
         <field name="name">traction.team.event.tree</field>
         <field name="model">calendar.event</field>
-        <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
+        <field name="inherit_id" ref="calendar.view_calendar_event_tree" />
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="team_id"/></field></field>
+                <field name="team_id" /></field></field>
     </record>
 </odoo>

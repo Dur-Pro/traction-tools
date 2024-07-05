@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="traction_team_view_form" model="ir.ui.view">
         <field name="name">traction.team.view.form</field>
@@ -8,23 +8,29 @@
                 <header>
                 </header>
                 <sheet>
-                    <field invisible="1" name="issues_list_ids"/>
+                    <field invisible="1" name="issues_list_ids" />
                     <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" icon="fa-list" invisible="issues_list_ids == False" name="action_open_issues_lists" string="Issues" type="object"/>
+                        <button
+              class="oe_stat_button"
+              icon="fa-list"
+              invisible="issues_list_ids == False"
+              name="action_open_issues_lists"
+              type="object"
+            />
                     </div>
                     <div class="oe_title">
                         <div class="oe_edit_only">
-                            <label for="name"/>
+                            <label for="name" />
                         </div>
                         <h1>
-                            <field name="name"/>
+                            <field name="name" />
                         </h1>
                     </div>
-                    <field invisible="1" name="channel_ids"/>
+                    <field invisible="1" name="channel_ids" />
                     <group>
                         <group name="info_left">
-                            <field name="member_ids" widget="many2many_avatar_user"/>
-                            <field name="agenda_template_id"/>
+                            <field name="member_ids" widget="many2many_avatar_user" />
+                            <field name="agenda_template_id" />
                         </group>
                         <group name="info_right">
                             <!--                            <field name="measurable_ids">-->
@@ -38,19 +44,25 @@
                     </group>
                     <notebook>
                         <page string="Meetings">
-                            <field name="meeting_ids"><tree string="Meetings">
-                                    <field name="name"/>
-                                    <field name="start" widget="datetime"/>
-                                    <field name="duration" widget="float"/>
-                                    <field name="stop" optional="hide" widget="datetime"/>
-                                </tree></field>
+                            <field name="meeting_ids">
+                                <tree>
+                                    <field name="name" />
+                                    <field name="start" widget="datetime" />
+                                    <field name="duration" widget="float" />
+                                    <field
+                    name="stop"
+                    optional="hide"
+                    widget="datetime"
+                  />
+                                </tree>
+                            </field>
                         </page>
                         <page name="headlines" string="Headlines">
                             <field name="headline_ids"><tree>
-                                    <field name="summary"/>
-                                    <field name="extra_info"/>
-                                    <field name="write_uid"/>
-                                </tree></field>
+                                <field name="summary" />
+                                <field name="extra_info" />
+                                <field name="write_uid" />
+                            </tree></field>
                         </page>
                     </notebook>
                 </sheet>
@@ -60,7 +72,14 @@
         <field name="name">traction.team.view.kanban</field>
         <field name="model">traction.team</field>
         <field name="arch" type="xml">
-            <kanban create="false" default_order="name" group_create="false" group_delete="false" group_edit="false" records_draggable="false">
+            <kanban
+        create="false"
+        default_order="name"
+        group_create="false"
+        group_delete="false"
+        group_edit="false"
+        records_draggable="false"
+      >
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
@@ -68,7 +87,7 @@
                             <!--                            </div>-->
                             <div class="oe_kanban_details">
                                 <h4 class="oe_kanban_title">
-                                    <field name="name"/>
+                                    <field name="name" />
                                 </h4>
                                 <div class="oe_kanban_content">
                                     <div>
@@ -76,7 +95,7 @@
                                             <strong>
                                                 Next meeting:
                                             </strong>
-                                            <field name="next_meeting_time"/>
+                                            <field name="next_meeting_time" />
                                         </span>
                                     </div>
                                     <div>
@@ -84,7 +103,7 @@
                                             <strong>
                                                 Duration:
                                             </strong>
-                                            <field name="next_meeting_duration"/>
+                                            <field name="next_meeting_duration" />
                                             hours
                                         </span>
                                     </div>
@@ -93,7 +112,7 @@
                                             <strong>
                                                 Issues:
                                             </strong>
-                                            <field name="issues_count"/>
+                                            <field name="issues_count" />
                                         </span>
                                     </div>
                                 </div>
